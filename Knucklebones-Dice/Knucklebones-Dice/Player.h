@@ -5,15 +5,22 @@
 class Player
 {
 public:
-	Player();
-	~Player();
+    Player();
+    Player(const std::string& name, const Board& board);
 
-	void setPlayer(std::string name);
-	std::string getPlayer();
+    ~Player();
 
-	void setBoard(Board board);
-	Board getBoard();
+    void setPlayer(const std::string& name);
+    std::string getPlayer() const;
+
+    void setBoard(const Board& board);
+    Board getBoard() const;
+
+    void setScore(int score);
+    int getScore() const;
+
 private:
-	std::string m_player;
-	Board m_board;
+    std::string m_player;
+    Board m_board;
+    int m_score = 0;
 };

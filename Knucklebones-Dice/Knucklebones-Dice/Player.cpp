@@ -1,29 +1,31 @@
 #include "Player.h"
 
-Player::Player()
-{
+Player::Player() : m_player(""), m_board(), m_score(0) {}
+
+Player::Player(const std::string& name, const Board& board) : m_player(name), m_board(board), m_score(0) {}
+
+Player::~Player() {}
+
+void Player::setPlayer(const std::string& name) {
+    this->m_player = name;
 }
 
-Player::~Player()
-{
+std::string Player::getPlayer() const {
+    return this->m_player;
 }
 
-void Player::setPlayer(std::string name)
-{
-	this->m_player = name;
+void Player::setBoard(const Board& board) {
+    this->m_board = board;
 }
 
-std::string Player::getPlayer()
-{
-	return this->m_player;
+Board Player::getBoard() const {
+    return this->m_board;
 }
 
-void Player::setBoard(Board board)
-{
-	this->m_board = board;
+void Player::setScore(int score) {
+    this->m_score = score;
 }
 
-Board Player::getBoard()
-{
-	return this->m_board;
+int Player::getScore() const {
+    return this->m_score;
 }
