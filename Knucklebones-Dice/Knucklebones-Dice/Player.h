@@ -19,8 +19,11 @@ public:
     void setScore(int score);
     int getScore() const;
 
+    void updateScore(int points); 
+    void resetScore();     
+
 private:
-    std::string m_player;
-    Board m_board;
-    int m_score = 0;
+    std::string m_player;  
+    Board m_board;         
+    int m_score = 0;       
 };

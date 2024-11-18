@@ -29,3 +29,11 @@ void Player::setScore(int score) {
 int Player::getScore() const {
     return this->m_score;
 }
+
+void Player::updateScore(int points) {
+    this->m_score += points;
+}
+
+void Player::resetScore() {
+    this->m_score = 0;
+}
