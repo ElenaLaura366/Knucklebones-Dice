@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UIKnucklebones-Dice", "UIKn
 		{354ECEFF-83B1-4439-B451-0EE1F036D42E} = {354ECEFF-83B1-4439-B451-0EE1F036D42E}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestKnucklebones-Dice", "TestKnucklebones-Dice\TestKnucklebones-Dice.vcxproj", "{D692905C-AB91-4736-9057-1E898111028C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +36,14 @@ Global
 		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x64.Build.0 = Release|x64
 		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x86.ActiveCfg = Release|Win32
 		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x86.Build.0 = Release|Win32
+		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x64.ActiveCfg = Debug|x64
+		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x64.Build.0 = Debug|x64
+		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x86.ActiveCfg = Debug|Win32
+		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x86.Build.0 = Debug|Win32
+		{D692905C-AB91-4736-9057-1E898111028C}.Release|x64.ActiveCfg = Release|x64
+		{D692905C-AB91-4736-9057-1E898111028C}.Release|x64.Build.0 = Release|x64
+		{D692905C-AB91-4736-9057-1E898111028C}.Release|x86.ActiveCfg = Release|Win32
+		{D692905C-AB91-4736-9057-1E898111028C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
