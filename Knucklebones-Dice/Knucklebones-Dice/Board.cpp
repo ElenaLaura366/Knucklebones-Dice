@@ -83,3 +83,8 @@ void Board::displayBoard() const
         std::cout << "\n";
     }
 }
+
+bool Board::operator==(const Board& other) const
+{
+    return m_player == other.m_player && m_board == other.m_board;
+}

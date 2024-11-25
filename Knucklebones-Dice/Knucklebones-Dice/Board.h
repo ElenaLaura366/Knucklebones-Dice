@@ -22,6 +22,7 @@ public:
 	int boardScore();
 
 	bool isColumnFull(int col);
+	bool operator==(const Board& other) const;
 
 	void displayBoard() const;
 private:
