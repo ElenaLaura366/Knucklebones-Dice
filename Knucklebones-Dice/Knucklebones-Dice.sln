@@ -5,12 +5,12 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Knucklebones-Dice", "Knucklebones-Dice\Knucklebones-Dice.vcxproj", "{354ECEFF-83B1-4439-B451-0EE1F036D42E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UIKnucklebones-Dice", "UIKnucklebones-Dice\UIKnucklebones-Dice.vcxproj", "{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestKnucklebones-Dice", "TestKnucklebones-Dice\TestKnucklebones-Dice.vcxproj", "{D692905C-AB91-4736-9057-1E898111028C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UIKnucklebones-Dice", "UIKnucklebones\UIKnucklebones.vcxproj", "{E01ACC03-756D-42D7-99B6-35C73B2C0D37}"
 	ProjectSection(ProjectDependencies) = postProject
 		{354ECEFF-83B1-4439-B451-0EE1F036D42E} = {354ECEFF-83B1-4439-B451-0EE1F036D42E}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestKnucklebones-Dice", "TestKnucklebones-Dice\TestKnucklebones-Dice.vcxproj", "{D692905C-AB91-4736-9057-1E898111028C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,14 +28,6 @@ Global
 		{354ECEFF-83B1-4439-B451-0EE1F036D42E}.Release|x64.Build.0 = Release|x64
 		{354ECEFF-83B1-4439-B451-0EE1F036D42E}.Release|x86.ActiveCfg = Release|Win32
 		{354ECEFF-83B1-4439-B451-0EE1F036D42E}.Release|x86.Build.0 = Release|Win32
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Debug|x64.ActiveCfg = Debug|x64
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Debug|x64.Build.0 = Debug|x64
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Debug|x86.ActiveCfg = Debug|Win32
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Debug|x86.Build.0 = Debug|Win32
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x64.ActiveCfg = Release|x64
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x64.Build.0 = Release|x64
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x86.ActiveCfg = Release|Win32
-		{8948131D-FB19-4EF2-8D58-9BDCB6FDE1BC}.Release|x86.Build.0 = Release|Win32
 		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x64.ActiveCfg = Debug|x64
 		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x64.Build.0 = Debug|x64
 		{D692905C-AB91-4736-9057-1E898111028C}.Debug|x86.ActiveCfg = Debug|Win32
@@ -44,6 +36,14 @@ Global
 		{D692905C-AB91-4736-9057-1E898111028C}.Release|x64.Build.0 = Release|x64
 		{D692905C-AB91-4736-9057-1E898111028C}.Release|x86.ActiveCfg = Release|Win32
 		{D692905C-AB91-4736-9057-1E898111028C}.Release|x86.Build.0 = Release|Win32
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Debug|x64.ActiveCfg = Debug|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Debug|x64.Build.0 = Debug|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Debug|x86.ActiveCfg = Debug|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Debug|x86.Build.0 = Debug|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Release|x64.ActiveCfg = Release|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Release|x64.Build.0 = Release|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Release|x86.ActiveCfg = Release|x64
+		{E01ACC03-756D-42D7-99B6-35C73B2C0D37}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
