@@ -1,8 +1,10 @@
 ﻿#pragma once
 
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets>
 #include <QPushButton>
 #include <QCloseEvent>
+#include <QApplication>
+#include <QMainWindow>
 #include "ui_UIKnucklebones.h"
 #include "UIGameWindow.h"
 

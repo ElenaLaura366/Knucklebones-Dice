@@ -1,21 +1,19 @@
 #pragma once
-#include "Board.h"
-#include "Player.h"
-#include <string>
-#include <vector>
-#include <algorithm>
 
-class ScoreTracker
+#include "IGameListener.h"
+#include "Player.h"
+#include <vector>
+#include <iostream>
+
+class ScoreTracker : public IGameListener
 {
 public:
-	ScoreTracker();
-	~ScoreTracker();
+    void AddPlayer(const std::shared_ptr<Player>& player);
+    void OnBoardUpdate() override;
+    void OnGameOver() override;
 
-	std::pair<int, int> evaluateScore(const Board& board);
-	void updateScore(Player& player);
-	int getWinnerIndex(const std::vector<Player>& players) const;
-	void displayScores(const std::vector<Player>& players) const;
+    void DisplayScores() const;
 
 private:
-	std::vector<Board> m_board;
+    std::vector<std::shared_ptr<Player>> m_players;
 };

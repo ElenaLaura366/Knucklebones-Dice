@@ -1,29 +1,23 @@
 #pragma once
-#include "Board.h"
-#include <string>
 
-class Player
+#include "IGameListener.h"
+#include <string>
+#include <iostream>
+
+class Player : public IGameListener
 {
 public:
-    Player();
-    Player(const std::string& name, const Board& board);
+    Player(const std::string& name) : m_name(name), m_score(0) {}
 
-    ~Player();
+    void OnBoardUpdate() override;
+    void OnGameOver() override;
 
-    void setPlayer(const std::string& name);
-    std::string getPlayer() const;
+    std::string GetName() const;
+    int GetScore() const;
 
-    void setBoard(const Board& board);
-    Board getBoard() const;
-
-    void setScore(int score);
-    int getScore() const;
-
-    void updateScore(int points); 
-    void resetScore();     
+    void UpdateScore(int points);
 
 private:
-    std::string m_player;  
-    Board m_board;         
-    int m_score = 0;       
+    std::string m_name;
+    int m_score;
 };

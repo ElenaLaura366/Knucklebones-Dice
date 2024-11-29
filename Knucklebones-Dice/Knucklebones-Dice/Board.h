@@ -1,32 +1,23 @@
-#pragma once
-#include <string>
+﻿#pragma once
+#include "IGameListener.h"
+#include "Observable.h"
 #include <vector>
+#include <memory>
 #include <iostream>
-#include <unordered_map>
 
-class Board
+class Board : public Observable
 {
 public:
-	Board();
-	~Board();
+    Board();
 
-	void Update();
+    void MakeMove(int col, int value);
+    bool IsColumnFull(int col) const;
+    bool IsFull() const;
 
-	void setPlayer(std::string name);
-	std::string getPlayer();
+    const std::vector<std::vector<int>>& GetBoard() const;
 
-	//void setBoard(int row, int col, int value);
-	std::vector<std::vector<int>> getBoard(int row, int col) const;
-
-	void makeMove(int col, int value);
-	int boardScore();
-
-	bool isColumnFull(int col);
-	bool operator==(const Board& other) const;
-
-	void displayBoard() const;
 private:
-	std::string m_player;
-	std::vector<std::vector<int>> m_board;
+    std::vector<std::vector<int>> m_board;
 
+    void NotifyMove(); // Notifică observatorii despre o schimbare pe tablă
 };

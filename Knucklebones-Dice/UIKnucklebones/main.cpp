@@ -5,11 +5,8 @@
 int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
+    a.setQuitOnLastWindowClosed(true);
     UIKnucklebones w;
     w.show();
-    QObject::connect(&a, &QApplication::aboutToQuit, []() {
-        qDebug() << "Object tree before exit:";
-        QCoreApplication::instance()->dumpObjectTree();
-        });
     return a.exec();
 }
