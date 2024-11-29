@@ -1,10 +1,11 @@
 ﻿#pragma once
-
 #include "IGameListener.h"
+#include "Observable.h"
 #include "Board.h"
 #include "Player.h"
-#include <vector>
 #include <memory>
+#include <cstdlib>
+#include <ctime>
 
 class GameState : public IGameListener, public Observable
 {
@@ -20,11 +21,13 @@ public:
 
     bool IsGameActive() const;
 
+    int RollDice();
+
 private:
     std::vector<std::shared_ptr<Player>> m_players;
     std::shared_ptr<Board> m_board;
     int m_activePlayerIndex = 0;
     bool m_gameActive = true;
 
-    void CheckGameOver(); // Verifică dacă jocul s-a încheiat
+    void CheckGameOver();
 };

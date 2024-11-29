@@ -14,7 +14,8 @@ UIKnucklebones::UIKnucklebones(QWidget* parent)
 
 UIKnucklebones::~UIKnucklebones()
 {
-    if (uigameWindow) {
+    if (uigameWindow) 
+    {
         delete uigameWindow;
         uigameWindow = nullptr;
     }
@@ -22,10 +23,12 @@ UIKnucklebones::~UIKnucklebones()
 
 void UIKnucklebones::startGame()
 {
-    if (!uigameWindow) {
+    if (!uigameWindow) 
+    {
         uigameWindow = new UIGameWindow(this);
     }
-    else {
+    else 
+    {
         uigameWindow->deleteLater();
         uigameWindow = new UIGameWindow(this);
     }
@@ -36,7 +39,8 @@ void UIKnucklebones::startGame()
 
 void UIKnucklebones::closeEvent(QCloseEvent* event)
 {
-    if (uigameWindow) {
+    if (uigameWindow) 
+    {
         uigameWindow->close();
         delete uigameWindow;
         uigameWindow = nullptr;

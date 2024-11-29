@@ -1,9 +1,10 @@
-#include "GameState.h"
+﻿#include "GameState.h"
 
 GameState::GameState(std::shared_ptr<Board> board)
     : m_board(board)
 {
     m_board->AddListener(std::shared_ptr<IGameListener>(this, [](IGameListener*) {}));
+    srand(static_cast<unsigned>(time(0)));
 }
 
 void GameState::AddPlayer(const std::shared_ptr<Player>& player)
@@ -45,4 +46,9 @@ void GameState::CheckGameOver()
         std::cout << "GameState: The board is full. Game over!\n";
         OnGameOver();
     }
+}
+
+int GameState::RollDice()
+{
+    return rand() % 6 + 1;
 }

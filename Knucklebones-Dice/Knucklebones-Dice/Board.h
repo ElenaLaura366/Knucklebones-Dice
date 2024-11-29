@@ -19,5 +19,5 @@ public:
 private:
     std::vector<std::vector<int>> m_board;
 
-    void NotifyMove(); // Notifică observatorii despre o schimbare pe tablă
+    void NotifyMove();
 };

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "IGameListener.h"
 #include "Player.h"
 #include <vector>

@@ -12,9 +12,9 @@ public:
     void RemoveListener(IGameListener* observer);
 
 protected:
-    void NotifyOnBoardUpdate(); // Notifică observatorii despre o schimbare pe tablă
-    void NotifyOnGameOver();    // Notifică observatorii despre încheierea jocului
+    void NotifyOnBoardUpdate();
+    void NotifyOnGameOver();
 
 private:
-    std::vector<std::weak_ptr<IGameListener>> m_observers; // Pointeri slabi pentru gestionarea memoriei
+    std::vector<std::weak_ptr<IGameListener>> m_observers;
 };

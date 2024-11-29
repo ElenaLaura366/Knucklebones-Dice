@@ -2,13 +2,10 @@
 
 void Game::MakeMove(int col, int value)
 {
-    if (m_gameActive) {
+    if (m_gameActive) 
+    {
         m_moves++;
         NotifyOnBoardUpdate();
-
-        if (m_moves >= 5) {
-            EndGame();
-        }
     }
 }
 
@@ -32,7 +29,8 @@ void Game::RemoveListener(IGameListener* listener)
 {
     for (auto it = m_listeners.begin(); it != m_listeners.end(); )
     {
-        if (auto sp = it->lock()) {
+        if (auto sp = it->lock()) 
+        {
             if (sp.get() == listener)
                 it = m_listeners.erase(it);
             else
@@ -46,8 +44,10 @@ void Game::RemoveListener(IGameListener* listener)
 
 void Game::NotifyOnBoardUpdate()
 {
-    for (auto& weakPtr : m_listeners) {
-        if (auto sp = weakPtr.lock()) {
+    for (auto& weakPtr : m_listeners) 
+    {
+        if (auto sp = weakPtr.lock()) 
+        {
             sp->OnBoardUpdate();
         }
     }
@@ -55,8 +55,10 @@ void Game::NotifyOnBoardUpdate()
 
 void Game::NotifyOnGameOver()
 {
-    for (auto& weakPtr : m_listeners) {
-        if (auto sp = weakPtr.lock()) {
+    for (auto& weakPtr : m_listeners) 
+    {
+        if (auto sp = weakPtr.lock()) 
+        {
             sp->OnGameOver();
         }
     }
