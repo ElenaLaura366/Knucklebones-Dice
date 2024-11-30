@@ -5,12 +5,14 @@
 #include <memory>
 #include <iostream>
 
+
 class Board : public Observable
 {
 public:
     Board();
 
     void MakeMove(int col, int value);
+    void RemoveOpponentDice(int col, int value);
     bool IsColumnFull(int col) const;
     bool IsFull() const;
 
@@ -18,6 +20,7 @@ public:
 
 private:
     std::vector<std::vector<int>> m_board;
+    std::vector<std::vector<int>> m_opponentBoard;
 
     void NotifyMove();
 };
