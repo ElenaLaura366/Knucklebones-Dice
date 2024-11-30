@@ -34,6 +34,21 @@ UIGameWindow::UIGameWindow(QWidget* parent)
     QVBoxLayout* boardLayout = new QVBoxLayout();
     activePlayerLabel = new QLabel("Active Player: Player 1", this);
     boardLayout->addWidget(activePlayerLabel);
+
+    diceLabel = new QLabel("🎲", this); // Zarul
+    diceLabel->setAlignment(Qt::AlignCenter);
+    diceLabel->setStyleSheet("font-size: 48px;"); // Stilizare zar
+    boardLayout->addWidget(diceLabel);
+
+    rollDiceButton = new QPushButton("Roll Dice", this);
+    connect(rollDiceButton, &QPushButton::clicked, this, &UIGameWindow::handleRollDice);
+
+    makeMoveButton = new QPushButton("Make Move", this);
+    connect(makeMoveButton, &QPushButton::clicked, this, &UIGameWindow::handleMakeMove);
+
+    boardLayout->addWidget(rollDiceButton);
+    boardLayout->addWidget(makeMoveButton);
+
     mainLayout->addLayout(boardLayout);
 
     QVBoxLayout* player2Layout = new QVBoxLayout();
@@ -47,14 +62,22 @@ UIGameWindow::UIGameWindow(QWidget* parent)
     createColumnButtons(player2Layout, 2);
     mainLayout->addLayout(player2Layout);
 
-    rollDiceButton = new QPushButton("Roll Dice", this);
-    connect(rollDiceButton, &QPushButton::clicked, this, &UIGameWindow::handleRollDice);
+    diceAnimationTimer = new QTimer(this);
+    connect(diceAnimationTimer, &QTimer::timeout, this, [=]() {
+        int randomValue = rand() % 6 + 1; // Generare valori aleatorii pentru zar
+        diceLabel->setText(QString("🎲 %1").arg(randomValue));
 
-    makeMoveButton = new QPushButton("Make Move", this);
-    connect(makeMoveButton, &QPushButton::clicked, this, &UIGameWindow::handleMakeMove);
-
-    boardLayout->addWidget(rollDiceButton);
-    boardLayout->addWidget(makeMoveButton);
+        if (++animationSteps >= maxAnimationSteps) {
+            diceAnimationTimer->stop(); // Oprește animația
+            diceValue = rand() % 6 + 1; // Setează valoarea finală a zarului
+            diceLabel->setText(QString("🎲 %1").arg(diceValue));
+            std::shared_ptr<Player> currentPlayer = gameState->GetActivePlayer();
+            activePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
+                .arg(currentPlayer->GetName().c_str())
+                .arg(diceValue));
+            diceRolled = true;
+        }
+        });
 
     setCentralWidget(centralWidget);
 }
@@ -131,6 +154,10 @@ void UIGameWindow::handleRollDice()
         activePlayerLabel->setText("You have already rolled the dice! Make your move.");
         return;
     }
+
+    animationSteps = 0;
+    diceAnimationTimer->start(100);
+    activePlayerLabel->setText("Rolling the dice...");
 
     diceValue = gameState->RollDice();
     diceRolled = true;

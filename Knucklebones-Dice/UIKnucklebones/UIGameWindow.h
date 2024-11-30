@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QCloseEvent>
 #include <QApplication>
+#include <QTimer>
 #include <memory>
 #include "GameState.h"
 #include "Board.h"
@@ -40,6 +41,8 @@ private:
     QLabel* activePlayerLabel;
     QPushButton* rollDiceButton;
     QPushButton* makeMoveButton;
+    QLabel* diceLabel;
+    QTimer* diceAnimationTimer;
 
     std::vector<QPushButton*> player1ColumnButtons;
     std::vector<QPushButton*> player2ColumnButtons;
@@ -52,4 +55,6 @@ private:
     int activePlayerColumn;
     int diceValue;
 	bool diceRolled;
+    int animationSteps;
+    const int maxAnimationSteps = 20;
 };
