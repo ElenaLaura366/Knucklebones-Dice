@@ -24,5 +24,5 @@ int Player::GetScore() const
 
 void Player::UpdateScore(int points) 
 {
-    m_score += points;
+    m_score = points;
 }

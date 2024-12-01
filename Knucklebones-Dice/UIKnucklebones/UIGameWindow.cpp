@@ -75,6 +75,7 @@ UIGameWindow::UIGameWindow(GameState& gameStateRef, Player& player1Ref, Player& 
         });
 
     setCentralWidget(centralWidget);
+    updateUIState();
 }
 
 void UIGameWindow::closeEvent(QCloseEvent* event) 
@@ -177,7 +178,7 @@ void UIGameWindow::displayGameOverMessage()
     QApplication::quit();
 }
 
-void UIGameWindow::handleMakeMove()
+void UIGameWindow::handleMakeMove() 
 {
     if (!diceRolled) 
     {
@@ -186,8 +187,6 @@ void UIGameWindow::handleMakeMove()
     }
 
     Board& activeBoard = gameState.GetActiveBoard();
-    Board& opponentBoard = gameState.GetOpponentBoard();
-
     if (activeBoard.IsColumnFull(activePlayerColumn)) 
     {
         activePlayerLabel->setText("Column is full! Choose another column.");
@@ -195,13 +194,11 @@ void UIGameWindow::handleMakeMove()
     }
 
     activeBoard.MakeMove(activePlayerColumn, diceValue);
-    int currentPlayer = (&gameState.GetActivePlayer() == &player1) ? 1 : 2;
-    updateBoardUI(currentPlayer, activePlayerColumn, diceValue);
-
     gameState.CancelMatchingDiceOnOpponentBoard(activePlayerColumn, diceValue);
+    gameState.UpdateScores();
 
-    int opponentPlayer = (currentPlayer == 1) ? 2 : 1;
     refreshBoardUI();
+    updateUIState();
 
     diceValue = 0;
     diceRolled = false;
@@ -251,11 +248,20 @@ void UIGameWindow::updateBoardUI(int player, int column, int value)
     }
 }
 
-void UIGameWindow::updateUIState() 
+void UIGameWindow::updateUIState()
 {
     player1Label->setText(QString("Player 1: %1").arg(player1.GetScore()));
     player2Label->setText(QString("Player 2: %1").arg(player2.GetScore()));
+    activePlayerLabel->setText(QString("Active Player: %1").arg(gameState.GetActivePlayer().GetName().c_str()));
 
-    activePlayerLabel->setText(QString("Active Player: %1")
-        .arg(gameState.GetActivePlayer().GetName().c_str()));
+    bool isPlayer1Turn = (&gameState.GetActivePlayer() == &player1);
+
+    for (auto button : player1ColumnButtons)
+    {
+        button->setEnabled(isPlayer1Turn);
+    }
+    for (auto button : player2ColumnButtons)
+    {
+        button->setEnabled(!isPlayer1Turn);
+    }
 }

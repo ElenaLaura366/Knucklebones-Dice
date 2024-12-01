@@ -27,7 +27,8 @@ public:
 
     void CheckForGameOver();
     void CancelMatchingDiceOnOpponentBoard(int col, int value);
-
+    void UpdateScores();
+        
 private:
     std::vector<Player*> m_players;
     Board m_player1Board;

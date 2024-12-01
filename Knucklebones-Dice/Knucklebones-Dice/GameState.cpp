@@ -74,3 +74,9 @@ void GameState::CancelMatchingDiceOnOpponentBoard(int col, int value)
     Board& opponentBoard = GetOpponentBoard();
     opponentBoard.CancelValuesInColumn(col, value);
 }
+
+void GameState::UpdateScores() 
+{
+    m_players[0]->UpdateScore(m_player1Board.CalculateTotalScore());
+    m_players[1]->UpdateScore(m_player2Board.CalculateTotalScore());
+}
