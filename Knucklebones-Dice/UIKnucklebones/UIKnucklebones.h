@@ -5,15 +5,15 @@
 #include <QCloseEvent>
 #include <QApplication>
 #include <QMainWindow>
-#include "ui_UIKnucklebones.h"
 #include "UIGameWindow.h"
+#include "GameState.h"
+#include "Player.h"
 
-class UIKnucklebones : public QMainWindow
-{
+class UIKnucklebones : public QMainWindow {
     Q_OBJECT
 
 public:
-    UIKnucklebones(QWidget* parent = nullptr);
+    UIKnucklebones(GameState& gameState, Player& player1, Player& player2, QWidget* parent = nullptr);
     ~UIKnucklebones();
 
 protected:
@@ -25,5 +25,7 @@ private slots:
 private:
     QPushButton* startButton;
     UIGameWindow* uigameWindow;
-    Ui::UIKnucklebonesClass ui;
+    GameState& m_gameState;
+    Player& m_player1;
+    Player& m_player2;
 };

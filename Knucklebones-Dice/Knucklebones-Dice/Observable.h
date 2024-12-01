@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include <vector>
 #include <memory>
 #include <algorithm>
@@ -8,7 +7,7 @@
 class Observable
 {
 public:
-    void AddListener(const std::shared_ptr<IGameListener>& observer);
+    void AddListener(IGameListener* observer);
     void RemoveListener(IGameListener* observer);
 
 protected:
@@ -16,5 +15,5 @@ protected:
     void NotifyOnGameOver();
 
 private:
-    std::vector<std::weak_ptr<IGameListener>> m_observers;
+    std::vector<IGameListener*> m_observers;
 };

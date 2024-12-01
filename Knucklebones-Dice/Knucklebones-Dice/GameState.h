@@ -3,31 +3,31 @@
 #include "Observable.h"
 #include "Board.h"
 #include "Player.h"
-#include <memory>
 #include <cstdlib>
 #include <ctime>
 
-class GameState : public IGameListener, public Observable
+class GameState : public Observable 
 {
 public:
-    GameState(std::shared_ptr<Board> board);
+    GameState();
 
-    void AddPlayer(const std::shared_ptr<Player>& player);
+    void AddPlayer(Player& player);
     void NextPlayer();
-    const std::shared_ptr<Player>& GetActivePlayer() const;
+    Player& GetActivePlayer();
+    Player& GetOpponentPlayer();
 
-    void OnBoardUpdate() override;
-    void OnGameOver() override;
-
-    bool IsGameActive() const;
+    Board& GetActiveBoard();
+    Board& GetOpponentBoard();
 
     int RollDice();
+    bool IsGameActive() const;
 
 private:
-    std::vector<std::shared_ptr<Player>> m_players;
-    std::shared_ptr<Board> m_board;
+    std::vector<Player*> m_players;
+    Board m_player1Board;
+    Board m_player2Board;
     int m_activePlayerIndex = 0;
     bool m_gameActive = true;
 
-    void CheckGameOver();
+    void NotifyGameStateChange();
 };

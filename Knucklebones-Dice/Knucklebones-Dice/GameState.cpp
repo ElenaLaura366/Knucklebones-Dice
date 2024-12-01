@@ -1,54 +1,41 @@
 ﻿#include "GameState.h"
 
-GameState::GameState(std::shared_ptr<Board> board)
-    : m_board(board)
-{
-    m_board->AddListener(std::shared_ptr<IGameListener>(this, [](IGameListener*) {}));
+GameState::GameState() : m_player1Board(), m_player2Board() {
     srand(static_cast<unsigned>(time(0)));
 }
 
-void GameState::AddPlayer(const std::shared_ptr<Player>& player)
-{
-    m_players.push_back(player);
+void GameState::AddPlayer(Player& player) {
+    m_players.push_back(&player);
 }
 
-void GameState::NextPlayer()
-{
+void GameState::NextPlayer() {
     m_activePlayerIndex = (m_activePlayerIndex + 1) % m_players.size();
-    NotifyOnBoardUpdate();
 }
 
-const std::shared_ptr<Player>& GameState::GetActivePlayer() const
-{
-    return m_players[m_activePlayerIndex];
+Player& GameState::GetActivePlayer() {
+    return *m_players[m_activePlayerIndex];
 }
 
-void GameState::OnBoardUpdate()
-{
-    std::cout << "GameState: Board was updated. Checking game state.\n";
-    CheckGameOver();
+Player& GameState::GetOpponentPlayer() {
+    return *m_players[(m_activePlayerIndex + 1) % m_players.size()];
 }
 
-void GameState::OnGameOver()
-{
-    m_gameActive = false;
-    NotifyOnGameOver();
+Board& GameState::GetActiveBoard() {
+    return (m_activePlayerIndex == 0) ? m_player1Board : m_player2Board;
 }
 
-bool GameState::IsGameActive() const
-{
+Board& GameState::GetOpponentBoard() {
+    return (m_activePlayerIndex == 0) ? m_player2Board : m_player1Board;
+}
+
+int GameState::RollDice() {
+    return rand() % 6 + 1;
+}
+
+bool GameState::IsGameActive() const {
     return m_gameActive;
 }
 
-void GameState::CheckGameOver()
-{
-    if (m_board->IsFull()) {
-        std::cout << "GameState: The board is full. Game over!\n";
-        OnGameOver();
-    }
-}
-
-int GameState::RollDice()
-{
-    return rand() % 6 + 1;
+void GameState::NotifyGameStateChange() {
+    NotifyOnBoardUpdate();
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QPushButton>
@@ -8,16 +9,16 @@
 #include <QCloseEvent>
 #include <QApplication>
 #include <QTimer>
-#include <memory>
+#include <vector>
 #include "GameState.h"
 #include "Board.h"
 #include "Player.h"
 
-class UIGameWindow : public QMainWindow
-{
+class UIGameWindow : public QMainWindow {
     Q_OBJECT
+
 public:
-    explicit UIGameWindow(QWidget* parent = nullptr);
+    explicit UIGameWindow(GameState& gameState, Player& player1, Player& player2, QWidget* parent = nullptr);
     ~UIGameWindow() = default;
 
 protected:
@@ -47,14 +48,13 @@ private:
     std::vector<QPushButton*> player1ColumnButtons;
     std::vector<QPushButton*> player2ColumnButtons;
 
-    std::shared_ptr<Board> board;
-    std::shared_ptr<GameState> gameState;
-    std::shared_ptr<Player> player1;
-    std::shared_ptr<Player> player2;
+    GameState& gameState;
+    Player& player1;
+    Player& player2;
 
     int activePlayerColumn;
     int diceValue;
-	bool diceRolled;
+    bool diceRolled;
     int animationSteps;
     const int maxAnimationSteps = 20;
 };

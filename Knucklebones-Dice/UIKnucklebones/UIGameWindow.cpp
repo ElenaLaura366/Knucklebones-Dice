@@ -1,24 +1,17 @@
 ﻿#include "UIGameWindow.h"
-#include "ScoreTracker.h"
 #include <cstdlib>
 #include <QMessageBox>
 
-UIGameWindow::UIGameWindow(QWidget* parent)
+UIGameWindow::UIGameWindow(GameState& gameStateRef, Player& player1Ref, Player& player2Ref, QWidget* parent)
     : QMainWindow(parent),
-    activePlayerColumn(0), diceValue(0), diceRolled(false)
-{
+    gameState(gameStateRef),
+    player1(player1Ref),
+    player2(player2Ref),
+    activePlayerColumn(0),
+    diceValue(0),
+    diceRolled(false) {
     setWindowTitle("Knucklebones Dice");
     resize(800, 600);
-
-    board = std::make_shared<Board>();
-    gameState = std::make_shared<GameState>(board);
-    auto scoreTracker = std::make_shared<ScoreTracker>();
-    gameState->AddListener(scoreTracker);
-    player1 = std::make_shared<Player>("Player 1");
-    player2 = std::make_shared<Player>("Player 2");
-
-    gameState->AddPlayer(player1);
-    gameState->AddPlayer(player2);
 
     QWidget* centralWidget = new QWidget(this);
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
@@ -67,16 +60,15 @@ UIGameWindow::UIGameWindow(QWidget* parent)
 
     diceAnimationTimer = new QTimer(this);
     connect(diceAnimationTimer, &QTimer::timeout, this, [=]() {
-        int randomValue = rand() % 6 + 1; 
+        int randomValue = rand() % 6 + 1;
         diceLabel->setText(QString("🎲 %1").arg(randomValue));
 
         if (++animationSteps >= maxAnimationSteps) {
             diceAnimationTimer->stop();
-            diceValue = rand() % 6 + 1; 
+            diceValue = rand() % 6 + 1;
             diceLabel->setText(QString("🎲 %1").arg(diceValue));
-            std::shared_ptr<Player> currentPlayer = gameState->GetActivePlayer();
             activePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-                .arg(currentPlayer->GetName().c_str())
+                .arg(gameState.GetActivePlayer().GetName().c_str())
                 .arg(diceValue));
             diceRolled = true;
         }
@@ -85,27 +77,29 @@ UIGameWindow::UIGameWindow(QWidget* parent)
     setCentralWidget(centralWidget);
 }
 
-void UIGameWindow::selectColumn(int col)
-{
-    activePlayerColumn = col;
-
-    if (board->IsColumnFull(activePlayerColumn)) 
-    {
-        activePlayerLabel->setText("Selected column is full! Choose another column.");
-        return;
-    }
-
-    activePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
-        .arg(gameState->GetActivePlayer()->GetName().c_str())
-        .arg(col + 1));
+void UIGameWindow::closeEvent(QCloseEvent* event) {
+    QApplication::quit();
+    event->accept();
 }
 
-void UIGameWindow::createColumnButtons(QVBoxLayout* playerLayout, int player)
-{
+QGridLayout* UIGameWindow::createGameBoard() {
+    QGridLayout* boardLayout = new QGridLayout();
+
+    for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 3; ++col) {
+            QPushButton* cellButton = new QPushButton(this);
+            cellButton->setFixedSize(50, 50);
+            cellButton->setText("0");
+            boardLayout->addWidget(cellButton, row, col);
+        }
+    }
+    return boardLayout;
+}
+
+void UIGameWindow::createColumnButtons(QVBoxLayout* playerLayout, int player) {
     QHBoxLayout* buttonLayout = new QHBoxLayout();
 
-    for (int col = 0; col < 3; ++col) 
-    {
+    for (int col = 0; col < 3; ++col) {
         QPushButton* colButton = new QPushButton(QString("Column %1").arg(col + 1), this);
         colButton->setFixedSize(80, 30);
 
@@ -121,39 +115,26 @@ void UIGameWindow::createColumnButtons(QVBoxLayout* playerLayout, int player)
     playerLayout->addLayout(buttonLayout);
 }
 
-void UIGameWindow::closeEvent(QCloseEvent* event)
-{
-    QApplication::quit();
-    event->accept();
-}
+void UIGameWindow::selectColumn(int col) {
+    activePlayerColumn = col;
 
-QGridLayout* UIGameWindow::createGameBoard()
-{
-    QGridLayout* boardLayout = new QGridLayout();
-
-    for (int row = 0; row < 3; ++row) 
-    {
-        for (int col = 0; col < 3; ++col) 
-        {
-            QPushButton* cellButton = new QPushButton(this);
-            cellButton->setFixedSize(50, 50);
-            cellButton->setText("0");
-            boardLayout->addWidget(cellButton, row, col);
-        }
+    if (gameState.GetActiveBoard().IsColumnFull(activePlayerColumn)) {
+        activePlayerLabel->setText("Selected column is full! Choose another column.");
+        return;
     }
-    return boardLayout;
+
+    activePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
+        .arg(gameState.GetActivePlayer().GetName().c_str())
+        .arg(col + 1));
 }
 
-void UIGameWindow::handleRollDice()
-{
-    if (!gameState->IsGameActive()) 
-    {
+void UIGameWindow::handleRollDice() {
+    if (!gameState.IsGameActive()) {
         activePlayerLabel->setText("Game is over!");
         return;
     }
 
-    if (diceRolled) 
-    {
+    if (diceRolled) {
         activePlayerLabel->setText("You have already rolled the dice! Make your move.");
         return;
     }
@@ -161,62 +142,48 @@ void UIGameWindow::handleRollDice()
     animationSteps = 0;
     diceAnimationTimer->start(100);
     activePlayerLabel->setText("Rolling the dice...");
-
-    diceValue = gameState->RollDice();
-    diceRolled = true;
-
-    std::shared_ptr<Player> currentPlayer = gameState->GetActivePlayer();
-
-    activePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-        .arg(currentPlayer->GetName().c_str())
-        .arg(diceValue));
 }
-void UIGameWindow::handleMakeMove()
-{
-    if (diceValue == 0) 
-    {
+
+void UIGameWindow::handleMakeMove() {
+    if (!diceRolled) {
         activePlayerLabel->setText("Roll the dice first!");
         return;
     }
 
-    std::shared_ptr<Player> currentPlayer = gameState->GetActivePlayer();
-
-    if (board->IsColumnFull(activePlayerColumn)) 
-    {
-        activePlayerLabel->setText("Selected column is full! Choose another column.");
+    Board& activeBoard = gameState.GetActiveBoard();
+    if (activeBoard.IsColumnFull(activePlayerColumn)) {
+        activePlayerLabel->setText("Column is full! Choose another column.");
         return;
     }
 
-    board->MakeMove(activePlayerColumn, diceValue);
-    updateBoardUI((currentPlayer == player1 ? 1 : 2), activePlayerColumn, diceValue);
+    activeBoard.MakeMove(activePlayerColumn, diceValue);
+
+    int currentPlayer = (&gameState.GetActivePlayer() == &player1) ? 1 : 2;
+    updateBoardUI(currentPlayer, activePlayerColumn, diceValue);
+
     diceValue = 0;
     diceRolled = false;
+
+    gameState.NextPlayer();
     updateUIState();
-    gameState->NextPlayer();
-    currentPlayer = gameState->GetActivePlayer();
-    activePlayerLabel->setText(QString("Active Player: %1").arg(currentPlayer->GetName().c_str()));
 }
 
-void UIGameWindow::updateBoardUI(int player, int column, int value)
-{
+void UIGameWindow::updateBoardUI(int player, int column, int value) {
     QGridLayout* currentBoard = (player == 1) ? player1Board : player2Board;
 
-    for (int row = 2; row >= 0; --row) 
-    {
+    for (int row = 2; row >= 0; --row) {
         QPushButton* cell = qobject_cast<QPushButton*>(currentBoard->itemAtPosition(row, column)->widget());
-        if (cell->text() == "0") 
-        {
+        if (cell->text() == "0") {
             cell->setText(QString::number(value));
             break;
         }
     }
 }
 
-void UIGameWindow::updateUIState()
-{
-    player1Label->setText(QString("Player 1: %1").arg(player1->GetScore()));
-    player2Label->setText(QString("Player 2: %1").arg(player2->GetScore()));
-    std::shared_ptr<Player> currentPlayer = gameState->GetActivePlayer();
-    activePlayerLabel->setText(QString("Active Player: %1").arg(currentPlayer->GetName().c_str()));
-}
+void UIGameWindow::updateUIState() {
+    player1Label->setText(QString("Player 1: %1").arg(player1.GetScore()));
+    player2Label->setText(QString("Player 2: %1").arg(player2.GetScore()));
 
+    activePlayerLabel->setText(QString("Active Player: %1")
+        .arg(gameState.GetActivePlayer().GetName().c_str()));
+}

@@ -4,10 +4,10 @@
 #include <string>
 #include <iostream>
 
-class Player : public IGameListener
+class Player : public IGameListener 
 {
 public:
-    Player(const std::string& name) : m_name(name), m_score(0) {}
+    Player(const std::string& name);
 
     void OnBoardUpdate() override;
     void OnGameOver() override;

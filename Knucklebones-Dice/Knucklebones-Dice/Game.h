@@ -12,13 +12,13 @@ public:
     int GetMoves() const;
     void EndGame();
 
-    void AddListener(IGameListenerPtr listener);
+    void AddListener(IGameListener* listener);
     void RemoveListener(IGameListener* listener);
 
 private:
     int m_moves = 0;
     bool m_gameActive = true;
-    std::vector<IGameListenerWeakPtr> m_listeners;
+    std::vector<IGameListener*> m_listeners;
 
     void NotifyOnBoardUpdate();
     void NotifyOnGameOver();
