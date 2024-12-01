@@ -144,7 +144,28 @@ void UIGameWindow::handleRollDice() {
     activePlayerLabel->setText("Rolling the dice...");
 }
 
-void UIGameWindow::handleMakeMove() {
+void UIGameWindow::displayGameOverMessage() 
+{
+    int player1Score = player1.GetScore();
+    int player2Score = player2.GetScore();
+
+    QString winnerMessage;
+    if (player1Score > player2Score) {
+        winnerMessage = "Game Over! Player 1 wins!";
+    }
+    else if (player2Score > player1Score) {
+        winnerMessage = "Game Over! Player 2 wins!";
+    }
+    else {
+        winnerMessage = "Game Over! It's a draw!";
+    }
+
+    QMessageBox::information(this, "Game Over", winnerMessage);
+    QApplication::quit();
+}
+
+void UIGameWindow::handleMakeMove() 
+{
     if (!diceRolled) {
         activePlayerLabel->setText("Roll the dice first!");
         return;
@@ -157,12 +178,19 @@ void UIGameWindow::handleMakeMove() {
     }
 
     activeBoard.MakeMove(activePlayerColumn, diceValue);
-
     int currentPlayer = (&gameState.GetActivePlayer() == &player1) ? 1 : 2;
     updateBoardUI(currentPlayer, activePlayerColumn, diceValue);
 
     diceValue = 0;
     diceRolled = false;
+
+    // Verificați dacă jocul s-a terminat
+    gameState.CheckForGameOver();
+
+    if (!gameState.IsGameActive()) {
+        displayGameOverMessage();
+        return;
+    }
 
     gameState.NextPlayer();
     updateUIState();

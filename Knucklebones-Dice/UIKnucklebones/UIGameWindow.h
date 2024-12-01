@@ -21,6 +21,8 @@ public:
     explicit UIGameWindow(GameState& gameState, Player& player1, Player& player2, QWidget* parent = nullptr);
     ~UIGameWindow() = default;
 
+    void displayGameOverMessage();
+
 protected:
     void closeEvent(QCloseEvent* event) override;
 

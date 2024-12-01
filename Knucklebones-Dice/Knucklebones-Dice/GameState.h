@@ -22,6 +22,8 @@ public:
     int RollDice();
     bool IsGameActive() const;
 
+    void CheckForGameOver();
+
 private:
     std::vector<Player*> m_players;
     Board m_player1Board;

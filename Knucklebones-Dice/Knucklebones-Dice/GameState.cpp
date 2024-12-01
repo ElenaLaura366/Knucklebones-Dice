@@ -39,3 +39,11 @@ bool GameState::IsGameActive() const {
 void GameState::NotifyGameStateChange() {
     NotifyOnBoardUpdate();
 }
+
+void GameState::CheckForGameOver() 
+{
+    if (m_player1Board.IsFull() || m_player2Board.IsFull()) {
+        m_gameActive = false;
+        NotifyOnGameOver();
+    }
+}
