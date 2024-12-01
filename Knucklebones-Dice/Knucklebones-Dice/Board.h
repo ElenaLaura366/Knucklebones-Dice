@@ -15,7 +15,7 @@ public:
     bool IsFull() const;
 
     const std::vector<std::vector<int>>& GetBoard() const;
-
+    void CancelValuesInColumn(int col, int value);
 private:
     std::vector<std::vector<int>> m_board;
 

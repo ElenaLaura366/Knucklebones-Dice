@@ -4,11 +4,11 @@ Board::Board() : m_board(3, std::vector<int>(3, 0)) {}
 
 void Board::MakeMove(int col, int value)
 {
-    if (!IsColumnFull(col))
+    if (!IsColumnFull(col)) 
     {
-        for (int row = 0; row < 3; ++row)
+        for (int row = 0; row < 3; ++row) 
         {
-            if (m_board[row][col] == 0)
+            if (m_board[row][col] == 0) 
             {
                 m_board[row][col] = value;
                 break;
@@ -52,4 +52,15 @@ const std::vector<std::vector<int>>& Board::GetBoard() const
 void Board::NotifyMove()
 {
     NotifyOnBoardUpdate();
+}
+
+void Board::CancelValuesInColumn(int col, int value) 
+{
+    for (int row = 0; row < 3; ++row) 
+    {
+        if (m_board[row][col] == value) 
+        {
+            m_board[row][col] = 0;
+        }
+    }
 }

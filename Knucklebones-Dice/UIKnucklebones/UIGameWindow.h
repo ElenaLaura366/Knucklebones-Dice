@@ -36,6 +36,7 @@ private:
     void createColumnButtons(QVBoxLayout* playerLayout, int player);
     void updateBoardUI(int player, int column, int value);
     void updateUIState();
+	void refreshBoardUI();
 
     QGridLayout* player1Board;
     QGridLayout* player2Board;

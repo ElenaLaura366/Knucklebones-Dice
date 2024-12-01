@@ -19,10 +19,14 @@ public:
     Board& GetActiveBoard();
     Board& GetOpponentBoard();
 
+	Board& GetPlayer1Board();
+	Board& GetPlayer2Board();
+
     int RollDice();
     bool IsGameActive() const;
 
     void CheckForGameOver();
+    void CancelMatchingDiceOnOpponentBoard(int col, int value);
 
 private:
     std::vector<Player*> m_players;

@@ -14,15 +14,19 @@ UIKnucklebones::UIKnucklebones(GameState& gameState, Player& player1, Player& pl
     connect(startButton, &QPushButton::clicked, this, &UIKnucklebones::startGame);
 }
 
-UIKnucklebones::~UIKnucklebones() {
-    if (uigameWindow) {
+UIKnucklebones::~UIKnucklebones() 
+{
+    if (uigameWindow) 
+    {
         delete uigameWindow;
         uigameWindow = nullptr;
     }
 }
 
-void UIKnucklebones::startGame() {
-    if (!uigameWindow) {
+void UIKnucklebones::startGame() 
+{
+    if (!uigameWindow) 
+    {
         uigameWindow = new UIGameWindow(m_gameState, m_player1, m_player2, this);
     }
     else {
@@ -34,8 +38,10 @@ void UIKnucklebones::startGame() {
     uigameWindow->show();
 }
 
-void UIKnucklebones::closeEvent(QCloseEvent* event) {
-    if (uigameWindow) {
+void UIKnucklebones::closeEvent(QCloseEvent* event) 
+{
+    if (uigameWindow) 
+    {
         uigameWindow->close();
         delete uigameWindow;
         uigameWindow = nullptr;

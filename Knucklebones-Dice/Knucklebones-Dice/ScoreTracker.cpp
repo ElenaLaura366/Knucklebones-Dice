@@ -19,7 +19,8 @@ void ScoreTracker::OnGameOver()
 
 void ScoreTracker::DisplayScores() const
 {
-    for (const auto& player : m_players) {
+    for (const auto& player : m_players) 
+    {
         std::cout << player->GetName() << ": " << player->GetScore() << "\n";
     }
 }
