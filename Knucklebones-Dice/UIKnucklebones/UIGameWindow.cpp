@@ -1,4 +1,5 @@
 ﻿#include "UIGameWindow.h"
+#include "ScoreTracker.h"
 #include <cstdlib>
 #include <QMessageBox>
 
@@ -11,6 +12,8 @@ UIGameWindow::UIGameWindow(QWidget* parent)
 
     board = std::make_shared<Board>();
     gameState = std::make_shared<GameState>(board);
+    auto scoreTracker = std::make_shared<ScoreTracker>();
+    gameState->AddListener(scoreTracker);
     player1 = std::make_shared<Player>("Player 1");
     player2 = std::make_shared<Player>("Player 2");
 
@@ -35,9 +38,9 @@ UIGameWindow::UIGameWindow(QWidget* parent)
     activePlayerLabel = new QLabel("Active Player: Player 1", this);
     boardLayout->addWidget(activePlayerLabel);
 
-    diceLabel = new QLabel("🎲", this); // Zarul
+    diceLabel = new QLabel("🎲", this);
     diceLabel->setAlignment(Qt::AlignCenter);
-    diceLabel->setStyleSheet("font-size: 48px;"); // Stilizare zar
+    diceLabel->setStyleSheet("font-size: 48px;");
     boardLayout->addWidget(diceLabel);
 
     rollDiceButton = new QPushButton("Roll Dice", this);
@@ -64,12 +67,12 @@ UIGameWindow::UIGameWindow(QWidget* parent)
 
     diceAnimationTimer = new QTimer(this);
     connect(diceAnimationTimer, &QTimer::timeout, this, [=]() {
-        int randomValue = rand() % 6 + 1; // Generare valori aleatorii pentru zar
+        int randomValue = rand() % 6 + 1; 
         diceLabel->setText(QString("🎲 %1").arg(randomValue));
 
         if (++animationSteps >= maxAnimationSteps) {
-            diceAnimationTimer->stop(); // Oprește animația
-            diceValue = rand() % 6 + 1; // Setează valoarea finală a zarului
+            diceAnimationTimer->stop();
+            diceValue = rand() % 6 + 1; 
             diceLabel->setText(QString("🎲 %1").arg(diceValue));
             std::shared_ptr<Player> currentPlayer = gameState->GetActivePlayer();
             activePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
