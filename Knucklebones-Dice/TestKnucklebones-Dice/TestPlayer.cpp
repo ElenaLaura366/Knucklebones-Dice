@@ -1,53 +1,23 @@
 #include <gtest/gtest.h>
 #include "Player.h"
-#include "Board.h"
 
-class PlayerTest : public ::testing::Test {
+class PlayerTest : public ::testing::Test 
+{
 protected:
-    Player player;
-    Board board;
-
-    virtual void SetUp() {
-        player.setPlayer("Alice");
-        player.setBoard(board);
-    }
+    Player player{ "Alice" };
 };
 
-// Test player name setting and retrieval
-TEST_F(PlayerTest, PlayerSettings) {
-    EXPECT_EQ(player.getPlayer(), "Alice");
-    Player newPlayer("Bob", board);
-    EXPECT_EQ(newPlayer.getPlayer(), "Bob");
+TEST_F(PlayerTest, PlayerName) 
+{
+    EXPECT_EQ(player.GetName(), "Alice");
 }
 
-// Test board settings
-TEST_F(PlayerTest, BoardSettings) {
-    Board newBoard;
-    player.setBoard(newBoard);
-    // Assuming we can compare Boards or have a method to validate this
-    EXPECT_EQ(player.getBoard(), newBoard);
-}
+TEST_F(PlayerTest, UpdateScore) 
+{
+    player.UpdateScore(10);
+    EXPECT_EQ(player.GetScore(), 10);
 
-// Test initial score settings
-TEST_F(PlayerTest, InitialScore) {
-    EXPECT_EQ(player.getScore(), 0);
-}
-
-// Test score updates and reset
-TEST_F(PlayerTest, ScoreUpdateAndReset) {
-    player.updateScore(20);
-    EXPECT_EQ(player.getScore(), 20);
-
-    player.updateScore(30);
-    EXPECT_EQ(player.getScore(), 50);
-
-    player.resetScore();
-    EXPECT_EQ(player.getScore(), 0);
-}
-
-// Test setting an exact score
-TEST_F(PlayerTest, SetExactScore) {
-    player.setScore(100);
-    EXPECT_EQ(player.getScore(), 100);
+    player.UpdateScore(5);
+    EXPECT_EQ(player.GetScore(), 5); 
 }
 

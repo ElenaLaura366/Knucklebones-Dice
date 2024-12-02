@@ -1,60 +1,49 @@
 #include <gtest/gtest.h>
 #include "GameState.h"
 #include "Player.h"
-#include "Board.h"
 
-class GameStateTest : public ::testing::Test {
+class GameStateTest : public ::testing::Test 
+{
 protected:
     GameState gameState;
+    Player player1{ "Alice" };
+    Player player2{ "Bob" };
 
-    virtual void SetUp() {
-        Player alice("Alice", Board());
-        gameState.addPlayer(alice);
-        Player bob("Bob", Board());
-        gameState.addPlayer(bob);
-        Player carol("Carol", Board());
-        gameState.addPlayer(carol);
+    virtual void SetUp() 
+    {
+        gameState.AddPlayer(player1);
+        gameState.AddPlayer(player2);
     }
 };
 
-// Test the addition of players and active player functionality
-TEST_F(GameStateTest, ActivePlayer) {
-    EXPECT_EQ(gameState.getActivePlayer().getPlayer(), "Alice");
+TEST_F(GameStateTest, ActivePlayerRotation) 
+{
+    EXPECT_EQ(gameState.GetActivePlayer().GetName(), "Alice");
 
-    gameState.nextPlayer();
-    EXPECT_EQ(gameState.getActivePlayer().getPlayer(), "Bob");
+    gameState.NextPlayer();
+    EXPECT_EQ(gameState.GetActivePlayer().GetName(), "Bob");
 
-    gameState.nextPlayer();
-    EXPECT_EQ(gameState.getActivePlayer().getPlayer(), "Carol");
+    gameState.NextPlayer();
+    EXPECT_EQ(gameState.GetActivePlayer().GetName(), "Alice");
 }
 
-// Test game over by score
-TEST_F(GameStateTest, GameOverByScore) {
-    gameState.getActivePlayer().setScore(60); // Alice scores 60
-    EXPECT_FALSE(gameState.checkGameOver(50));
-
-    gameState.nextPlayer();
-    gameState.getActivePlayer().setScore(70); // Bob scores 70
-    EXPECT_TRUE(gameState.checkGameOver(50)); // Bob wins, game over should be true
+TEST_F(GameStateTest, CheckGameOver) 
+{
+    for (int col = 0; col < 3; ++col) 
+    {
+        for (int i = 0; i < 3; ++i) 
+        {
+            gameState.GetActiveBoard().MakeMove(col, 1);
+        }
+    }
+    gameState.CheckForGameOver();
+    EXPECT_FALSE(gameState.IsGameActive());
 }
 
-// Test ending the game manually
-TEST_F(GameStateTest, EndGame) {
-    gameState.endGame();
-    EXPECT_FALSE(gameState.isGameActive());
+TEST_F(GameStateTest, UpdateScores) 
+{
+    gameState.GetActiveBoard().MakeMove(0, 1);
+    gameState.GetActiveBoard().MakeMove(0, 1);
+    gameState.UpdateScores();
+    EXPECT_EQ(player1.GetScore(), 4); 
 }
-
-// Test the winner determination
-TEST_F(GameStateTest, DetermineWinner) {
-    gameState.getActivePlayer().setScore(30); // Alice scores 30
-
-    gameState.nextPlayer();
-    gameState.getActivePlayer().setScore(70); // Bob scores 70
-
-    gameState.nextPlayer();
-    gameState.getActivePlayer().setScore(50); // Carol scores 50
-
-    EXPECT_EQ(gameState.getWinner().getPlayer(), "Bob");
-    EXPECT_EQ(gameState.getWinner().getScore(), 70);
-}
-

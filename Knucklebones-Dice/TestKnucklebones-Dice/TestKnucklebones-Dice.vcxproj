@@ -19,14 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TestBoard.cpp" />
     <ClCompile Include="TestGameState.cpp" />
     <ClCompile Include="TestPlayer.cpp" />
-    <ClCompile Include="TestScoreTracker.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

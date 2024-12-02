@@ -14,7 +14,8 @@
 #include "Board.h"
 #include "Player.h"
 
-class UIGameWindow : public QMainWindow {
+class UIGameWindow : public QMainWindow 
+{
     Q_OBJECT
 
 public:

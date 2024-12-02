@@ -9,7 +9,8 @@
 #include "GameState.h"
 #include "Player.h"
 
-class UIKnucklebones : public QMainWindow {
+class UIKnucklebones : public QMainWindow 
+{
     Q_OBJECT
 
 public:

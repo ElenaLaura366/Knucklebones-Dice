@@ -1,66 +1,57 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include "Board.h"
 
-class BoardTest : public ::testing::Test {
+class BoardTest : public ::testing::Test 
+{
 protected:
     Board board;
-
-    virtual void SetUp() {
-        board.setPlayer("TestPlayer");
-    }
 };
 
-// Test initialization of the board
-TEST_F(BoardTest, InitialState) {
-    EXPECT_EQ(board.getPlayer(), "TestPlayer");
-    for (int col = 0; col < 3; ++col) {
-        EXPECT_FALSE(board.isColumnFull(col));
+TEST_F(BoardTest, InitialState) 
+{
+    for (int col = 0; col < 3; ++col) 
+    {
+        EXPECT_FALSE(board.IsColumnFull(col));
     }
+    EXPECT_FALSE(board.IsFull());
 }
 
-// Test the move making in various columns
-TEST_F(BoardTest, MakeMove) {
-    board.makeMove(0, 1);
-    EXPECT_EQ(board.getBoard(0, 0)[0][0], 1);
-    board.makeMove(1, 2);
-    EXPECT_EQ(board.getBoard(0, 0)[0][1], 2);
-    board.makeMove(2, 1);
-    EXPECT_EQ(board.getBoard(0, 0)[0][2], 1);
+TEST_F(BoardTest, MakeMove) 
+{
+    board.MakeMove(0, 1);
+    EXPECT_EQ(board.GetBoard()[0][0], 1);
+
+    board.MakeMove(1, 2);
+    EXPECT_EQ(board.GetBoard()[0][1], 2);
+
+    board.MakeMove(2, 3);
+    EXPECT_EQ(board.GetBoard()[0][2], 3);
 }
 
-// Test column full check after multiple moves
-TEST_F(BoardTest, ColumnFullCheck) {
-    board.makeMove(0, 1);
-    board.makeMove(0, 2);
-    board.makeMove(0, 1);
-    EXPECT_TRUE(board.isColumnFull(0));
-    EXPECT_FALSE(board.isColumnFull(1));
-    EXPECT_FALSE(board.isColumnFull(2));
+TEST_F(BoardTest, ColumnFullCheck) 
+{
+    board.MakeMove(0, 1);
+    board.MakeMove(0, 2);
+    board.MakeMove(0, 3);
+    EXPECT_TRUE(board.IsColumnFull(0));
+    EXPECT_FALSE(board.IsColumnFull(1));
 }
 
-// Test the score calculation
-TEST_F(BoardTest, CalculateScore) {
-    board.makeMove(0, 1);
-    board.makeMove(0, 2);
-    board.makeMove(0, 1);
-    board.makeMove(1, 1);
-    board.makeMove(1, 1);
-    board.makeMove(1, 1);
-    board.makeMove(2, 2);
-    board.makeMove(2, 2);
-    board.makeMove(2, 2);
-    int expectedScore = 1 * 1 * 1 + 2 * 2 * 2 + 1 * 1 * 1 + // column 0
-        1 * 1 * 1 + 1 * 1 * 1 + 1 * 1 * 1 + // column 1
-        2 * 2 * 2 + 2 * 2 * 2 + 2 * 2 * 2;  // column 2
-    EXPECT_EQ(board.boardScore(), expectedScore);
+TEST_F(BoardTest, CalculateScore) 
+{
+    board.MakeMove(0, 1);
+    board.MakeMove(0, 1);
+    board.MakeMove(0, 1);
+    EXPECT_EQ(board.CalculateColumnScore(0), 9); 
+
+    EXPECT_EQ(board.CalculateTotalScore(), 9);
 }
 
-// Test board display functionality
-TEST_F(BoardTest, DisplayBoard) {
-    testing::internal::CaptureStdout();
-    board.makeMove(0, 1);
-    board.displayBoard();
-    std::string output = testing::internal::GetCapturedStdout();
-    EXPECT_THAT(output, testing::HasSubstr("1 . . \n. . . \n. . . \n"));
+TEST_F(BoardTest, CancelValuesInColumn) 
+{
+    board.MakeMove(0, 2);
+    board.MakeMove(0, 2);
+    board.CancelValuesInColumn(0, 2);
+    EXPECT_EQ(board.GetBoard()[0][0], 0);
+    EXPECT_EQ(board.GetBoard()[1][0], 0);
 }
