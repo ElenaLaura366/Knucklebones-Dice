@@ -1,28 +1,34 @@
 ﻿#include "Player.h"
 
-Player::Player(const std::string& name) : m_name(name), m_score(0) {}
 
-void Player::OnBoardUpdate() 
+Player::Player(const std::string& name)
+	: m_name(name)
+	, m_score(0)
 {
-    UpdateScore(1);
+	// empty
 }
 
-void Player::OnGameOver() 
+void Player::OnBoardUpdate()
 {
-    std::cout << "Player " << m_name << " - Final Score: " << m_score << "\n";
+	UpdateScore(1);
 }
 
-std::string Player::GetName() const 
+void Player::OnGameOver()
 {
-    return m_name;
+	std::cout << "Player " << m_name << " - Final Score: " << m_score << "\n";
 }
 
-int Player::GetScore() const 
+std::string Player::GetName() const
 {
-    return m_score;
+	return m_name;
 }
 
-void Player::UpdateScore(int points) 
+int Player::GetScore() const
 {
-    m_score = points;
+	return m_score;
+}
+
+void Player::UpdateScore(int points)
+{
+	m_score = points;
 }

@@ -134,7 +134,6 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
