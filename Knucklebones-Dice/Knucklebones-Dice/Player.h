@@ -9,12 +9,17 @@
 class Player : public IGameListener
 {
 public:
-	Player(const std::string& name);
+	Player(std::string_view name);
+	Player(Player&&) = default;
+
+	Player(const Player&) = delete;
+	Player& operator=(const Player&) = delete;
+	Player& operator=(Player&&) = delete;
 
 	void OnBoardUpdate() override;
 	void OnGameOver() override;
 
-	std::string GetName() const;
+	std::string_view GetName() const;
 	int GetScore() const;
 
 	void UpdateScore(int points);

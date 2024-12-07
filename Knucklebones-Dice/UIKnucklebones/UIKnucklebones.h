@@ -16,8 +16,7 @@ class UIKnucklebones : public QMainWindow
 	Q_OBJECT
 
 public:
-	UIKnucklebones(GameState& gameState, Player& player1, Player& player2, QWidget* parent = nullptr);
-	~UIKnucklebones();
+	UIKnucklebones(GameState&& gameState, QWidget* parent = nullptr);
 
 protected:
 	void closeEvent(QCloseEvent* event) override;
@@ -27,8 +26,6 @@ private slots:
 
 private:
 	QPushButton* startButton;
-	UIGameWindow* uigameWindow;
-	GameState& m_gameState;
-	Player& m_player1;
-	Player& m_player2;
+	std::unique_ptr<UIGameWindow> m_uiGameWindow;
+	GameState m_gameState;
 };

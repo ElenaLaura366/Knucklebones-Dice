@@ -7,14 +7,22 @@
 class GameStateTest : public ::testing::Test
 {
 protected:
+	Player player1;
+	Player player2;
 	GameState gameState;
-	Player player1{ "Alice" };
-	Player player2{ "Bob" };
+
+public:
+	GameStateTest()
+		: player1("Alice")
+		, player2("Bob")
+		, gameState(player1, player2)
+	{
+		// empty
+	}
 
 	virtual void SetUp()
 	{
-		gameState.AddPlayer(player1);
-		gameState.AddPlayer(player2);
+		// empty
 	}
 };
 

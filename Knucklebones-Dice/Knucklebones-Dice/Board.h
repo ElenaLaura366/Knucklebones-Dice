@@ -12,6 +12,11 @@ class Board : public Observable
 {
 public:
 	Board();
+	Board(Board&&) = default;
+
+	Board(const Board&) = delete;
+	Board& operator=(const Board&) = delete;
+	Board& operator=(Board&&) = delete;
 
 	void MakeMove(int col, int value);
 	bool IsColumnFull(int col) const;

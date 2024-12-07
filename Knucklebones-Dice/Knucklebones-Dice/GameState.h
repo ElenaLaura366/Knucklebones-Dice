@@ -12,20 +12,26 @@
 class GameState : public Observable
 {
 public:
-	GameState();
+	GameState(std::string_view namePlayer1, std::string_view namePlayer2);
 
-	void AddPlayer(Player& player);
+	GameState(const GameState&) = delete;
+	GameState& operator=(const GameState&) = delete;
+	GameState(GameState&&) = default;
+	GameState& operator=(GameState&&) = delete;
+
 	void NextPlayer();
 	Player& GetActivePlayer();
 	Player& GetOpponentPlayer();
 
+	const Player& GetPlayer1() const;
+	const Player& GetPlayer2() const;
+
 	Board& GetActiveBoard();
 	Board& GetOpponentBoard();
 
-	Board& GetPlayer1Board();
-	Board& GetPlayer2Board();
+	const Board& GetPlayer1Board() const;
+	const Board& GetPlayer2Board() const;
 
-	int RollDice();
 	bool IsGameActive() const;
 
 	void CheckForGameOver();
@@ -33,11 +39,12 @@ public:
 	void UpdateScores();
 
 private:
-	std::vector<Player*> m_players;
-	Board m_player1Board;
-	Board m_player2Board;
-	int m_activePlayerIndex = 0;
-	bool m_gameActive = true;
+	Player m_player1;
+	Player m_player2;
+	Board m_board1;
+	Board m_board2;
 
-	void NotifyGameStateChange();
+	uint8_t m_activePlayerIndex;
+	bool m_gameActive;
 };
+

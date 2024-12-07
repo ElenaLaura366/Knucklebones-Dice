@@ -1,56 +1,60 @@
 ﻿#include "GameState.h"
 
 
-GameState::GameState()
-	: m_player1Board()
-	, m_player2Board()
+GameState::GameState(std::string_view namePlayer1, std::string_view namePlayer2)
+	: m_player1(namePlayer1)
+	, m_player2(namePlayer2)
+	, m_board1()
+	, m_board2()
+	, m_activePlayerIndex(0)
+	, m_gameActive(true)
 {
 	std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
 
-void GameState::AddPlayer(Player& player)
-{
-	m_players.push_back(&player);
-}
-
 void GameState::NextPlayer()
 {
-	m_activePlayerIndex = (m_activePlayerIndex + 1) % m_players.size();
+	m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
 }
 
-Board& GameState::GetPlayer1Board()
+const Player& GameState::GetPlayer1() const
 {
-	return m_player1Board;
+	return m_player1;
 }
 
-Board& GameState::GetPlayer2Board()
+const Player& GameState::GetPlayer2() const
 {
-	return m_player2Board;
+	return m_player2;
 }
 
 Player& GameState::GetActivePlayer()
 {
-	return *m_players[m_activePlayerIndex];
+	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
 }
 
 Player& GameState::GetOpponentPlayer()
 {
-	return *m_players[(m_activePlayerIndex + 1) % m_players.size()];
+	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
+}
+
+const Board& GameState::GetPlayer1Board() const
+{
+	return m_board1;
+}
+
+const Board& GameState::GetPlayer2Board() const
+{
+	return m_board2;
 }
 
 Board& GameState::GetActiveBoard()
 {
-	return (m_activePlayerIndex == 0) ? m_player1Board : m_player2Board;
+	return (m_activePlayerIndex == 0) ? m_board1 : m_board2;
 }
 
 Board& GameState::GetOpponentBoard()
 {
-	return (m_activePlayerIndex == 0) ? m_player2Board : m_player1Board;
-}
-
-int GameState::RollDice()
-{
-	return rand() % 6 + 1;
+	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
 }
 
 bool GameState::IsGameActive() const
@@ -58,14 +62,9 @@ bool GameState::IsGameActive() const
 	return m_gameActive;
 }
 
-void GameState::NotifyGameStateChange()
-{
-	NotifyOnBoardUpdate();
-}
-
 void GameState::CheckForGameOver()
 {
-	if (m_player1Board.IsFull() || m_player2Board.IsFull())
+	if (m_board1.IsFull() || m_board2.IsFull())
 	{
 		m_gameActive = false;
 		NotifyOnGameOver();
@@ -80,6 +79,6 @@ void GameState::CancelMatchingDiceOnOpponentBoard(int col, int value)
 
 void GameState::UpdateScores()
 {
-	m_players[0]->UpdateScore(m_player1Board.CalculateTotalScore());
-	m_players[1]->UpdateScore(m_player2Board.CalculateTotalScore());
+	m_player1.UpdateScore(m_board1.CalculateTotalScore());
+	m_player2.UpdateScore(m_board2.CalculateTotalScore());
 }

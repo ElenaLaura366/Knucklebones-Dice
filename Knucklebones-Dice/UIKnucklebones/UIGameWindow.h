@@ -21,7 +21,7 @@ class UIGameWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit UIGameWindow(GameState& gameState, Player& player1, Player& player2, QWidget* parent = nullptr);
+	explicit UIGameWindow(GameState&& gameState, int diceAnimationSteps, QWidget* parent = nullptr);
 	~UIGameWindow() = default;
 
 	void displayGameOverMessage();
@@ -54,13 +54,12 @@ private:
 	std::vector<QPushButton*> player1ColumnButtons;
 	std::vector<QPushButton*> player2ColumnButtons;
 
-	GameState& gameState;
-	Player& player1;
-	Player& player2;
+	// must be defined before player references
+	GameState m_gameState;
 
-	int activePlayerColumn;
-	int diceValue;
-	bool diceRolled;
-	int animationSteps;
-	const int maxAnimationSteps = 20;
+	int m_activePlayerColumn;
+	int m_diceValue;
+	int m_animationSteps;
+	int m_diceAnimationSteps;
+	bool m_diceRolled;
 };

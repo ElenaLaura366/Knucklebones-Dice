@@ -1,7 +1,7 @@
 ﻿#include "Player.h"
 
 
-Player::Player(const std::string& name)
+Player::Player(std::string_view name)
 	: m_name(name)
 	, m_score(0)
 {
@@ -18,7 +18,7 @@ void Player::OnGameOver()
 	std::cout << "Player " << m_name << " - Final Score: " << m_score << "\n";
 }
 
-std::string Player::GetName() const
+std::string_view Player::GetName() const
 {
 	return m_name;
 }

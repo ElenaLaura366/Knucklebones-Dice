@@ -1,11 +1,9 @@
 #include "UIKnucklebones.h"
 
-UIKnucklebones::UIKnucklebones(GameState& gameState, Player& player1, Player& player2, QWidget* parent)
+UIKnucklebones::UIKnucklebones(GameState&& gameState, QWidget* parent)
 	: QMainWindow(parent)
-	, uigameWindow(nullptr)
-	, m_gameState(gameState)
-	, m_player1(player1)
-	, m_player2(player2)
+	, m_uiGameWindow(nullptr)
+	, m_gameState(std::move(gameState))
 {
 	setWindowTitle("Start");
 	resize(400, 300);
@@ -15,37 +13,20 @@ UIKnucklebones::UIKnucklebones(GameState& gameState, Player& player1, Player& pl
 	connect(startButton, &QPushButton::clicked, this, &UIKnucklebones::startGame);
 }
 
-UIKnucklebones::~UIKnucklebones() 
+void UIKnucklebones::startGame()
 {
-	if (uigameWindow) 
-	{
-		delete uigameWindow;
-		uigameWindow = nullptr;
-	}
-}
-
-void UIKnucklebones::startGame() 
-{
-	if (!uigameWindow) 
-	{
-		uigameWindow = new UIGameWindow(m_gameState, m_player1, m_player2, this);
-	}
-	else {
-		delete uigameWindow;
-		uigameWindow = new UIGameWindow(m_gameState, m_player1, m_player2, this);
-	}
+	m_uiGameWindow = std::make_unique<UIGameWindow>(std::move(m_gameState), 20, this);
 
 	this->hide();
-	uigameWindow->show();
+	m_uiGameWindow->show();
 }
 
-void UIKnucklebones::closeEvent(QCloseEvent* event) 
+void UIKnucklebones::closeEvent(QCloseEvent* event)
 {
-	if (uigameWindow) 
+	if (m_uiGameWindow)
 	{
-		uigameWindow->close();
-		delete uigameWindow;
-		uigameWindow = nullptr;
+		m_uiGameWindow->close();
+		m_uiGameWindow.reset();
 	}
 	event->accept();
 }

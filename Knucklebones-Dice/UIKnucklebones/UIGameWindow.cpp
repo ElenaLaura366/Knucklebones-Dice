@@ -4,14 +4,13 @@
 #include <QMessageBox>
 
 
-UIGameWindow::UIGameWindow(GameState& gameStateRef, Player& player1Ref, Player& player2Ref, QWidget* parent)
+UIGameWindow::UIGameWindow(GameState&& gameStateRef, int diceAnimationSteps, QWidget* parent)
 	: QMainWindow(parent)
-	, gameState(gameStateRef)
-	, player1(player1Ref)
-	, player2(player2Ref)
-	, activePlayerColumn(0)
-	, diceValue(0)
-	, diceRolled(false)
+	, m_gameState(std::move(gameStateRef))
+	, m_activePlayerColumn(0)
+	, m_diceValue(0)
+	, m_diceAnimationSteps(diceAnimationSteps)
+	, m_diceRolled(false)
 {
 	setWindowTitle("Knucklebones Dice");
 	resize(800, 600);
@@ -63,17 +62,17 @@ UIGameWindow::UIGameWindow(GameState& gameStateRef, Player& player1Ref, Player& 
 
 	diceAnimationTimer = new QTimer(this);
 	connect(diceAnimationTimer, &QTimer::timeout, this, [=]() {
-		int randomValue = rand() % 6 + 1;
+		int randomValue = std::rand() % 6 + 1;
 		diceLabel->setText(QString("🎲 %1").arg(randomValue));
 
-		if (++animationSteps >= maxAnimationSteps) {
+		if (++m_animationSteps >= m_diceAnimationSteps) {
 			diceAnimationTimer->stop();
-			diceValue = rand() % 6 + 1;
-			diceLabel->setText(QString("🎲 %1").arg(diceValue));
+			m_diceValue = rand() % 6 + 1;
+			diceLabel->setText(QString("🎲 %1").arg(m_diceValue));
 			activePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-				.arg(gameState.GetActivePlayer().GetName().c_str())
-				.arg(diceValue));
-			diceRolled = true;
+				.arg(m_gameState.GetActivePlayer().GetName().data())
+				.arg(m_diceValue));
+			m_diceRolled = true;
 		}
 		});
 
@@ -127,42 +126,42 @@ void UIGameWindow::createColumnButtons(QVBoxLayout* playerLayout, int player)
 
 void UIGameWindow::selectColumn(int col)
 {
-	activePlayerColumn = col;
+	m_activePlayerColumn = col;
 
-	if (gameState.GetActiveBoard().IsColumnFull(activePlayerColumn))
+	if (m_gameState.GetActiveBoard().IsColumnFull(m_activePlayerColumn))
 	{
 		activePlayerLabel->setText("Selected column is full! Choose another column.");
 		return;
 	}
 
 	activePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
-		.arg(gameState.GetActivePlayer().GetName().c_str())
+		.arg(m_gameState.GetActivePlayer().GetName().data())
 		.arg(col + 1));
 }
 
 void UIGameWindow::handleRollDice()
 {
-	if (!gameState.IsGameActive())
+	if (!m_gameState.IsGameActive())
 	{
 		activePlayerLabel->setText("Game is over!");
 		return;
 	}
 
-	if (diceRolled)
+	if (m_diceRolled)
 	{
 		activePlayerLabel->setText("You have already rolled the dice! Make your move.");
 		return;
 	}
 
-	animationSteps = 0;
+	m_animationSteps = 0;
 	diceAnimationTimer->start(100);
 	activePlayerLabel->setText("Rolling the dice...");
 }
 
 void UIGameWindow::displayGameOverMessage()
 {
-	int player1Score = player1.GetScore();
-	int player2Score = player2.GetScore();
+	int player1Score = m_gameState.GetPlayer1().GetScore();
+	int player2Score = m_gameState.GetPlayer2().GetScore();
 
 	QString winnerMessage;
 	if (player1Score > player2Score)
@@ -183,36 +182,36 @@ void UIGameWindow::displayGameOverMessage()
 
 void UIGameWindow::handleMakeMove()
 {
-	if (!diceRolled)
+	if (!m_diceRolled)
 	{
 		activePlayerLabel->setText("Roll the dice first!");
 		return;
 	}
 
-	Board& activeBoard = gameState.GetActiveBoard();
-	if (activeBoard.IsColumnFull(activePlayerColumn))
+	Board& activeBoard = m_gameState.GetActiveBoard();
+	if (activeBoard.IsColumnFull(m_activePlayerColumn))
 	{
 		activePlayerLabel->setText("Column is full! Choose another column.");
 		return;
 	}
 
-	activeBoard.MakeMove(activePlayerColumn, diceValue);
-	gameState.CancelMatchingDiceOnOpponentBoard(activePlayerColumn, diceValue);
-	gameState.UpdateScores();
+	activeBoard.MakeMove(m_activePlayerColumn, m_diceValue);
+	m_gameState.CancelMatchingDiceOnOpponentBoard(m_activePlayerColumn, m_diceValue);
+	m_gameState.UpdateScores();
 
 	refreshBoardUI();
 	updateUIState();
 
-	diceValue = 0;
-	diceRolled = false;
-	gameState.CheckForGameOver();
+	m_diceValue = 0;
+	m_diceRolled = false;
+	m_gameState.CheckForGameOver();
 
-	if (!gameState.IsGameActive())
+	if (!m_gameState.IsGameActive())
 	{
 		displayGameOverMessage();
 		return;
 	}
-	gameState.NextPlayer();
+	m_gameState.NextPlayer();
 	updateUIState();
 }
 
@@ -223,7 +222,7 @@ void UIGameWindow::refreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QPushButton* cell = qobject_cast<QPushButton*>(player1Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(gameState.GetPlayer1Board().GetBoard()[row][col]));
+			cell->setText(QString::number(m_gameState.GetPlayer1Board().GetBoard()[row][col]));
 		}
 	}
 	for (int row = 0; row < 3; ++row)
@@ -231,7 +230,7 @@ void UIGameWindow::refreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QPushButton* cell = qobject_cast<QPushButton*>(player2Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(gameState.GetPlayer2Board().GetBoard()[row][col]));
+			cell->setText(QString::number(m_gameState.GetPlayer2Board().GetBoard()[row][col]));
 		}
 	}
 }
@@ -253,11 +252,12 @@ void UIGameWindow::updateBoardUI(int player, int column, int value)
 
 void UIGameWindow::updateUIState()
 {
-	player1Label->setText(QString("Player 1: %1").arg(player1.GetScore()));
-	player2Label->setText(QString("Player 2: %1").arg(player2.GetScore()));
-	activePlayerLabel->setText(QString("Active Player: %1").arg(gameState.GetActivePlayer().GetName().c_str()));
+	player1Label->setText(QString("Player 1: %1").arg(m_gameState.GetPlayer1().GetScore()));
+	player2Label->setText(QString("Player 2: %1").arg(m_gameState.GetPlayer2().GetScore()));
+	activePlayerLabel->setText(QString("Active Player: %1")
+		.arg(m_gameState.GetActivePlayer().GetName().data()));
 
-	bool isPlayer1Turn = (&gameState.GetActivePlayer() == &player1);
+	bool isPlayer1Turn = (&m_gameState.GetActivePlayer() == &m_gameState.GetPlayer1());
 
 	for (auto button : player1ColumnButtons)
 	{
