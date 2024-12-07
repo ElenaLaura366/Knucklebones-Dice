@@ -15,8 +15,7 @@ UIKnucklebones::UIKnucklebones(GameState&& gameState, QWidget* parent)
 
 void UIKnucklebones::startGame()
 {
-	m_uiGameWindow = std::make_unique<UIGameWindow>(std::move(m_gameState), 20, this);
-
+	m_uiGameWindow = std::make_unique<UIGameWindow>(std::move(m_gameState), 20);
 	this->hide();
 	m_uiGameWindow->show();
 }

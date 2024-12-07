@@ -7,15 +7,11 @@
 class GameStateTest : public ::testing::Test
 {
 protected:
-	Player player1;
-	Player player2;
 	GameState gameState;
 
 public:
 	GameStateTest()
-		: player1("Alice")
-		, player2("Bob")
-		, gameState(player1, player2)
+		: gameState("Alice", "Bob")
 	{
 		// empty
 	}
@@ -55,5 +51,5 @@ TEST_F(GameStateTest, UpdateScores)
 	gameState.GetActiveBoard().MakeMove(0, 1);
 	gameState.GetActiveBoard().MakeMove(0, 1);
 	gameState.UpdateScores();
-	EXPECT_EQ(player1.GetScore(), 4);
+	EXPECT_EQ(gameState.GetPlayer1().GetScore(), 4);
 }
