@@ -46,9 +46,13 @@ void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, 
 
 void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 {
-	QBoxLayout* boardLayout = new QVBoxLayout();
+	QVBoxLayout* boardLayout = new QVBoxLayout();
+	QHBoxLayout* hLayout = new QHBoxLayout();
+	hLayout->setAlignment(Qt::AlignCenter);
+	boardLayout->addLayout(hLayout);
+
 	m_uiActivePlayerLabel = new QLabel("Active Player: Player 1", this);
-	boardLayout->addWidget(m_uiActivePlayerLabel);
+	hLayout->addWidget(m_uiActivePlayerLabel);
 
 	m_uiDiceLabel = new QLabel("🎲", this);
 	m_uiDiceLabel->setAlignment(Qt::AlignCenter);
@@ -75,9 +79,10 @@ QGridLayout* GameWidget::CreateGameBoard()
 	{
 		for (int col = 0; col < 3; ++col)
 		{
-			QPushButton* cellButton = new QPushButton(this);
-			cellButton->setText("0");
-			boardLayout->addWidget(cellButton, row, col);
+			QLabel* cell = new QLabel("0", this);
+			cell->setAlignment(Qt::AlignCenter);
+			cell->setStyleSheet("background: white; border-radius: 10px;");
+			boardLayout->addWidget(cell, row, col);
 		}
 	}
 	return boardLayout;
@@ -207,7 +212,7 @@ void GameWidget::RefreshBoardUI()
 	{
 		for (int col = 0; col < 3; ++col)
 		{
-			QPushButton* cell = qobject_cast<QPushButton*>(m_uiPlayer1Board->itemAtPosition(row, col)->widget());
+			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer1Board->itemAtPosition(row, col)->widget());
 			cell->setText(QString::number(m_gameState.GetPlayer1Board().GetBoard()[row][col]));
 		}
 	}
@@ -215,7 +220,7 @@ void GameWidget::RefreshBoardUI()
 	{
 		for (int col = 0; col < 3; ++col)
 		{
-			QPushButton* cell = qobject_cast<QPushButton*>(m_uiPlayer2Board->itemAtPosition(row, col)->widget());
+			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer2Board->itemAtPosition(row, col)->widget());
 			cell->setText(QString::number(m_gameState.GetPlayer2Board().GetBoard()[row][col]));
 		}
 	}
@@ -227,7 +232,7 @@ void GameWidget::UpdateBoardUI(int player, int column, int value)
 
 	for (int row = 2; row >= 0; --row)
 	{
-		QPushButton* cell = qobject_cast<QPushButton*>(currentBoard->itemAtPosition(row, column)->widget());
+		QLabel* cell = qobject_cast<QLabel*>(currentBoard->itemAtPosition(row, column)->widget());
 		if (cell->text() == "0")
 		{
 			cell->setText(QString::number(value));
