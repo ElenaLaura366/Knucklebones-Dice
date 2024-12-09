@@ -28,6 +28,9 @@ public:
 	int CalculateTotalScore() const;
 	int CalculateColumnScore(int col) const;
 
+	const std::vector<int>& operator[](int row) const;
+	std::vector<int>& operator[](int row);
+
 private:
 	std::vector<std::vector<int>> m_board;
 

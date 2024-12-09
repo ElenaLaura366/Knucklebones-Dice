@@ -31,6 +31,7 @@ private:
 	void UpdateUIState();
 	void RefreshBoardUI();
 	void StartDiceAnimation();
+	bool IsPlayer1Turn() const;
 
 private:
 	QGridLayout* m_uiPlayer1Board;
@@ -44,6 +45,9 @@ private:
 	QTimer* m_uiDiceAnimationTimer;
 	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
 	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
+
+	QString m_uiDefaultCellStyle;
+	QString m_uiHighlightedCellStyle;
 
 private:
 	GameState m_gameState;

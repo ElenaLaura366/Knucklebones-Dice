@@ -18,6 +18,20 @@ GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWin
 {
 	GetParentWindow()->setWindowTitle("Knucklebones Dice");
 
+	m_uiDefaultCellStyle = QString(R"(
+		border: 1px solid black;
+		background-color: white;
+		color: black;
+		font-size: %1px;
+	)").arg(3 * GetParentWindow()->font().pointSize());
+
+	m_uiHighlightedCellStyle = QString(R"(
+		border: 1px solid black;
+		background-color: blue;
+		color: white;
+		font-size: %1px;
+	)").arg(3 * GetParentWindow()->font().pointSize());
+
 	QBoxLayout* mainLayout = new QHBoxLayout(this);
 
 	CreatePlayerLayout(mainLayout, 1, m_uiPlayer1Label, m_uiPlayer1Board);
@@ -57,7 +71,7 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 
 	m_uiDiceLabel = new QLabel("🎲", this);
 	m_uiDiceLabel->setAlignment(Qt::AlignCenter);
-	m_uiDiceLabel->setStyleSheet("font-size: 48px;");
+	m_uiDiceLabel->setStyleSheet(QString("font-size: %1px;").arg(4 * GetParentWindow()->font().pointSize()));
 	boardLayout->addWidget(m_uiDiceLabel);
 
 	m_uiRollDiceButton = new QPushButton("Roll Dice", this);
@@ -74,9 +88,6 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 
 QGridLayout* GameWidget::CreateGameBoard()
 {
-	int cellFontSize = GetParentWindow()->font().pointSize();
-	QString cellStyle = QString("border: 1px solid black; font-size: %1px;").arg(cellFontSize * 3);
-
 	QGridLayout* boardLayout = new QGridLayout();
 
 	for (int row = 0; row < 3; ++row)
@@ -85,7 +96,7 @@ QGridLayout* GameWidget::CreateGameBoard()
 		{
 			QLabel* cell = new QLabel("0", this);
 			cell->setAlignment(Qt::AlignCenter);
-			cell->setStyleSheet(cellStyle);
+			cell->setStyleSheet(m_uiDefaultCellStyle);
 			boardLayout->addWidget(cell, row, col);
 		}
 	}
@@ -126,6 +137,17 @@ void GameWidget::SelectColumn(int col)
 	{
 		m_uiActivePlayerLabel->setText("Selected column is full! Choose another column.");
 		return;
+	}
+
+	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiPlayer1Board : m_uiPlayer2Board;
+
+	for (int row = 0; row < 3; ++row)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			QLabel* cell = qobject_cast<QLabel*>(activeBoardLayout->itemAtPosition(row, j)->widget());
+			cell->setStyleSheet(j == col ? m_uiHighlightedCellStyle : m_uiDefaultCellStyle);
+		}
 	}
 
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
@@ -266,16 +288,21 @@ void GameWidget::UpdateUIState()
 
 void GameWidget::StartDiceAnimation()
 {
-		int randomValue = std::rand() % 6 + 1;
-		m_uiDiceLabel->setText(QString("🎲 %1").arg(randomValue));
+	int randomValue = std::rand() % 6 + 1;
+	m_uiDiceLabel->setText(QString("🎲 %1").arg(randomValue));
 
-		if (++m_animationSteps >= m_diceAnimationSteps) {
-			m_uiDiceAnimationTimer->stop();
-			m_diceValue = rand() % 6 + 1;
-			m_uiDiceLabel->setText(QString("🎲 %1").arg(m_diceValue));
-			m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-				.arg(m_gameState.GetActivePlayer().GetName().data())
-				.arg(m_diceValue));
-			m_diceRolled = true;
-		}
+	if (++m_animationSteps >= m_diceAnimationSteps) {
+		m_uiDiceAnimationTimer->stop();
+		m_diceValue = rand() % 6 + 1;
+		m_uiDiceLabel->setText(QString("🎲 %1").arg(m_diceValue));
+		m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
+			.arg(m_gameState.GetActivePlayer().GetName().data())
+			.arg(m_diceValue));
+		m_diceRolled = true;
+	}
+}
+
+bool GameWidget::IsPlayer1Turn() const
+{
+	return (&m_gameState.GetActivePlayer() == &m_gameState.GetPlayer1());
 }

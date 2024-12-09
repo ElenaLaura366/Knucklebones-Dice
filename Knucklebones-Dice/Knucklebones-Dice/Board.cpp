@@ -99,3 +99,13 @@ void Board::CancelValuesInColumn(int col, int value)
 		}
 	}
 }
+
+const std::vector<int>& Board::operator[](int row) const
+{
+	return m_board[row];
+}
+
+std::vector<int>& Board::operator[](int row)
+{
+	return m_board[row];
+}

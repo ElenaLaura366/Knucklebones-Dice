@@ -32,6 +32,11 @@ Player& GameState::GetActivePlayer()
 	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
 }
 
+const Player& GameState::GetActivePlayer() const
+{
+	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
+}
+
 Player& GameState::GetOpponentPlayer()
 {
 	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;

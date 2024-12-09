@@ -21,7 +21,9 @@ public:
 
 	void NextPlayer();
 	Player& GetActivePlayer();
+	const Player& GetActivePlayer() const;
 	Player& GetOpponentPlayer();
+	const Player& GetOpponentPlayer() const;
 
 	const Player& GetPlayer1() const;
 	const Player& GetPlayer2() const;
