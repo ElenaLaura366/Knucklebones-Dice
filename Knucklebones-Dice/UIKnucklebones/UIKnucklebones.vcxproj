@@ -113,14 +113,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseMainWidget.cpp" />
+    <ClCompile Include="StartWidget.cpp" />
     <QtRcc Include="UIKnucklebones.qrc" />
-    <QtMoc Include="StartWindow.h" />
-    <ClCompile Include="GameWindow.cpp" />
-    <ClCompile Include="StartWindow.cpp" />
+    <QtMoc Include="MainWindow.h" />
+    <ClCompile Include="GameWidget.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="GameWindow.h" />
+    <QtMoc Include="GameWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="StartWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="BaseMainWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

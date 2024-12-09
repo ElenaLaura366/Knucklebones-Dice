@@ -1,33 +1,21 @@
 #pragma once
 
+#include "BaseMainWidget.h"
 #include "GameState.h"
-#include "Board.h"
-#include "Player.h"
 
-#include <QMainWindow>
 #include <QGridLayout>
 #include <QPushButton>
 #include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QCloseEvent>
-#include <QApplication>
-#include <QTimer>
-#include <vector>
 
 
-class GameWindow : public QMainWindow
+class GameWidget : public BaseMainWidget
 {
 	Q_OBJECT
 
 public:
-	GameWindow(GameState&& gameState, int diceAnimationSteps, QWidget* parent = nullptr);
-	~GameWindow() = default;
+	GameWidget(GameState&& gameState, int diceAnimationSteps, MainWindow* parent);
 
 	void displayGameOverMessage();
-
-protected:
-	void closeEvent(QCloseEvent* event) override;
 
 private slots:
 	void handleRollDice();

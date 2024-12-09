@@ -1,24 +1,23 @@
-﻿#include "GameWindow.h"
+﻿#include "GameWidget.h"
+
+#include "MainWindow.h"
 
 #include <cstdlib>
 #include <QMessageBox>
+#include <QTimer>
 
 
-GameWindow::GameWindow(GameState&& gameStateRef, int diceAnimationSteps, QWidget* parent)
-	: QMainWindow(parent)
+GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWindow* parent)
+	: BaseMainWidget(parent)
 	, m_gameState(std::move(gameStateRef))
 	, m_activePlayerColumn(0)
 	, m_diceValue(0)
 	, m_diceAnimationSteps(diceAnimationSteps)
 	, m_diceRolled(false)
 {
-	setWindowTitle("Knucklebones Dice");
-	resize(800, 600);
+	GetParentWindow()->setWindowTitle("Knucklebones Dice");
 
-	QWidget* centralWidget = new QWidget(this);
-	setCentralWidget(centralWidget);
-
-	QBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
+	QBoxLayout* mainLayout = new QHBoxLayout(this);
 
 	createPlayerLayout(mainLayout, 1, m_uiPlayer1Label, m_uiPlayer1Board);
 	createMiddleLayout(mainLayout);
@@ -43,13 +42,7 @@ GameWindow::GameWindow(GameState&& gameStateRef, int diceAnimationSteps, QWidget
 	updateUIState();
 }
 
-void GameWindow::closeEvent(QCloseEvent* event)
-{
-	QApplication::quit();
-	event->accept();
-}
-
-void GameWindow::createPlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
+void GameWidget::createPlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
 {
 	QVBoxLayout* playerLayout = new QVBoxLayout();
 	parentLayout->addLayout(playerLayout);
@@ -64,7 +57,7 @@ void GameWindow::createPlayerLayout(QBoxLayout* parentLayout, int playerNumber, 
 	createColumnSelectButtons(playerLayout, playerNumber);
 }
 
-void GameWindow::createMiddleLayout(QBoxLayout* parentLayout)
+void GameWidget::createMiddleLayout(QBoxLayout* parentLayout)
 {
 	QBoxLayout* boardLayout = new QVBoxLayout();
 	m_uiActivePlayerLabel = new QLabel("Active Player: Player 1", this);
@@ -76,10 +69,10 @@ void GameWindow::createMiddleLayout(QBoxLayout* parentLayout)
 	boardLayout->addWidget(m_uiDiceLabel);
 
 	m_uiRollDiceButton = new QPushButton("Roll Dice", this);
-	connect(m_uiRollDiceButton, &QPushButton::clicked, this, &GameWindow::handleRollDice);
+	connect(m_uiRollDiceButton, &QPushButton::clicked, this, &GameWidget::handleRollDice);
 
 	m_uiMakeMoveButton = new QPushButton("Make Move", this);
-	connect(m_uiMakeMoveButton, &QPushButton::clicked, this, &GameWindow::handleMakeMove);
+	connect(m_uiMakeMoveButton, &QPushButton::clicked, this, &GameWidget::handleMakeMove);
 
 	boardLayout->addWidget(m_uiRollDiceButton);
 	boardLayout->addWidget(m_uiMakeMoveButton);
@@ -87,7 +80,7 @@ void GameWindow::createMiddleLayout(QBoxLayout* parentLayout)
 	parentLayout->addLayout(boardLayout);
 }
 
-QGridLayout* GameWindow::createGameBoard()
+QGridLayout* GameWidget::createGameBoard()
 {
 	QGridLayout* boardLayout = new QGridLayout();
 
@@ -104,7 +97,7 @@ QGridLayout* GameWindow::createGameBoard()
 	return boardLayout;
 }
 
-void GameWindow::createColumnSelectButtons(QBoxLayout* playerLayout, int player)
+void GameWidget::createColumnSelectButtons(QBoxLayout* playerLayout, int player)
 {
 	static const QString columnButtonName = "Column %1";
 
@@ -131,7 +124,7 @@ void GameWindow::createColumnSelectButtons(QBoxLayout* playerLayout, int player)
 	}
 }
 
-void GameWindow::selectColumn(int col)
+void GameWidget::selectColumn(int col)
 {
 	m_activePlayerColumn = col;
 
@@ -146,7 +139,7 @@ void GameWindow::selectColumn(int col)
 		.arg(col + 1));
 }
 
-void GameWindow::handleRollDice()
+void GameWidget::handleRollDice()
 {
 	if (!m_gameState.IsGameActive())
 	{
@@ -165,7 +158,7 @@ void GameWindow::handleRollDice()
 	m_uiActivePlayerLabel->setText("Rolling the dice...");
 }
 
-void GameWindow::displayGameOverMessage()
+void GameWidget::displayGameOverMessage()
 {
 	int player1Score = m_gameState.GetPlayer1().GetScore();
 	int player2Score = m_gameState.GetPlayer2().GetScore();
@@ -185,10 +178,10 @@ void GameWindow::displayGameOverMessage()
 	}
 
 	QMessageBox::information(this, "Game Over", winnerMessage);
-	QApplication::quit();
+	close();
 }
 
-void GameWindow::handleMakeMove()
+void GameWidget::handleMakeMove()
 {
 	if (!m_diceRolled)
 	{
@@ -223,7 +216,7 @@ void GameWindow::handleMakeMove()
 	updateUIState();
 }
 
-void GameWindow::refreshBoardUI()
+void GameWidget::refreshBoardUI()
 {
 	for (int row = 0; row < 3; ++row)
 	{
@@ -243,7 +236,7 @@ void GameWindow::refreshBoardUI()
 	}
 }
 
-void GameWindow::updateBoardUI(int player, int column, int value)
+void GameWidget::updateBoardUI(int player, int column, int value)
 {
 	QGridLayout* currentBoard = (player == 1) ? m_uiPlayer1Board : m_uiPlayer2Board;
 
@@ -258,7 +251,7 @@ void GameWindow::updateBoardUI(int player, int column, int value)
 	}
 }
 
-void GameWindow::updateUIState()
+void GameWidget::updateUIState()
 {
 	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_gameState.GetPlayer1().GetScore()));
 	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_gameState.GetPlayer2().GetScore()));

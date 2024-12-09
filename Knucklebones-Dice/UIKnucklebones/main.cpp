@@ -1,4 +1,4 @@
-#include "StartWindow.h"
+#include "MainWindow.h"
 
 #include <QtWidgets/QApplication>
 #include <QFontDatabase>
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 		QApplication::setFont(customFont);
 	}
 
-	StartWindow mainWindow(GameState("Player 1", "Player 2"));
+	MainWindow mainWindow(GameState("Player 1", "Player 2"));
 	mainWindow.show();
 
 	return app.exec();

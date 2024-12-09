@@ -1,18 +1,18 @@
-﻿#pragma once
+#pragma once
 
+#include "BaseMainWidget.h"
 #include "GameState.h"
-#include "Player.h"
 
 #include <QPushButton>
 #include <QMainWindow>
 
 
-class StartWindow : public QMainWindow
+class StartWidget : public BaseMainWidget
 {
 	Q_OBJECT
 
 public:
-	StartWindow(GameState&& gameState, QWidget* parent = nullptr);
+	StartWidget(GameState&& gameState, MainWindow* parent);
 
 private slots:
 	void startGame();
