@@ -26,13 +26,10 @@
     <QtRcc Include="UIKnucklebones.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="UIKnucklebones.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="UIKnucklebones.h">
+    <QtMoc Include="StartWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="UIKnucklebones.cpp">
+    <ClCompile Include="StartWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,12 +37,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UIGameWindow.cpp">
+    <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="UIGameWindow.h">
+    <QtMoc Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

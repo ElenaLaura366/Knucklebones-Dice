@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="UIKnucklebones">
-    </qresource>
+	<qresource>
+		<file>fonts/at01.ttf</file>
+	</qresource>
 </RCC>

@@ -16,13 +16,13 @@
 #include <vector>
 
 
-class UIGameWindow : public QMainWindow
+class GameWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	explicit UIGameWindow(GameState&& gameState, int diceAnimationSteps, QWidget* parent = nullptr);
-	~UIGameWindow() = default;
+	GameWindow(GameState&& gameState, int diceAnimationSteps, QWidget* parent = nullptr);
+	~GameWindow() = default;
 
 	void displayGameOverMessage();
 
@@ -43,18 +43,19 @@ private:
 	void updateUIState();
 	void refreshBoardUI();
 
-	QGridLayout* m_uiPlayer1Board;
-	QGridLayout* m_uiPlayer2Board;
-	QLabel* m_uiPlayer1Label;
-	QLabel* m_uiPlayer2Label;
-	QLabel* m_uiActivePlayerLabel;
-	QPushButton* m_uiRollDiceButton;
-	QPushButton* m_uiMakeMoveButton;
-	QLabel* m_uiDiceLabel;
-	QTimer* m_uiDiceAnimationTimer;
+private:
+	QGridLayout* m_uiPlayer1Board = nullptr;
+	QGridLayout* m_uiPlayer2Board = nullptr;
+	QLabel* m_uiPlayer1Label = nullptr;
+	QLabel* m_uiPlayer2Label = nullptr;
+	QLabel* m_uiActivePlayerLabel = nullptr;
+	QPushButton* m_uiRollDiceButton = nullptr;
+	QPushButton* m_uiMakeMoveButton = nullptr;
+	QLabel* m_uiDiceLabel = nullptr;
+	QTimer* m_uiDiceAnimationTimer = nullptr;
 
-	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
-	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
+	std::vector<QPushButton*> m_uiPlayer1ColumnButtons = {};
+	std::vector<QPushButton*> m_uiPlayer2ColumnButtons = {};
 
 	GameState m_gameState;
 
