@@ -35,26 +35,27 @@ private slots:
 	void selectColumn(int col);
 
 private:
+	void createPlayerLayout(QBoxLayout* mainLayout, int player, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout);
+	void createMiddleLayout(QBoxLayout* parentLayout);
 	QGridLayout* createGameBoard();
-	void createColumnButtons(QVBoxLayout* playerLayout, int player);
+	void createColumnSelectButtons(QBoxLayout* playerLayout, int player);
 	void updateBoardUI(int player, int column, int value);
 	void updateUIState();
 	void refreshBoardUI();
 
-	QGridLayout* player1Board;
-	QGridLayout* player2Board;
-	QLabel* player1Label;
-	QLabel* player2Label;
-	QLabel* activePlayerLabel;
-	QPushButton* rollDiceButton;
-	QPushButton* makeMoveButton;
-	QLabel* diceLabel;
-	QTimer* diceAnimationTimer;
+	QGridLayout* m_uiPlayer1Board;
+	QGridLayout* m_uiPlayer2Board;
+	QLabel* m_uiPlayer1Label;
+	QLabel* m_uiPlayer2Label;
+	QLabel* m_uiActivePlayerLabel;
+	QPushButton* m_uiRollDiceButton;
+	QPushButton* m_uiMakeMoveButton;
+	QLabel* m_uiDiceLabel;
+	QTimer* m_uiDiceAnimationTimer;
 
-	std::vector<QPushButton*> player1ColumnButtons;
-	std::vector<QPushButton*> player2ColumnButtons;
+	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
+	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
 
-	// must be defined before player references
 	GameState m_gameState;
 
 	int m_activePlayerColumn;
