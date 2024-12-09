@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <QMessageBox>
 #include <QTimer>
+#include <QApplication>
 
 
 GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWindow* parent)
@@ -73,6 +74,9 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 
 QGridLayout* GameWidget::CreateGameBoard()
 {
+	int cellFontSize = GetParentWindow()->font().pointSize();
+	QString cellStyle = QString("border: 1px solid black; font-size: %1px;").arg(cellFontSize * 3);
+
 	QGridLayout* boardLayout = new QGridLayout();
 
 	for (int row = 0; row < 3; ++row)
@@ -81,7 +85,7 @@ QGridLayout* GameWidget::CreateGameBoard()
 		{
 			QLabel* cell = new QLabel("0", this);
 			cell->setAlignment(Qt::AlignCenter);
-			cell->setStyleSheet("background: white; border-radius: 10px;");
+			cell->setStyleSheet(cellStyle);
 			boardLayout->addWidget(cell, row, col);
 		}
 	}

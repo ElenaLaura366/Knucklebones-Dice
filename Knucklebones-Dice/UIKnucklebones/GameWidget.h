@@ -42,10 +42,10 @@ private:
 	QPushButton* m_uiMakeMoveButton;
 	QLabel* m_uiDiceLabel;
 	QTimer* m_uiDiceAnimationTimer;
-
 	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
 	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
 
+private:
 	GameState m_gameState;
 
 	int m_activePlayerColumn;
