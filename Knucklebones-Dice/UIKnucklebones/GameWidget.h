@@ -15,35 +15,36 @@ class GameWidget : public BaseMainWidget
 public:
 	GameWidget(GameState&& gameState, int diceAnimationSteps, MainWindow* parent);
 
-	void displayGameOverMessage();
+	void DisplayGameOverMessage();
 
 private slots:
-	void handleRollDice();
-	void handleMakeMove();
-	void selectColumn(int col);
+	void HandleRollDice();
+	void HandleMakeMove();
+	void SelectColumn(int col);
 
 private:
-	void createPlayerLayout(QBoxLayout* mainLayout, int player, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout);
-	void createMiddleLayout(QBoxLayout* parentLayout);
-	QGridLayout* createGameBoard();
-	void createColumnSelectButtons(QBoxLayout* playerLayout, int player);
-	void updateBoardUI(int player, int column, int value);
-	void updateUIState();
-	void refreshBoardUI();
+	void CreatePlayerLayout(QBoxLayout* mainLayout, int player, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout);
+	void CreateMiddleLayout(QBoxLayout* parentLayout);
+	QGridLayout* CreateGameBoard();
+	void CreateColumnSelectButtons(QBoxLayout* playerLayout, int player);
+	void UpdateBoardUI(int player, int column, int value);
+	void UpdateUIState();
+	void RefreshBoardUI();
+	void StartDiceAnimation();
 
 private:
-	QGridLayout* m_uiPlayer1Board = nullptr;
-	QGridLayout* m_uiPlayer2Board = nullptr;
-	QLabel* m_uiPlayer1Label = nullptr;
-	QLabel* m_uiPlayer2Label = nullptr;
-	QLabel* m_uiActivePlayerLabel = nullptr;
-	QPushButton* m_uiRollDiceButton = nullptr;
-	QPushButton* m_uiMakeMoveButton = nullptr;
-	QLabel* m_uiDiceLabel = nullptr;
-	QTimer* m_uiDiceAnimationTimer = nullptr;
+	QGridLayout* m_uiPlayer1Board;
+	QGridLayout* m_uiPlayer2Board;
+	QLabel* m_uiPlayer1Label;
+	QLabel* m_uiPlayer2Label;
+	QLabel* m_uiActivePlayerLabel;
+	QPushButton* m_uiRollDiceButton;
+	QPushButton* m_uiMakeMoveButton;
+	QLabel* m_uiDiceLabel;
+	QTimer* m_uiDiceAnimationTimer;
 
-	std::vector<QPushButton*> m_uiPlayer1ColumnButtons = {};
-	std::vector<QPushButton*> m_uiPlayer2ColumnButtons = {};
+	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
+	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
 
 	GameState m_gameState;
 

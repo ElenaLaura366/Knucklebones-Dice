@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	int fontId = QFontDatabase::addApplicationFont(":/fonts/at01.ttf");
+	int fontId = QFontDatabase::addApplicationFont(":/fonts/SpenbebGame-R9q46.otf");
 	if (fontId == -1)
 	{
 		QApplication::setFont(QFont("Comic Sans MS"));
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
-		QFont customFont(fontFamily, 20);
+		QFont customFont(fontFamily, 14);
 		QApplication::setFont(customFont);
 	}
 

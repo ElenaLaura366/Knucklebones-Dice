@@ -15,10 +15,7 @@ public:
 	StartWidget(GameState&& gameState, MainWindow* parent);
 
 private slots:
-	void startGame();
-
-private:
-	QPushButton* m_uiStartButton = nullptr;
+	void StartGame();
 
 private:
 	GameState m_gameState;
