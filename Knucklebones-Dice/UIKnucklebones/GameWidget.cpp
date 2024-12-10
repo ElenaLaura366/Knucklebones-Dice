@@ -17,7 +17,7 @@ GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWin
 	, m_diceRolled(false)
 {
 	GetParentWindow()->setWindowTitle("Knucklebones Dice");
-
+	setStyleSheet("GameWidget { background-image: url(:/spongebob.jpg); background-repeat: no-repeat; background-position: center; }");
 	m_uiDefaultCellStyle = QString(R"(
 		border: 1px solid black;
 		background-color: white;
