@@ -17,17 +17,17 @@ GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWin
 	, m_diceRolled(false)
 {
 	GetParentWindow()->setWindowTitle("Knucklebones Dice");
-	setStyleSheet("GameWidget { background-image: url(:/spongebob.jpg); background-repeat: no-repeat; background-position: center; }");
+
 	m_uiDefaultCellStyle = QString(R"(
 		border: 1px solid black;
-		background-color: white;
+		background-color: rgba(255, 255, 255, 200);
 		color: black;
 		font-size: %1px;
 	)").arg(3 * GetParentWindow()->font().pointSize());
 
 	m_uiHighlightedCellStyle = QString(R"(
 		border: 1px solid black;
-		background-color: blue;
+		background-color: rgba(0, 0, 255, 200);
 		color: white;
 		font-size: %1px;
 	)").arg(3 * GetParentWindow()->font().pointSize());

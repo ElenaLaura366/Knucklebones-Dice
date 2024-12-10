@@ -1,7 +1,7 @@
 <RCC>
-    <qresource prefix="/">
-        <file>fonts/SpenbebGame-R9q46.otf</file>
-        <file>spongebob.jpg</file>
-        <file>themes/spongebob_theme.qss</file>
-    </qresource>
+	<qresource prefix="/">
+		<file>fonts/SpenbebGame-R9q46.otf</file>
+		<file>spongebob.jpg</file>
+		<file>themes/spongebob_theme.qss</file>
+	</qresource>
 </RCC>
