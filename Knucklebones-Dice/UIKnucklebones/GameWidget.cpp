@@ -69,10 +69,20 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 	m_uiActivePlayerLabel = new QLabel("Active Player: Player 1", this);
 	hLayout->addWidget(m_uiActivePlayerLabel);
 
-	m_uiDiceLabel = new QLabel("🎲", this);
-	m_uiDiceLabel->setAlignment(Qt::AlignCenter);
-	m_uiDiceLabel->setStyleSheet(QString("font-size: %1px;").arg(4 * GetParentWindow()->font().pointSize()));
-	boardLayout->addWidget(m_uiDiceLabel);
+	QHBoxLayout* diceLayout = new QHBoxLayout();
+	diceLayout->setAlignment(Qt::AlignCenter);
+	boardLayout->addLayout(diceLayout);
+
+	QLabel* diceLabel = new QLabel("🎲", this);
+	diceLabel->setAlignment(Qt::AlignCenter);
+	diceLabel->setStyleSheet(QString("font-size: %1px;").arg(4 * GetParentWindow()->font().pointSize()));
+	diceLayout->addWidget(diceLabel);
+
+	m_uiDiceNumberLabel = new QLabel(" ", this);
+	m_uiDiceNumberLabel->setAlignment(Qt::AlignCenter);
+	m_uiDiceNumberLabel->setStyleSheet(QString("font-size: %1px;").arg(4 * GetParentWindow()->font().pointSize()));
+	m_uiDiceNumberLabel->setMinimumWidth(6 * GetParentWindow()->font().pointSize());
+	diceLayout->addWidget(m_uiDiceNumberLabel);
 
 	m_uiRollDiceButton = new QPushButton("Roll Dice", this);
 	connect(m_uiRollDiceButton, &QPushButton::clicked, this, &GameWidget::HandleRollDice);
@@ -289,12 +299,12 @@ void GameWidget::UpdateUIState()
 void GameWidget::StartDiceAnimation()
 {
 	int randomValue = std::rand() % 6 + 1;
-	m_uiDiceLabel->setText(QString("🎲 %1").arg(randomValue));
+	m_uiDiceNumberLabel->setText(QString::number(randomValue));
 
 	if (++m_animationSteps >= m_diceAnimationSteps) {
 		m_uiDiceAnimationTimer->stop();
 		m_diceValue = rand() % 6 + 1;
-		m_uiDiceLabel->setText(QString("🎲 %1").arg(m_diceValue));
+		m_uiDiceNumberLabel->setText(QString::number(m_diceValue));
 		m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
 			.arg(m_gameState.GetActivePlayer().GetName().data())
 			.arg(m_diceValue));

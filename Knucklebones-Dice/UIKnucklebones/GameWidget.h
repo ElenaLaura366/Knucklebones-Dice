@@ -41,7 +41,7 @@ private:
 	QLabel* m_uiActivePlayerLabel;
 	QPushButton* m_uiRollDiceButton;
 	QPushButton* m_uiMakeMoveButton;
-	QLabel* m_uiDiceLabel;
+	QLabel* m_uiDiceNumberLabel;
 	QTimer* m_uiDiceAnimationTimer;
 	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
 	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
