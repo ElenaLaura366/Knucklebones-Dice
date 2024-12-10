@@ -11,7 +11,7 @@
 GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWindow* parent)
 	: BaseMainWidget(parent)
 	, m_gameState(std::move(gameStateRef))
-	, m_activePlayerColumn(0)
+	, m_activePlayerColumn(-1)
 	, m_diceValue(0)
 	, m_diceAnimationSteps(diceAnimationSteps)
 	, m_diceRolled(false)
@@ -150,7 +150,6 @@ void GameWidget::SelectColumn(int col)
 	}
 
 	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiPlayer1Board : m_uiPlayer2Board;
-
 	for (int row = 0; row < 3; ++row)
 	{
 		for (int j = 0; j < 3; ++j)
@@ -215,6 +214,12 @@ void GameWidget::HandleMakeMove()
 		return;
 	}
 
+	if (m_activePlayerColumn == -1)
+	{
+		m_uiActivePlayerLabel->setText("Select a column first!");
+		return;
+	}
+
 	Board& activeBoard = m_gameState.GetActiveBoard();
 	if (activeBoard.IsColumnFull(m_activePlayerColumn))
 	{
@@ -244,12 +249,14 @@ void GameWidget::HandleMakeMove()
 
 void GameWidget::RefreshBoardUI()
 {
+	m_activePlayerColumn = -1;
+
 	for (int row = 0; row < 3; ++row)
 	{
 		for (int col = 0; col < 3; ++col)
 		{
 			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer1Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_gameState.GetPlayer1Board().GetBoard()[row][col]));
+			cell->setText(QString::number(m_gameState.GetPlayer1Board()[row][col]));
 		}
 	}
 	for (int row = 0; row < 3; ++row)
@@ -257,22 +264,7 @@ void GameWidget::RefreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer2Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_gameState.GetPlayer2Board().GetBoard()[row][col]));
-		}
-	}
-}
-
-void GameWidget::UpdateBoardUI(int player, int column, int value)
-{
-	QGridLayout* currentBoard = (player == 1) ? m_uiPlayer1Board : m_uiPlayer2Board;
-
-	for (int row = 2; row >= 0; --row)
-	{
-		QLabel* cell = qobject_cast<QLabel*>(currentBoard->itemAtPosition(row, column)->widget());
-		if (cell->text() == "0")
-		{
-			cell->setText(QString::number(value));
-			break;
+			cell->setText(QString::number(m_gameState.GetPlayer2Board()[row][col]));
 		}
 	}
 }
@@ -284,8 +276,7 @@ void GameWidget::UpdateUIState()
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1")
 		.arg(m_gameState.GetActivePlayer().GetName().data()));
 
-	bool isPlayer1Turn = (&m_gameState.GetActivePlayer() == &m_gameState.GetPlayer1());
-
+	const bool isPlayer1Turn = IsPlayer1Turn();
 	for (auto button : m_uiPlayer1ColumnButtons)
 	{
 		button->setEnabled(isPlayer1Turn);
@@ -293,6 +284,16 @@ void GameWidget::UpdateUIState()
 	for (auto button : m_uiPlayer2ColumnButtons)
 	{
 		button->setEnabled(!isPlayer1Turn);
+	}
+
+	QGridLayout* opponentPlayerBoard = isPlayer1Turn ? m_uiPlayer2Board : m_uiPlayer1Board;
+	for (int row = 0; row < 3; ++row)
+	{
+		for (int col = 0; col < 3; ++col)
+		{
+			QLabel* cell = qobject_cast<QLabel*>(opponentPlayerBoard->itemAtPosition(row, col)->widget());
+			cell->setStyleSheet(m_uiDefaultCellStyle);
+		}
 	}
 }
 

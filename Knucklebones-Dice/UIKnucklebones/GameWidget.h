@@ -27,7 +27,6 @@ private:
 	void CreateMiddleLayout(QBoxLayout* parentLayout);
 	QGridLayout* CreateGameBoard();
 	void CreateColumnSelectButtons(QBoxLayout* playerLayout, int player);
-	void UpdateBoardUI(int player, int column, int value);
 	void UpdateUIState();
 	void RefreshBoardUI();
 	void StartDiceAnimation();
