@@ -1,5 +1,5 @@
 ﻿QWidget {
-    background-image: url("E:/University2024/spongebob.jpg");
+    background-image: url(":/spongebob.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-color: #87CEEB; 
