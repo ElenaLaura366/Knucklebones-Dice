@@ -2,11 +2,13 @@
 #include <QFile>
 #include <QApplication>
 #include <QFontDatabase>
+#include <QIcon>
 
 
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
+	app.setWindowIcon(QIcon(":/images/icon.png"));
 
 	int fontId = QFontDatabase::addApplicationFont(":/fonts/SpenbebGame-R9q46.otf");
 	if (fontId == -1) {

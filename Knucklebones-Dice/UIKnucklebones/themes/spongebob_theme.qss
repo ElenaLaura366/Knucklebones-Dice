@@ -1,5 +1,5 @@
 ﻿QMainWindow {
-	background-image: url(":/spongebob.jpg");
+	background-image: url(":/images/spongebob.jpg");
 	background-repeat: no-repeat;
 	background-position: center;
 }
