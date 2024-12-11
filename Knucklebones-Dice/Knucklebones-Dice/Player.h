@@ -20,11 +20,7 @@ public:
 	void OnGameOver() override;
 
 	std::string_view GetName() const;
-	int GetScore() const;
-
-	void UpdateScore(int points);
 
 private:
 	std::string m_name;
-	int m_score;
 };

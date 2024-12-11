@@ -15,20 +15,20 @@ class GameWidget : public BaseMainWidget
 public:
 	GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent);
 
-	void DisplayGameOverMessage();
-
 private slots:
+	void SelectColumn(int col);
 	void HandleRollDice();
 	void HandleMakeMove();
-	void SelectColumn(int col);
 
 private:
 	void CreatePlayerLayout(QBoxLayout* mainLayout, int player, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout);
 	void CreateMiddleLayout(QBoxLayout* parentLayout);
-	QGridLayout* CreateGameBoard();
+	QGridLayout* CreateBoardLayout();
 	void CreateColumnSelectButtons(QBoxLayout* playerLayout, int player);
-	void UpdateUIState();
+
+	void DisplayGameOverMessage();
 	void RefreshBoardUI();
+	void UpdateUIState();
 	void StartDiceAnimation();
 	bool IsPlayer1Turn() const;
 

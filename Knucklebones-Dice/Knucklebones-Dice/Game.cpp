@@ -41,16 +41,6 @@ const Player& Game::GetPlayer2() const
 	return m_player2;
 }
 
-const Board& Game::GetPlayer1Board() const
-{
-	return m_board1;
-}
-
-const Board& Game::GetPlayer2Board() const
-{
-	return m_board2;
-}
-
 Board& Game::GetActiveBoard()
 {
 	return (m_activePlayerIndex == 0) ? m_board1 : m_board2;
@@ -71,6 +61,30 @@ const Board& Game::GetOpponentBoard() const
 	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
 }
 
+const Board& Game::GetBoard1() const
+{
+	return m_board1;
+}
+
+const Board& Game::GetBoard2() const
+{
+	return m_board2;
+}
+
+int Game::CalculateScore(int board) const
+{
+	if (board == 1)
+	{
+		return m_board1.CalculateTotalScore();
+	}
+	else if (board == 2)
+	{
+		return m_board2.CalculateTotalScore();
+	}
+
+	throw std::runtime_error(std::string("Board ( ") + std::to_string(board) + " ) does not exist");
+}
+
 void Game::MakeMove(int col, int value)
 {
 	GetActiveBoard().MakeMove(col, value);
@@ -89,12 +103,6 @@ bool Game::IsGameOver()
 		return true;
 	}
 	return false;
-}
-
-void Game::UpdateScores()
-{
-	m_player1.UpdateScore(m_board1.CalculateTotalScore());
-	m_player2.UpdateScore(m_board2.CalculateTotalScore());
 }
 
 void Game::AddListener(IGameListener* listener)

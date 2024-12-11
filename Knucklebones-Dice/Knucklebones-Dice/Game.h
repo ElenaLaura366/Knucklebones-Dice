@@ -31,12 +31,12 @@ public:
 	const Board& GetActiveBoard() const;
 	const Board& GetOpponentBoard() const;
 
-	const Board& GetPlayer1Board() const;
-	const Board& GetPlayer2Board() const;
+	const Board& GetBoard1() const;
+	const Board& GetBoard2() const;
+
+	int CalculateScore(int board) const;
 
 	bool IsGameOver();
-
-	void UpdateScores();
 
 	void AddListener(IGameListener* listener) override;
 	void RemoveListener(IGameListener* listener) override;

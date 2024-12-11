@@ -53,7 +53,7 @@ void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, 
 	outPlayerLabel->setAlignment(Qt::AlignCenter);
 	playerLayout->addWidget(outPlayerLabel);
 
-	outBoardLayout = CreateGameBoard();
+	outBoardLayout = CreateBoardLayout();
 	playerLayout->addLayout(outBoardLayout);
 
 	CreateColumnSelectButtons(playerLayout, playerNumber);
@@ -96,7 +96,7 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 	parentLayout->addLayout(boardLayout);
 }
 
-QGridLayout* GameWidget::CreateGameBoard()
+QGridLayout* GameWidget::CreateBoardLayout()
 {
 	QGridLayout* boardLayout = new QGridLayout();
 
@@ -183,29 +183,6 @@ void GameWidget::HandleRollDice()
 	m_uiActivePlayerLabel->setText("Rolling the dice...");
 }
 
-void GameWidget::DisplayGameOverMessage()
-{
-	int player1Score = m_game.GetPlayer1().GetScore();
-	int player2Score = m_game.GetPlayer2().GetScore();
-
-	QString winnerMessage;
-	if (player1Score > player2Score)
-	{
-		winnerMessage = "Game Over! Player 1 wins!";
-	}
-	else if (player2Score > player1Score)
-	{
-		winnerMessage = "Game Over! Player 2 wins!";
-	}
-	else
-	{
-		winnerMessage = "Game Over! It's a draw!";
-	}
-
-	QMessageBox::information(this, "Game Over", winnerMessage);
-	close();
-}
-
 void GameWidget::HandleMakeMove()
 {
 	if (!m_diceRolled)
@@ -228,7 +205,6 @@ void GameWidget::HandleMakeMove()
 	}
 
 	m_game.MakeMove(m_activePlayerColumn, m_diceValue);
-	m_game.UpdateScores();
 
 	RefreshBoardUI();
 	UpdateUIState();
@@ -241,8 +217,30 @@ void GameWidget::HandleMakeMove()
 		DisplayGameOverMessage();
 		QApplication::quit();
 	}
-	
+
 	UpdateUIState();
+}
+
+void GameWidget::DisplayGameOverMessage()
+{
+	int player1Score = m_game.CalculateScore(1);
+	int player2Score = m_game.CalculateScore(2);
+
+	QString winnerMessage;
+	if (player1Score > player2Score)
+	{
+		winnerMessage = "Game Over! Player 1 wins!";
+	}
+	else if (player2Score > player1Score)
+	{
+		winnerMessage = "Game Over! Player 2 wins!";
+	}
+	else
+	{
+		winnerMessage = "Game Over! It's a draw!";
+	}
+
+	QMessageBox::information(this, "Game Over", winnerMessage);
 }
 
 void GameWidget::RefreshBoardUI()
@@ -254,7 +252,7 @@ void GameWidget::RefreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer1Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_game.GetPlayer1Board()[row][col]));
+			cell->setText(QString::number(m_game.GetBoard1()[row][col]));
 		}
 	}
 	for (int row = 0; row < 3; ++row)
@@ -262,15 +260,15 @@ void GameWidget::RefreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer2Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_game.GetPlayer2Board()[row][col]));
+			cell->setText(QString::number(m_game.GetBoard2()[row][col]));
 		}
 	}
 }
 
 void GameWidget::UpdateUIState()
 {
-	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.GetPlayer1().GetScore()));
-	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.GetPlayer2().GetScore()));
+	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
+	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1")
 		.arg(m_game.GetActivePlayer().GetName().data()));
 
