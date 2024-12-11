@@ -5,9 +5,6 @@
 #include "Board.h"
 #include "Player.h"
 
-#include <cstdlib>
-#include <ctime>
-
 
 class Game : public IObservable
 {
@@ -19,10 +16,11 @@ public:
 	Game& operator=(const Game&) = delete;
 	Game& operator=(Game&&) = delete;
 
-	void NextPlayer();
+	void MakeMove(int col, int value);
+
 	Player& GetActivePlayer();
-	const Player& GetActivePlayer() const;
 	Player& GetOpponentPlayer();
+	const Player& GetActivePlayer() const;
 	const Player& GetOpponentPlayer() const;
 
 	const Player& GetPlayer1() const;
@@ -30,14 +28,14 @@ public:
 
 	Board& GetActiveBoard();
 	Board& GetOpponentBoard();
+	const Board& GetActiveBoard() const;
+	const Board& GetOpponentBoard() const;
 
 	const Board& GetPlayer1Board() const;
 	const Board& GetPlayer2Board() const;
 
-	bool IsGameActive() const;
+	bool IsGameOver();
 
-	void CheckForGameOver();
-	void CancelMatchingDiceOnOpponentBoard(int col, int value);
 	void UpdateScores();
 
 	void AddListener(IGameListener* listener) override;
@@ -52,7 +50,6 @@ private:
 	Board m_board2;
 
 	uint8_t m_activePlayerIndex;
-	bool m_gameActive;
 
 	BasicObservable m_observableComponent;
 };

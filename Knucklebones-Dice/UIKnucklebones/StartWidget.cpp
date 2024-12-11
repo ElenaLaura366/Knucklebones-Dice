@@ -38,7 +38,7 @@ void StartWidget::StartGame()
 		deleteLater();
 		});*/
 
-	GameWidget* gameWidget = new GameWidget(std::move(m_game), 20, GetParentWindow());
+	GameWidget* gameWidget = new GameWidget(std::move(m_game), 3, GetParentWindow());
 	GetParentWindow()->setCentralWidget(gameWidget);
 	deleteLater();
 }

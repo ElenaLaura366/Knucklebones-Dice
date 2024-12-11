@@ -42,7 +42,6 @@ TEST_F(GameTest, CheckGameOver)
 			game.GetActiveBoard().MakeMove(col, 1);
 		}
 	}
-	game.CheckForGameOver();
 	EXPECT_FALSE(game.IsGameActive());
 }
 

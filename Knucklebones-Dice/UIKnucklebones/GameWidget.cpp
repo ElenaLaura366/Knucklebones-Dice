@@ -166,7 +166,7 @@ void GameWidget::SelectColumn(int col)
 
 void GameWidget::HandleRollDice()
 {
-	if (!m_game.IsGameActive())
+	if (m_game.IsGameOver())
 	{
 		m_uiActivePlayerLabel->setText("Game is over!");
 		return;
@@ -227,8 +227,7 @@ void GameWidget::HandleMakeMove()
 		return;
 	}
 
-	activeBoard.MakeMove(m_activePlayerColumn, m_diceValue);
-	m_game.CancelMatchingDiceOnOpponentBoard(m_activePlayerColumn, m_diceValue);
+	m_game.MakeMove(m_activePlayerColumn, m_diceValue);
 	m_game.UpdateScores();
 
 	RefreshBoardUI();
@@ -236,14 +235,13 @@ void GameWidget::HandleMakeMove()
 
 	m_diceValue = 0;
 	m_diceRolled = false;
-	m_game.CheckForGameOver();
 
-	if (!m_game.IsGameActive())
+	if (m_game.IsGameOver())
 	{
 		DisplayGameOverMessage();
-		return;
+		QApplication::quit();
 	}
-	m_game.NextPlayer();
+	
 	UpdateUIState();
 }
 

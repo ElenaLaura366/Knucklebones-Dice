@@ -39,7 +39,7 @@ static void StartBackgroundMusic(QMediaPlayer& player, QAudioOutput& audioOutput
 	player.setSource(QUrl("qrc:/soundtracks/spongebobSong.wav"));
 	player.setLoops(QMediaPlayer::Infinite);
 	player.play();
-	audioOutput.setVolume(0.02f);
+	audioOutput.setVolume(0.005f);
 
 	if (player.source().isEmpty())
 	{
@@ -58,6 +58,8 @@ static void StartBackgroundMusic(QMediaPlayer& player, QAudioOutput& audioOutput
 
 int main(int argc, char* argv[])
 {
+	std::srand(static_cast<unsigned>(std::time(nullptr)));
+
 	QApplication app(argc, argv);
 
 	app.setWindowIcon(QIcon(":/images/icon.png"));

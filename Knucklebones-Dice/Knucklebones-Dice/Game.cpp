@@ -7,14 +7,28 @@ Game::Game(std::string_view namePlayer1, std::string_view namePlayer2)
 	, m_board1()
 	, m_board2()
 	, m_activePlayerIndex(0)
-	, m_gameActive(true)
 {
-	std::srand(static_cast<unsigned>(std::time(nullptr)));
+	// empty
 }
 
-void Game::NextPlayer()
+Player& Game::GetActivePlayer()
 {
-	m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
+	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
+}
+
+Player& Game::GetOpponentPlayer()
+{
+	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
+}
+
+const Player& Game::GetActivePlayer() const
+{
+	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
+}
+
+const Player& Game::GetOpponentPlayer() const
+{
+	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
 const Player& Game::GetPlayer1() const
@@ -25,26 +39,6 @@ const Player& Game::GetPlayer1() const
 const Player& Game::GetPlayer2() const
 {
 	return m_player2;
-}
-
-Player& Game::GetActivePlayer()
-{
-	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
-}
-
-const Player& Game::GetActivePlayer() const
-{
-	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
-}
-
-Player& Game::GetOpponentPlayer()
-{
-	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
-}
-
-const Player& Game::GetOpponentPlayer() const
-{
-	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
 const Board& Game::GetPlayer1Board() const
@@ -67,24 +61,34 @@ Board& Game::GetOpponentBoard()
 	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
 }
 
-bool Game::IsGameActive() const
+const Board& Game::GetActiveBoard() const
 {
-	return m_gameActive;
+	return (m_activePlayerIndex == 0) ? m_board1 : m_board2;
 }
 
-void Game::CheckForGameOver()
+const Board& Game::GetOpponentBoard() const
+{
+	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
+}
+
+void Game::MakeMove(int col, int value)
+{
+	GetActiveBoard().MakeMove(col, value);
+
+	Board& opponentBoard = GetOpponentBoard();
+	opponentBoard.CancelValuesInColumn(col, value);
+
+	m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
+}
+
+bool Game::IsGameOver()
 {
 	if (m_board1.IsFull() || m_board2.IsFull())
 	{
-		m_gameActive = false;
 		NotifyOnGameOver();
+		return true;
 	}
-}
-
-void Game::CancelMatchingDiceOnOpponentBoard(int col, int value)
-{
-	Board& opponentBoard = GetOpponentBoard();
-	opponentBoard.CancelValuesInColumn(col, value);
+	return false;
 }
 
 void Game::UpdateScores()
