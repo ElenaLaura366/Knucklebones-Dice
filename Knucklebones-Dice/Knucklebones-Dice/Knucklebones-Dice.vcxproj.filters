@@ -24,7 +24,7 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Observable.cpp">
+    <ClCompile Include="BasicObservable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,10 @@
     <ClInclude Include="IGameListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Observable.h">
+    <ClInclude Include="BasicObservable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IObservable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

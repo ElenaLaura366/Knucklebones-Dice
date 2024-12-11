@@ -109,3 +109,23 @@ std::vector<int>& Board::operator[](int row)
 {
 	return m_board[row];
 }
+
+void Board::AddListener(IGameListener* listener)
+{
+	m_observableComponent.AddListener(listener);
+}
+
+void Board::RemoveListener(IGameListener* listener)
+{
+	m_observableComponent.RemoveListener(listener);
+}
+
+void Board::NotifyOnBoardUpdate()
+{
+	m_observableComponent.NotifyOnBoardUpdate();
+}
+
+void Board::NotifyOnGameOver()
+{
+	m_observableComponent.NotifyOnGameOver();
+}

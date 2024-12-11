@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "IGameListener.h"
-#include "Observable.h"
+#include "BasicObservable.h"
 #include "Board.h"
 #include "Player.h"
 
@@ -9,7 +9,7 @@
 #include <ctime>
 
 
-class GameState : public Observable
+class GameState : public IObservable
 {
 public:
 	GameState(std::string_view namePlayer1, std::string_view namePlayer2);
@@ -40,6 +40,11 @@ public:
 	void CancelMatchingDiceOnOpponentBoard(int col, int value);
 	void UpdateScores();
 
+	void AddListener(IGameListener* listener) override;
+	void RemoveListener(IGameListener* listener) override;
+	void NotifyOnBoardUpdate() override;
+	void NotifyOnGameOver() override;
+
 private:
 	Player m_player1;
 	Player m_player2;
@@ -48,5 +53,7 @@ private:
 
 	uint8_t m_activePlayerIndex;
 	bool m_gameActive;
+
+	BasicObservable m_observableComponent;
 };
 

@@ -42,6 +42,11 @@ Player& GameState::GetOpponentPlayer()
 	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
+const Player& GameState::GetOpponentPlayer() const
+{
+	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
+}
+
 const Board& GameState::GetPlayer1Board() const
 {
 	return m_board1;
@@ -86,4 +91,24 @@ void GameState::UpdateScores()
 {
 	m_player1.UpdateScore(m_board1.CalculateTotalScore());
 	m_player2.UpdateScore(m_board2.CalculateTotalScore());
+}
+
+void GameState::AddListener(IGameListener* listener)
+{
+	m_observableComponent.AddListener(listener);
+}
+
+void GameState::RemoveListener(IGameListener* listener)
+{
+	m_observableComponent.RemoveListener(listener);
+}
+
+void GameState::NotifyOnBoardUpdate()
+{
+	m_observableComponent.NotifyOnBoardUpdate();
+}
+
+void GameState::NotifyOnGameOver()
+{
+	m_observableComponent.NotifyOnGameOver();
 }

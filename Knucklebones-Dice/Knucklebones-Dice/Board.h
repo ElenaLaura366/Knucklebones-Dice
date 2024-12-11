@@ -1,14 +1,14 @@
 ﻿#pragma once
 
 #include "IGameListener.h"
-#include "Observable.h"
+#include "BasicObservable.h"
 
 #include <vector>
 #include <iostream>
 #include <map>
 
 
-class Board : public Observable
+class Board : public IObservable
 {
 public:
 	Board();
@@ -31,8 +31,14 @@ public:
 	const std::vector<int>& operator[](int row) const;
 	std::vector<int>& operator[](int row);
 
+	void AddListener(IGameListener* listener) override;
+	void RemoveListener(IGameListener* listener) override;
+	void NotifyOnBoardUpdate() override;
+	void NotifyOnGameOver() override;
+
 private:
 	std::vector<std::vector<int>> m_board;
+	BasicObservable m_observableComponent;
 
 	void NotifyMove();
 };
