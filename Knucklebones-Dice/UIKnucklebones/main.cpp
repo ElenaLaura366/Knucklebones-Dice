@@ -8,51 +8,69 @@
 #include <QDebug>
 #include <qmessagebox.h>
 
-void startBackgroundMusic(QMediaPlayer* player, QAudioOutput* audioOutput) {
-    player->setAudioOutput(audioOutput);
-    player->setSource(QUrl(":/soundtracks/spongebobSong.wav"));
-    player->setLoops(QMediaPlayer::Infinite);
-    player->play();
-    audioOutput->setVolume(1.0);
-
-    if (player->source().isEmpty()) {
-        qDebug() << "Fișierul audio nu a fost încărcat corect!";
-    }
-    else {
-        qDebug() << "Fișierul audio a fost încărcat!";
-    }
-	//sa ne atentioneze daca apare o eroare la redare
-    QObject::connect(player, &QMediaPlayer::errorOccurred, [](QMediaPlayer::Error error) {
-        QMessageBox::critical(nullptr, "Eroare la redare", QString("Eroare la redare audio: %1").arg(error));
-        });
+static void SetApplicationFont(QApplication& app)
+{
+	int fontId = QFontDatabase::addApplicationFont(":/fonts/SpenbebGame-R9q46.otf");
+	if (fontId == -1)
+	{
+		app.setFont(QFont("Comic Sans MS"));
+	}
+	else
+	{
+		QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
+		QFont customFont(fontFamily, 14);
+		app.setFont(customFont);
+	}
 }
 
-int main(int argc, char* argv[]) {
-    QApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":/images/icon.png"));
+static void LoadApplicationStyle(QApplication& app)
+{
+	QFile styleFile(":/themes/spongebob_theme.qss");
+	if (styleFile.open(QFile::ReadOnly))
+	{
+		QString theme = styleFile.readAll();
+		app.setStyleSheet(theme);
+	}
+}
 
-    QMediaPlayer player;
-    QAudioOutput audioOutput;
-    startBackgroundMusic(&player, &audioOutput);
+static void StartBackgroundMusic(QMediaPlayer* player, QAudioOutput* audioOutput)
+{
+	player->setAudioOutput(audioOutput);
+	player->setSource(QUrl("qrc:/soundtracks/spongebobSong.wav"));
+	player->setLoops(QMediaPlayer::Infinite);
+	player->play();
+	audioOutput->setVolume(0.5f);
 
-    int fontId = QFontDatabase::addApplicationFont(":/fonts/SpenbebGame-R9q46.otf");
-    if (fontId == -1) {
-        QApplication::setFont(QFont("Comic Sans MS"));
-    }
-    else {
-        QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
-        QFont customFont(fontFamily, 14);
-        QApplication::setFont(customFont);
-    }
+	if (player->source().isEmpty())
+	{
+		qDebug() << "Failed to load audio file";
+	}
+	else
+	{
+		qDebug() << "Audio file loaded correctly";
+	}
 
-    QFile styleFile(":/themes/spongebob_theme.qss");
-    if (styleFile.open(QFile::ReadOnly)) {
-        QString theme = styleFile.readAll();
-        app.setStyleSheet(theme);
-    }
+	// sa ne atentioneze daca apare o eroare la redare
+	QObject::connect(player, &QMediaPlayer::errorOccurred, [](QMediaPlayer::Error error) {
+		QMessageBox::critical(nullptr, "Audio error", QString("Audio error: %1").arg(error));
+		});
+}
 
-    MainWindow mainWindow(GameState("Player 1", "Player 2"));
-    mainWindow.show();
+int main(int argc, char* argv[])
+{
+	QApplication app(argc, argv);
 
-    return app.exec();
+	app.setWindowIcon(QIcon(":/images/icon.png"));
+
+	SetApplicationFont(app);
+	LoadApplicationStyle(app);
+
+	QMediaPlayer player;
+	QAudioOutput audioOutput;
+	StartBackgroundMusic(&player, &audioOutput);
+
+	MainWindow mainWindow(GameState("Player 1", "Player 2"));
+	mainWindow.show();
+
+	return app.exec();
 }
