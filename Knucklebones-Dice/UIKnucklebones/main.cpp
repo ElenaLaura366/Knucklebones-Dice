@@ -33,15 +33,15 @@ static void LoadApplicationStyle(QApplication& app)
 	}
 }
 
-static void StartBackgroundMusic(QMediaPlayer* player, QAudioOutput* audioOutput)
+static void StartBackgroundMusic(QMediaPlayer& player, QAudioOutput& audioOutput)
 {
-	player->setAudioOutput(audioOutput);
-	player->setSource(QUrl("qrc:/soundtracks/spongebobSong.wav"));
-	player->setLoops(QMediaPlayer::Infinite);
-	player->play();
-	audioOutput->setVolume(0.5f);
+	player.setAudioOutput(&audioOutput);
+	player.setSource(QUrl("qrc:/soundtracks/spongebobSong.wav"));
+	player.setLoops(QMediaPlayer::Infinite);
+	player.play();
+	audioOutput.setVolume(0.02f);
 
-	if (player->source().isEmpty())
+	if (player.source().isEmpty())
 	{
 		qDebug() << "Failed to load audio file";
 	}
@@ -51,7 +51,7 @@ static void StartBackgroundMusic(QMediaPlayer* player, QAudioOutput* audioOutput
 	}
 
 	// sa ne atentioneze daca apare o eroare la redare
-	QObject::connect(player, &QMediaPlayer::errorOccurred, [](QMediaPlayer::Error error) {
+	QObject::connect(&player, &QMediaPlayer::errorOccurred, [](QMediaPlayer::Error error) {
 		QMessageBox::critical(nullptr, "Audio error", QString("Audio error: %1").arg(error));
 		});
 }
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 
 	QMediaPlayer player;
 	QAudioOutput audioOutput;
-	StartBackgroundMusic(&player, &audioOutput);
+	StartBackgroundMusic(player, audioOutput);
 
 	MainWindow mainWindow(GameState("Player 1", "Player 2"));
 	mainWindow.show();
