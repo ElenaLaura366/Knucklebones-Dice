@@ -4,5 +4,7 @@
 		<file>images/spongebob.jpg</file>
 		<file>themes/spongebob_theme.qss</file>
 		<file>images/icon.png</file>
+		<file>soundtracks/spongebobSong.mp3</file>
+		<file>soundtracks/spongebobSong.wav</file>
 	</qresource>
 </RCC>
