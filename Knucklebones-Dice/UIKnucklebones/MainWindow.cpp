@@ -4,12 +4,12 @@
 #include "GameWidget.h"
 
 
-MainWindow::MainWindow(GameState&& gameState, QWidget* parent)
+MainWindow::MainWindow(Game&& game, QWidget* parent)
 	: QMainWindow(parent)
 {
 	// make window fullscreen
 	showMaximized();
 
-	StartWidget* startWidget = new StartWidget(std::move(gameState), this);
+	StartWidget* startWidget = new StartWidget(std::move(game), this);
 	setCentralWidget(startWidget);
 }

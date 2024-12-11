@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestBoard.cpp" />
-    <ClCompile Include="TestGameState.cpp" />
+    <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>

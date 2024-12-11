@@ -1,7 +1,7 @@
-﻿#include "GameState.h"
+﻿#include "Game.h"
 
 
-GameState::GameState(std::string_view namePlayer1, std::string_view namePlayer2)
+Game::Game(std::string_view namePlayer1, std::string_view namePlayer2)
 	: m_player1(namePlayer1)
 	, m_player2(namePlayer2)
 	, m_board1()
@@ -12,67 +12,67 @@ GameState::GameState(std::string_view namePlayer1, std::string_view namePlayer2)
 	std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
 
-void GameState::NextPlayer()
+void Game::NextPlayer()
 {
 	m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
 }
 
-const Player& GameState::GetPlayer1() const
+const Player& Game::GetPlayer1() const
 {
 	return m_player1;
 }
 
-const Player& GameState::GetPlayer2() const
+const Player& Game::GetPlayer2() const
 {
 	return m_player2;
 }
 
-Player& GameState::GetActivePlayer()
+Player& Game::GetActivePlayer()
 {
 	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
 }
 
-const Player& GameState::GetActivePlayer() const
+const Player& Game::GetActivePlayer() const
 {
 	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
 }
 
-Player& GameState::GetOpponentPlayer()
+Player& Game::GetOpponentPlayer()
 {
 	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
-const Player& GameState::GetOpponentPlayer() const
+const Player& Game::GetOpponentPlayer() const
 {
 	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
-const Board& GameState::GetPlayer1Board() const
+const Board& Game::GetPlayer1Board() const
 {
 	return m_board1;
 }
 
-const Board& GameState::GetPlayer2Board() const
+const Board& Game::GetPlayer2Board() const
 {
 	return m_board2;
 }
 
-Board& GameState::GetActiveBoard()
+Board& Game::GetActiveBoard()
 {
 	return (m_activePlayerIndex == 0) ? m_board1 : m_board2;
 }
 
-Board& GameState::GetOpponentBoard()
+Board& Game::GetOpponentBoard()
 {
 	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
 }
 
-bool GameState::IsGameActive() const
+bool Game::IsGameActive() const
 {
 	return m_gameActive;
 }
 
-void GameState::CheckForGameOver()
+void Game::CheckForGameOver()
 {
 	if (m_board1.IsFull() || m_board2.IsFull())
 	{
@@ -81,34 +81,34 @@ void GameState::CheckForGameOver()
 	}
 }
 
-void GameState::CancelMatchingDiceOnOpponentBoard(int col, int value)
+void Game::CancelMatchingDiceOnOpponentBoard(int col, int value)
 {
 	Board& opponentBoard = GetOpponentBoard();
 	opponentBoard.CancelValuesInColumn(col, value);
 }
 
-void GameState::UpdateScores()
+void Game::UpdateScores()
 {
 	m_player1.UpdateScore(m_board1.CalculateTotalScore());
 	m_player2.UpdateScore(m_board2.CalculateTotalScore());
 }
 
-void GameState::AddListener(IGameListener* listener)
+void Game::AddListener(IGameListener* listener)
 {
 	m_observableComponent.AddListener(listener);
 }
 
-void GameState::RemoveListener(IGameListener* listener)
+void Game::RemoveListener(IGameListener* listener)
 {
 	m_observableComponent.RemoveListener(listener);
 }
 
-void GameState::NotifyOnBoardUpdate()
+void Game::NotifyOnBoardUpdate()
 {
 	m_observableComponent.NotifyOnBoardUpdate();
 }
 
-void GameState::NotifyOnGameOver()
+void Game::NotifyOnGameOver()
 {
 	m_observableComponent.NotifyOnGameOver();
 }

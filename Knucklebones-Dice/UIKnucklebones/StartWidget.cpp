@@ -6,9 +6,9 @@
 #include <QPropertyAnimation>
 
 
-StartWidget::StartWidget(GameState&& gameState, MainWindow* parent)
+StartWidget::StartWidget(Game&& game, MainWindow* parent)
 	: BaseMainWidget(parent)
-	, m_gameState(std::move(gameState))
+	, m_game(std::move(game))
 {
 	GetParentWindow()->setWindowTitle("Start");
 	QPushButton* startButton = new QPushButton("Play", this);
@@ -33,12 +33,12 @@ void StartWidget::StartGame()
 	animation->start(QAbstractAnimation::DeleteWhenStopped);
 
 	connect(animation, &QPropertyAnimation::finished, this, [this]() {
-		GameWidget* gameWidget = new GameWidget(std::move(m_gameState), 20, GetParentWindow());
+		GameWidget* gameWidget = new GameWidget(std::move(m_game), 20, GetParentWindow());
 		GetParentWindow()->setCentralWidget(gameWidget);
 		deleteLater();
 		});*/
 
-	GameWidget* gameWidget = new GameWidget(std::move(m_gameState), 20, GetParentWindow());
+	GameWidget* gameWidget = new GameWidget(std::move(m_game), 20, GetParentWindow());
 	GetParentWindow()->setCentralWidget(gameWidget);
 	deleteLater();
 }

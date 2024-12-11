@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseMainWidget.h"
-#include "GameState.h"
+#include "Game.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -13,7 +13,7 @@ class GameWidget : public BaseMainWidget
 	Q_OBJECT
 
 public:
-	GameWidget(GameState&& gameState, int diceAnimationSteps, MainWindow* parent);
+	GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent);
 
 	void DisplayGameOverMessage();
 
@@ -49,7 +49,7 @@ private:
 	QString m_uiHighlightedCellStyle;
 
 private:
-	GameState m_gameState;
+	Game m_game;
 
 	int m_activePlayerColumn;
 	int m_diceValue;

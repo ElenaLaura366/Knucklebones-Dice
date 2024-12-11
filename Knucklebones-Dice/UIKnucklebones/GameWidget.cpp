@@ -8,9 +8,9 @@
 #include <QApplication>
 
 
-GameWidget::GameWidget(GameState&& gameStateRef, int diceAnimationSteps, MainWindow* parent)
+GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 	: BaseMainWidget(parent)
-	, m_gameState(std::move(gameStateRef))
+	, m_game(std::move(game))
 	, m_activePlayerColumn(-1)
 	, m_diceValue(0)
 	, m_diceAnimationSteps(diceAnimationSteps)
@@ -143,7 +143,7 @@ void GameWidget::SelectColumn(int col)
 {
 	m_activePlayerColumn = col;
 
-	if (m_gameState.GetActiveBoard().IsColumnFull(m_activePlayerColumn))
+	if (m_game.GetActiveBoard().IsColumnFull(m_activePlayerColumn))
 	{
 		m_uiActivePlayerLabel->setText("Selected column is full! Choose another column.");
 		return;
@@ -160,13 +160,13 @@ void GameWidget::SelectColumn(int col)
 	}
 
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
-		.arg(m_gameState.GetActivePlayer().GetName().data())
+		.arg(m_game.GetActivePlayer().GetName().data())
 		.arg(col + 1));
 }
 
 void GameWidget::HandleRollDice()
 {
-	if (!m_gameState.IsGameActive())
+	if (!m_game.IsGameActive())
 	{
 		m_uiActivePlayerLabel->setText("Game is over!");
 		return;
@@ -185,8 +185,8 @@ void GameWidget::HandleRollDice()
 
 void GameWidget::DisplayGameOverMessage()
 {
-	int player1Score = m_gameState.GetPlayer1().GetScore();
-	int player2Score = m_gameState.GetPlayer2().GetScore();
+	int player1Score = m_game.GetPlayer1().GetScore();
+	int player2Score = m_game.GetPlayer2().GetScore();
 
 	QString winnerMessage;
 	if (player1Score > player2Score)
@@ -220,7 +220,7 @@ void GameWidget::HandleMakeMove()
 		return;
 	}
 
-	Board& activeBoard = m_gameState.GetActiveBoard();
+	Board& activeBoard = m_game.GetActiveBoard();
 	if (activeBoard.IsColumnFull(m_activePlayerColumn))
 	{
 		m_uiActivePlayerLabel->setText("Column is full! Choose another column.");
@@ -228,22 +228,22 @@ void GameWidget::HandleMakeMove()
 	}
 
 	activeBoard.MakeMove(m_activePlayerColumn, m_diceValue);
-	m_gameState.CancelMatchingDiceOnOpponentBoard(m_activePlayerColumn, m_diceValue);
-	m_gameState.UpdateScores();
+	m_game.CancelMatchingDiceOnOpponentBoard(m_activePlayerColumn, m_diceValue);
+	m_game.UpdateScores();
 
 	RefreshBoardUI();
 	UpdateUIState();
 
 	m_diceValue = 0;
 	m_diceRolled = false;
-	m_gameState.CheckForGameOver();
+	m_game.CheckForGameOver();
 
-	if (!m_gameState.IsGameActive())
+	if (!m_game.IsGameActive())
 	{
 		DisplayGameOverMessage();
 		return;
 	}
-	m_gameState.NextPlayer();
+	m_game.NextPlayer();
 	UpdateUIState();
 }
 
@@ -256,7 +256,7 @@ void GameWidget::RefreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer1Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_gameState.GetPlayer1Board()[row][col]));
+			cell->setText(QString::number(m_game.GetPlayer1Board()[row][col]));
 		}
 	}
 	for (int row = 0; row < 3; ++row)
@@ -264,17 +264,17 @@ void GameWidget::RefreshBoardUI()
 		for (int col = 0; col < 3; ++col)
 		{
 			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer2Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_gameState.GetPlayer2Board()[row][col]));
+			cell->setText(QString::number(m_game.GetPlayer2Board()[row][col]));
 		}
 	}
 }
 
 void GameWidget::UpdateUIState()
 {
-	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_gameState.GetPlayer1().GetScore()));
-	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_gameState.GetPlayer2().GetScore()));
+	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.GetPlayer1().GetScore()));
+	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.GetPlayer2().GetScore()));
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1")
-		.arg(m_gameState.GetActivePlayer().GetName().data()));
+		.arg(m_game.GetActivePlayer().GetName().data()));
 
 	const bool isPlayer1Turn = IsPlayer1Turn();
 	for (auto button : m_uiPlayer1ColumnButtons)
@@ -307,7 +307,7 @@ void GameWidget::StartDiceAnimation()
 		m_diceValue = rand() % 6 + 1;
 		m_uiDiceNumberLabel->setText(QString::number(m_diceValue));
 		m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-			.arg(m_gameState.GetActivePlayer().GetName().data())
+			.arg(m_game.GetActivePlayer().GetName().data())
 			.arg(m_diceValue));
 		m_diceRolled = true;
 	}
@@ -315,5 +315,5 @@ void GameWidget::StartDiceAnimation()
 
 bool GameWidget::IsPlayer1Turn() const
 {
-	return (&m_gameState.GetActivePlayer() == &m_gameState.GetPlayer1());
+	return (&m_game.GetActivePlayer() == &m_game.GetPlayer1());
 }

@@ -9,15 +9,15 @@
 #include <ctime>
 
 
-class GameState : public IObservable
+class Game : public IObservable
 {
 public:
-	GameState(std::string_view namePlayer1, std::string_view namePlayer2);
+	Game(std::string_view namePlayer1, std::string_view namePlayer2);
+	Game(Game&&) = default;
 
-	GameState(const GameState&) = delete;
-	GameState& operator=(const GameState&) = delete;
-	GameState(GameState&&) = default;
-	GameState& operator=(GameState&&) = delete;
+	Game(const Game&) = delete;
+	Game& operator=(const Game&) = delete;
+	Game& operator=(Game&&) = delete;
 
 	void NextPlayer();
 	Player& GetActivePlayer();

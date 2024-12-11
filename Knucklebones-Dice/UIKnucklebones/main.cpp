@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 	QAudioOutput audioOutput;
 	StartBackgroundMusic(player, audioOutput);
 
-	MainWindow mainWindow(GameState("Player 1", "Player 2"));
+	MainWindow mainWindow(Game("Player 1", "Player 2"));
 	mainWindow.show();
 
 	return app.exec();
