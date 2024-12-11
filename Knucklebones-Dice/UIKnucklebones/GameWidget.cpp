@@ -217,8 +217,6 @@ void GameWidget::HandleMakeMove()
 		DisplayGameOverMessage();
 		QApplication::quit();
 	}
-
-	UpdateUIState();
 }
 
 void GameWidget::DisplayGameOverMessage()

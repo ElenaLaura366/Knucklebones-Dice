@@ -1,14 +1,15 @@
 ﻿#include "Game.h"
 
 
-Game::Game(std::string_view namePlayer1, std::string_view namePlayer2)
+Game::Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty)
 	: m_player1(namePlayer1)
 	, m_player2(namePlayer2)
 	, m_board1()
 	, m_board2()
 	, m_activePlayerIndex(0)
+	, m_opponentDifficulty(std::move(opponentDifficulty))
 {
-	// empty
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 Player& Game::GetActivePlayer()
@@ -93,6 +94,18 @@ void Game::MakeMove(int col, int value)
 	opponentBoard.CancelValuesInColumn(col, value);
 
 	m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
+
+	if (m_opponentDifficulty && !IsGameOver())
+	{
+		int value = std::rand() % 6 + 1;
+		int col = m_opponentDifficulty->NextMove(GetActiveBoard(), GetOpponentBoard(), value);
+		GetActiveBoard().MakeMove(col, value);
+
+		Board& opponentBoard = GetOpponentBoard();
+		opponentBoard.CancelValuesInColumn(col, value);
+
+		m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
+	}
 }
 
 bool Game::IsGameOver()

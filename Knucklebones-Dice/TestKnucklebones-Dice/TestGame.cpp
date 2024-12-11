@@ -7,7 +7,7 @@
 class GameTest : public ::testing::Test
 {
 protected:
-	Game game{"Alice", "Bob"};
+	Game game{ "Alice", "Bob", nullptr };
 };
 
 TEST_F(GameTest, ActivePlayerRotation)

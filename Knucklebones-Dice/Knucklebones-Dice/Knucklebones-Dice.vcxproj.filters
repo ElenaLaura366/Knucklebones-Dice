@@ -27,6 +27,15 @@
     <ClCompile Include="BasicObservable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EasyDifficulty.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyDifficulty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HardDifficulty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -45,6 +54,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IObservable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IOpponentDifficulty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HardDifficulty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

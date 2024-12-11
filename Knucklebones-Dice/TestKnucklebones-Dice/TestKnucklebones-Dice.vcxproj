@@ -27,6 +27,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Knucklebones-Dice\Knucklebones-Dice.vcxproj">
+      <Project>{354eceff-83b1-4439-b451-0ee1f036d42e}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

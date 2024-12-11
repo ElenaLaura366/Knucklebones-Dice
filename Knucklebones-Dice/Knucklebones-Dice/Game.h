@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "IGameListener.h"
+#include "IOpponentDifficulty.h"
 #include "BasicObservable.h"
 #include "Board.h"
 #include "Player.h"
@@ -9,7 +10,7 @@
 class Game : public IObservable
 {
 public:
-	Game(std::string_view namePlayer1, std::string_view namePlayer2);
+	Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty);
 	Game(Game&&) = default;
 
 	Game(const Game&) = delete;
@@ -52,5 +53,6 @@ private:
 	uint8_t m_activePlayerIndex;
 
 	BasicObservable m_observableComponent;
+	std::unique_ptr<IOpponentDifficulty> m_opponentDifficulty;
 };
 

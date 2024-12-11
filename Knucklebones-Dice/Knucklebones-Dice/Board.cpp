@@ -66,17 +66,11 @@ bool Board::IsColumnFull(int col) const
 
 bool Board::IsFull() const
 {
-	for (const auto& row : m_board)
-	{
-		for (const auto& cell : row)
-		{
-			if (cell == 0)
-			{
-				return false;
-			}
-		}
-	}
-	return true;
+	return std::all_of(m_board.begin(), m_board.end(), [](const std::vector<int>& row) {
+		return std::all_of(row.begin(), row.end(), [](int value) {
+			return value != 0;
+			});
+		});
 }
 
 const std::vector<std::vector<int>>& Board::GetBoard() const

@@ -1,4 +1,6 @@
 ﻿#include "MainWindow.h"
+#include "EasyDifficulty.h"
+
 #include <QFile>
 #include <QApplication>
 #include <QFontDatabase>
@@ -6,7 +8,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QDebug>
-#include <qmessagebox.h>
+#include <QMessageBox>
 
 static void SetApplicationFont(QApplication& app)
 {
@@ -58,8 +60,6 @@ static void StartBackgroundMusic(QMediaPlayer& player, QAudioOutput& audioOutput
 
 int main(int argc, char* argv[])
 {
-	std::srand(static_cast<unsigned>(std::time(nullptr)));
-
 	QApplication app(argc, argv);
 
 	app.setWindowIcon(QIcon(":/images/icon.png"));
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 	QAudioOutput audioOutput;
 	StartBackgroundMusic(player, audioOutput);
 
-	MainWindow mainWindow(Game("Player 1", "Player 2"));
+	MainWindow mainWindow(Game("Player 1", "Player 2", std::make_unique<EasyDifficulty>()));
 	mainWindow.show();
 
 	return app.exec();

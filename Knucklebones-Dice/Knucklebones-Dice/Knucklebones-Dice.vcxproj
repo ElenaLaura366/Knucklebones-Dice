@@ -130,16 +130,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="EasyDifficulty.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="BasicObservable.cpp" />
+    <ClCompile Include="HardDifficulty.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HardDifficulty.h" />
     <ClInclude Include="IGameListener.h" />
     <ClInclude Include="BasicObservable.h" />
     <ClInclude Include="IObservable.h" />
+    <ClInclude Include="IOpponentDifficulty.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
