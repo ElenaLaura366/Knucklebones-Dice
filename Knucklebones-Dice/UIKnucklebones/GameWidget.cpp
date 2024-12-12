@@ -53,7 +53,7 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 
 void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
 {
-	QVBoxLayout* playerLayout = new QVBoxLayout();
+	QVBoxLayout* playerLayout = new QVBoxLayout(this);
 	parentLayout->addLayout(playerLayout);
 
 	outPlayerLabel = new QLabel(QString("Player %1: 0").arg(playerNumber), this);
@@ -68,15 +68,15 @@ void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, 
 
 void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 {
-	QVBoxLayout* boardLayout = new QVBoxLayout();
-	QHBoxLayout* hLayout = new QHBoxLayout();
+	QVBoxLayout* boardLayout = new QVBoxLayout(this);
+	QHBoxLayout* hLayout = new QHBoxLayout(this);
 	hLayout->setAlignment(Qt::AlignCenter);
 	boardLayout->addLayout(hLayout);
 
 	m_uiInfoLabel = new QLabel("Active Player: Player 1", this);
 	hLayout->addWidget(m_uiInfoLabel);
 
-	QHBoxLayout* diceLayout = new QHBoxLayout();
+	QHBoxLayout* diceLayout = new QHBoxLayout(this);
 	diceLayout->setAlignment(Qt::AlignCenter);
 	boardLayout->addLayout(diceLayout);
 
@@ -105,7 +105,7 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 
 QGridLayout* GameWidget::CreateBoardLayout()
 {
-	QGridLayout* boardLayout = new QGridLayout();
+	QGridLayout* boardLayout = new QGridLayout(this);
 
 	for (int row = 0; row < 3; ++row)
 	{
@@ -124,7 +124,7 @@ void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 {
 	static const QString columnButtonName = "Column %1";
 
-	QBoxLayout* buttonLayout = new QHBoxLayout();
+	QBoxLayout* buttonLayout = new QHBoxLayout(this);
 	playerLayout->addLayout(buttonLayout);
 
 	for (int col = 0; col < 3; ++col)
