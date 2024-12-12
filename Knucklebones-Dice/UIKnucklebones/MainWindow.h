@@ -11,5 +11,5 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow(Game&& game, QWidget* parent = nullptr);
+	MainWindow(QWidget* parent = nullptr);
 };

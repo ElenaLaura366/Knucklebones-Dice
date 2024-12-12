@@ -4,10 +4,10 @@
 #include "GameWidget.h"
 
 
-MainWindow::MainWindow(Game&& game, QWidget* parent)
+MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
-	StartWidget* startWidget = new StartWidget(std::move(game), this);
+	StartWidget* startWidget = new StartWidget(this);
 	setCentralWidget(startWidget);
 
 	// make window fullscreen

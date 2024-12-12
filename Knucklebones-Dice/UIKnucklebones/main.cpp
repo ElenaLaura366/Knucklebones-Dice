@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 	QAudioOutput audioOutput;
 	StartBackgroundMusic(player, audioOutput);
 
-	MainWindow mainWindow(Game("Player 1", "Player 2", std::make_unique<EasyDifficulty>()));
+	MainWindow mainWindow;
 	mainWindow.show();
 
 	return app.exec();

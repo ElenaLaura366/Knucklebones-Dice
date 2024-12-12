@@ -8,10 +8,9 @@
 #include <QPropertyAnimation>
 
 
-StartWidget::StartWidget(Game&& game, MainWindow* parent)
+StartWidget::StartWidget(MainWindow* parent)
 	: BaseMainWidget(parent)
-	, m_game(std::move(game))
-	, m_selectedMode("")
+	, m_gameMode(GameMode::None)
 {
 	GetParentWindow()->setWindowTitle("Select Game Mode");
 
@@ -21,7 +20,7 @@ StartWidget::StartWidget(Game&& game, MainWindow* parent)
 	m_selectHard = new QPushButton("Hard", this);
 	m_startButton = new QPushButton("Play", this);
 
-	QSize buttonSize(150, 50); 
+	QSize buttonSize(150, 50);
 	m_selectMultiplayer->setFixedSize(buttonSize);
 	m_selectPC->setFixedSize(buttonSize);
 	m_selectEasy->setFixedSize(buttonSize);
@@ -52,7 +51,7 @@ StartWidget::StartWidget(Game&& game, MainWindow* parent)
 	mainLayout->addWidget(m_startButton);
 
 	connect(m_selectMultiplayer, &QPushButton::clicked, this, [this]() {
-		m_selectedMode = "Multiplayer";
+		m_gameMode = GameMode::Multiplayer;
 		m_selectEasy->setEnabled(false);
 		m_selectHard->setEnabled(false);
 		m_difficultyLabel->setVisible(false);
@@ -60,7 +59,7 @@ StartWidget::StartWidget(Game&& game, MainWindow* parent)
 		});
 
 	connect(m_selectPC, &QPushButton::clicked, this, [this]() {
-		m_selectedMode = "";
+		m_gameMode = GameMode::None;
 		m_selectEasy->setEnabled(true);
 		m_selectHard->setEnabled(true);
 		m_difficultyLabel->setVisible(true);
@@ -68,12 +67,12 @@ StartWidget::StartWidget(Game&& game, MainWindow* parent)
 		});
 
 	connect(m_selectEasy, &QPushButton::clicked, this, [this]() {
-		m_selectedMode = "PC-Easy";
+		m_gameMode = GameMode::PC_Easy;
 		m_startButton->setEnabled(true);
 		});
 
 	connect(m_selectHard, &QPushButton::clicked, this, [this]() {
-		m_selectedMode = "PC-Hard";
+		m_gameMode = GameMode::PC_Hard;
 		m_startButton->setEnabled(true);
 		});
 
@@ -84,11 +83,11 @@ StartWidget::StartWidget(Game&& game, MainWindow* parent)
 void StartWidget::StartGame()
 {
 	std::unique_ptr<IOpponentDifficulty> difficulty = nullptr;
-	if (m_selectedMode == "PC-Easy")
+	if (m_gameMode == GameMode::PC_Easy)
 	{
 		difficulty = std::make_unique<EasyDifficulty>();
 	}
-	else if (m_selectedMode == "PC-Hard")
+	else if (m_gameMode == GameMode::PC_Hard)
 	{
 		difficulty = std::make_unique<HardDifficulty>();
 	}
