@@ -11,7 +11,7 @@
 GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 	: BaseMainWidget(parent)
 	, m_game(std::move(game))
-	, m_activePlayerColumn(-1)
+	, m_activeColumn(-1)
 	, m_diceValue(0)
 	, m_diceAnimationSteps(diceAnimationSteps)
 	, m_diceRolled(false)
@@ -34,7 +34,7 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 
 	m_uiLowHighlightCellStyle = QString(R"(
 		border: 1px solid black;
-		background-color: rgba(0, 0, 255, 100);
+		background-color: rgba(0, 150, 200, 200);
 		color: white;
 		font-size: %1px;
 	)").arg(3 * GetParentWindow()->font().pointSize());
@@ -148,7 +148,7 @@ void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 
 void GameWidget::SelectColumn(int col)
 {
-	if (m_activePlayerColumn == col)
+	if (m_activeColumn == col)
 	{
 		HandleMakeMove();
 		return;
@@ -160,7 +160,7 @@ void GameWidget::SelectColumn(int col)
 		return;
 	}
 
-	m_activePlayerColumn = col;
+	m_activeColumn = col;
 
 	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiBoard1 : m_uiBoard2;
 	RefreshUI();
@@ -197,22 +197,22 @@ void GameWidget::HandleMakeMove()
 		return;
 	}
 
-	if (m_activePlayerColumn == -1)
+	if (m_activeColumn == -1)
 	{
 		m_uiInfoLabel->setText("Select a column first!");
 		return;
 	}
 
 	const Board& activeBoard = std::as_const(m_game).GetActiveBoard();
-	if (activeBoard.IsColumnFull(m_activePlayerColumn))
+	if (activeBoard.IsColumnFull(m_activeColumn))
 	{
 		m_uiInfoLabel->setText("Column is full! Choose another column.");
 		return;
 	}
 
-	m_game.MakeMove(m_activePlayerColumn, m_diceValue);
+	m_game.MakeMove(m_activeColumn, m_diceValue);
 
-	m_activePlayerColumn = -1;
+	m_activeColumn = -1;
 	RefreshUI();
 
 	m_diceValue = 0;
@@ -284,11 +284,11 @@ void GameWidget::RefreshUI()
 			for (int col = 0; col < 3; ++col)
 			{
 				QLabel* cell = qobject_cast<QLabel*>(board->itemAtPosition(row, col)->widget());
-				if (isActive && m_activePlayerColumn == col)
+				if (isActive && m_activeColumn == col)
 				{
 					cell->setStyleSheet(m_uiHighlightCellStyle);
 				}
-				else if (!isActive && m_activePlayerColumn == col)
+				else if (!isActive && m_activeColumn == col)
 				{
 					cell->setStyleSheet(m_uiLowHighlightCellStyle);
 				}

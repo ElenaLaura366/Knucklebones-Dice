@@ -51,7 +51,7 @@ private:
 private:
 	Game m_game;
 
-	int m_activePlayerColumn;
+	int m_activeColumn;
 	int m_diceValue;
 	int m_animationSteps;
 	int m_diceAnimationSteps;
