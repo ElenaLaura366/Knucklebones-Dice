@@ -27,31 +27,31 @@ private:
 	void CreateColumnSelectButtons(QBoxLayout* playerLayout, int player);
 
 	void DisplayGameOverMessage();
-	void RefreshBoardUI();
-	void UpdateUIState();
+	void RefreshUI();
 	void StartDiceAnimation();
 	bool IsPlayer1Turn() const;
 
 private:
-	QGridLayout* m_uiPlayer1Board;
-	QGridLayout* m_uiPlayer2Board;
-	QLabel* m_uiPlayer1Label;
-	QLabel* m_uiPlayer2Label;
-	QLabel* m_uiActivePlayerLabel;
+	QGridLayout* m_uiBoard1;
+	QGridLayout* m_uiBoard2;
+	QLabel* m_uiLabel1;
+	QLabel* m_uiLabel2;
+	QLabel* m_uiInfoLabel;
 	QPushButton* m_uiRollDiceButton;
 	QPushButton* m_uiMakeMoveButton;
 	QLabel* m_uiDiceNumberLabel;
 	QTimer* m_uiDiceAnimationTimer;
-	std::vector<QPushButton*> m_uiPlayer1ColumnButtons;
-	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
+	std::vector<QPushButton*> m_uiColumnButtons1;
+	std::vector<QPushButton*> m_uiColumnButtons2;
 
 	QString m_uiDefaultCellStyle;
-	QString m_uiHighlightedCellStyle;
+	QString m_uiHighlightCellStyle;
+	QString m_uiLowHighlightCellStyle;
 
 private:
 	Game m_game;
 
-	int m_activePlayerColumn;
+	int m_activeColumn;
 	int m_diceValue;
 	int m_animationSteps;
 	int m_diceAnimationSteps;

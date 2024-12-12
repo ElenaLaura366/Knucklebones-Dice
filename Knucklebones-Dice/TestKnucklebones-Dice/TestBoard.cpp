@@ -21,13 +21,13 @@ TEST_F(BoardTest, InitialState)
 TEST_F(BoardTest, MakeMove)
 {
 	board.MakeMove(0, 1);
-	EXPECT_EQ(board.GetBoard()[0][0], 1);
+	EXPECT_EQ(board[0][0], 1);
 
 	board.MakeMove(1, 2);
-	EXPECT_EQ(board.GetBoard()[0][1], 2);
+	EXPECT_EQ(board[0][1], 2);
 
 	board.MakeMove(2, 3);
-	EXPECT_EQ(board.GetBoard()[0][2], 3);
+	EXPECT_EQ(board[0][2], 3);
 }
 
 TEST_F(BoardTest, ColumnFullCheck)
@@ -44,9 +44,8 @@ TEST_F(BoardTest, CalculateScore)
 	board.MakeMove(0, 1);
 	board.MakeMove(0, 1);
 	board.MakeMove(0, 1);
-	EXPECT_EQ(board.CalculateColumnScore(0), 9);
 
-	EXPECT_EQ(board.CalculateTotalScore(), 9);
+	EXPECT_EQ(std::as_const(board).CalculateTotalScore(), 9);
 }
 
 TEST_F(BoardTest, CancelValuesInColumn)
@@ -54,6 +53,7 @@ TEST_F(BoardTest, CancelValuesInColumn)
 	board.MakeMove(0, 2);
 	board.MakeMove(0, 2);
 	board.CancelValuesInColumn(0, 2);
-	EXPECT_EQ(board.GetBoard()[0][0], 0);
-	EXPECT_EQ(board.GetBoard()[1][0], 0);
+
+	EXPECT_EQ(board[0][0], 0);
+	EXPECT_EQ(board[1][0], 0);
 }

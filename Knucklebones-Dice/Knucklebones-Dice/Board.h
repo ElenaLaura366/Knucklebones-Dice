@@ -19,17 +19,14 @@ public:
 	Board& operator=(Board&&) = delete;
 
 	void MakeMove(int col, int value);
-	bool IsColumnFull(int col) const;
-	bool IsFull() const;
-
-	const std::vector<std::vector<int>>& GetBoard() const;
 	void CancelValuesInColumn(int col, int value);
 
+	bool IsFull() const;
+	bool IsColumnFull(int col) const;
+
 	int CalculateTotalScore() const;
-	int CalculateColumnScore(int col) const;
 
 	const std::vector<int>& operator[](int row) const;
-	std::vector<int>& operator[](int row);
 
 	void AddListener(IGameListener* listener) override;
 	void RemoveListener(IGameListener* listener) override;
@@ -37,8 +34,9 @@ public:
 	void NotifyOnGameOver() override;
 
 private:
-	std::vector<std::vector<int>> m_board;
-	BasicObservable m_observableComponent;
+	int CalculateColumnScore(int col) const;
 
-	void NotifyMove();
+private:
+	std::vector<std::vector<int>> m_matrix;
+	BasicObservable m_observableComponent;
 };
