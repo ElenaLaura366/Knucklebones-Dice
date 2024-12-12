@@ -25,9 +25,16 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 		font-size: %1px;
 	)").arg(3 * GetParentWindow()->font().pointSize());
 
-	m_uiHighlightedCellStyle = QString(R"(
+	m_uiHighlightCellStyle = QString(R"(
 		border: 1px solid black;
 		background-color: rgba(0, 0, 255, 200);
+		color: white;
+		font-size: %1px;
+	)").arg(3 * GetParentWindow()->font().pointSize());
+
+	m_uiLowHighlightCellStyle = QString(R"(
+		border: 1px solid black;
+		background-color: rgba(0, 0, 255, 100);
 		color: white;
 		font-size: %1px;
 	)").arg(3 * GetParentWindow()->font().pointSize());
@@ -41,7 +48,7 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 	m_uiDiceAnimationTimer = new QTimer(this);
 	connect(m_uiDiceAnimationTimer, &QTimer::timeout, this, &GameWidget::StartDiceAnimation);
 
-	UpdateUIState();
+	RefreshUI();
 }
 
 void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
@@ -150,7 +157,7 @@ void GameWidget::SelectColumn(int col)
 	}
 
 	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiPlayer1Board : m_uiPlayer2Board;
-	SetBoardStyles(activeBoardLayout, IsPlayer1Turn());
+	RefreshUI();
 
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
 		.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
@@ -199,7 +206,8 @@ void GameWidget::HandleMakeMove()
 
 	m_game.MakeMove(m_activePlayerColumn, m_diceValue);
 
-	UpdateUIState();
+	m_activePlayerColumn = -1;
+	RefreshUI();
 
 	m_diceValue = 0;
 	m_diceRolled = false;
@@ -233,7 +241,7 @@ void GameWidget::DisplayGameOverMessage()
 	QMessageBox::information(this, "Game Over", winnerMessage);
 }
 
-void GameWidget::UpdateUIState()
+void GameWidget::RefreshUI()
 {
 	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
 	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
@@ -250,32 +258,43 @@ void GameWidget::UpdateUIState()
 		button->setEnabled(!isPlayer1Turn);
 	}
 
-	RefreshBoardUI();
-}
-
-void GameWidget::RefreshBoardUI()
-{
-	m_activePlayerColumn = -1;
-
-	for (int row = 0; row < 3; ++row)
-	{
-		for (int col = 0; col < 3; ++col)
+	const auto refreshCellNumbers = [](const Board& board, QGridLayout* boardLayout) {
+		for (int row = 0; row < 3; ++row)
 		{
-			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer1Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_game.GetBoard1()[row][col]));
+			for (int col = 0; col < 3; ++col)
+			{
+				QLabel* cell = qobject_cast<QLabel*>(boardLayout->itemAtPosition(row, col)->widget());
+				cell->setText(QString::number(board[row][col]));
+			}
 		}
-	}
-	for (int row = 0; row < 3; ++row)
-	{
-		for (int col = 0; col < 3; ++col)
-		{
-			QLabel* cell = qobject_cast<QLabel*>(m_uiPlayer2Board->itemAtPosition(row, col)->widget());
-			cell->setText(QString::number(m_game.GetBoard2()[row][col]));
-		}
-	}
+	};
+	refreshCellNumbers(m_game.GetBoard1(), m_uiPlayer1Board);
+	refreshCellNumbers(m_game.GetBoard2(), m_uiPlayer2Board);
 
-	SetBoardStyles(m_uiPlayer1Board, IsPlayer1Turn());
-	SetBoardStyles(m_uiPlayer2Board, IsPlayer1Turn());
+
+	const auto refreshBoardCellStyles = [this](QGridLayout* board, bool isActive) {
+		for (int row = 0; row < 3; ++row)
+		{
+			for (int col = 0; col < 3; ++col)
+			{
+				QLabel* cell = qobject_cast<QLabel*>(board->itemAtPosition(row, col)->widget());
+				if (isActive && m_activePlayerColumn == col)
+				{
+					cell->setStyleSheet(m_uiHighlightCellStyle);
+				}
+				else if (!isActive && m_activePlayerColumn == col)
+				{
+					cell->setStyleSheet(m_uiLowHighlightCellStyle);
+				}
+				else
+				{
+					cell->setStyleSheet(m_uiDefaultCellStyle);
+				}
+			}
+		}
+		};
+	refreshBoardCellStyles(m_uiPlayer1Board, IsPlayer1Turn());
+	refreshBoardCellStyles(m_uiPlayer2Board, !IsPlayer1Turn());
 }
 
 void GameWidget::StartDiceAnimation()
@@ -297,23 +316,4 @@ void GameWidget::StartDiceAnimation()
 bool GameWidget::IsPlayer1Turn() const
 {
 	return (&m_game.GetActivePlayer() == &m_game.GetPlayer1());
-}
-
-void GameWidget::SetBoardStyles(QGridLayout* board, bool isActive)
-{
-	for (int row = 0; row < 3; ++row)
-	{
-		for (int col = 0; col < 3; ++col)
-		{
-			QLabel* cell = qobject_cast<QLabel*>(board->itemAtPosition(row, col)->widget());
-			if (isActive && m_activePlayerColumn == col)
-			{
-				cell->setStyleSheet(m_uiHighlightedCellStyle);
-			}
-			else
-			{
-				cell->setStyleSheet(m_uiDefaultCellStyle);
-			}
-		}
-	}
 }

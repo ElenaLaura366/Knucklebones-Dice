@@ -27,12 +27,9 @@ private:
 	void CreateColumnSelectButtons(QBoxLayout* playerLayout, int player);
 
 	void DisplayGameOverMessage();
-	void UpdateUIState();
-	void RefreshBoardUI();
+	void RefreshUI();
 	void StartDiceAnimation();
 	bool IsPlayer1Turn() const;
-
-	void SetBoardStyles(QGridLayout* boardLayout, bool isActive);
 
 private:
 	QGridLayout* m_uiPlayer1Board;
@@ -48,7 +45,8 @@ private:
 	std::vector<QPushButton*> m_uiPlayer2ColumnButtons;
 
 	QString m_uiDefaultCellStyle;
-	QString m_uiHighlightedCellStyle;
+	QString m_uiHighlightCellStyle;
+	QString m_uiLowHighlightCellStyle;
 
 private:
 	Game m_game;
