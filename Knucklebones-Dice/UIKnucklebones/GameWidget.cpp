@@ -41,9 +41,9 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 
 	QBoxLayout* mainLayout = new QHBoxLayout(this);
 
-	CreatePlayerLayout(mainLayout, 1, m_uiPlayer1Label, m_uiPlayer1Board);
+	CreatePlayerLayout(mainLayout, 1, m_uiLabel1, m_uiBoard1);
 	CreateMiddleLayout(mainLayout);
-	CreatePlayerLayout(mainLayout, 2, m_uiPlayer2Label, m_uiPlayer2Board);
+	CreatePlayerLayout(mainLayout, 2, m_uiLabel2, m_uiBoard2);
 
 	m_uiDiceAnimationTimer = new QTimer(this);
 	connect(m_uiDiceAnimationTimer, &QTimer::timeout, this, &GameWidget::StartDiceAnimation);
@@ -73,8 +73,8 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 	hLayout->setAlignment(Qt::AlignCenter);
 	boardLayout->addLayout(hLayout);
 
-	m_uiActivePlayerLabel = new QLabel("Active Player: Player 1", this);
-	hLayout->addWidget(m_uiActivePlayerLabel);
+	m_uiInfoLabel = new QLabel("Active Player: Player 1", this);
+	hLayout->addWidget(m_uiInfoLabel);
 
 	QHBoxLayout* diceLayout = new QHBoxLayout();
 	diceLayout->setAlignment(Qt::AlignCenter);
@@ -137,29 +137,35 @@ void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 
 		if (player == 1)
 		{
-			m_uiPlayer1ColumnButtons.push_back(colButton);
+			m_uiColumnButtons1.push_back(colButton);
 		}
 		else
 		{
-			m_uiPlayer2ColumnButtons.push_back(colButton);
+			m_uiColumnButtons2.push_back(colButton);
 		}
 	}
 }
 
 void GameWidget::SelectColumn(int col)
 {
-	m_activePlayerColumn = col;
-
-	if (std::as_const(m_game).GetActiveBoard().IsColumnFull(m_activePlayerColumn))
+	if (m_activePlayerColumn == col)
 	{
-		m_uiActivePlayerLabel->setText("Selected column is full! Choose another column.");
+		HandleMakeMove();
 		return;
 	}
 
-	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiPlayer1Board : m_uiPlayer2Board;
+	if (std::as_const(m_game).GetActiveBoard().IsColumnFull(col))
+	{
+		m_uiInfoLabel->setText("Selected column is full! Choose another column.");
+		return;
+	}
+
+	m_activePlayerColumn = col;
+
+	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiBoard1 : m_uiBoard2;
 	RefreshUI();
 
-	m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
+	m_uiInfoLabel->setText(QString("Active Player: %1 - Column %2 Selected")
 		.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
 		.arg(col + 1));
 }
@@ -168,39 +174,39 @@ void GameWidget::HandleRollDice()
 {
 	if (m_game.IsGameOver())
 	{
-		m_uiActivePlayerLabel->setText("Game is over!");
+		m_uiInfoLabel->setText("Game is over!");
 		return;
 	}
 
 	if (m_diceRolled)
 	{
-		m_uiActivePlayerLabel->setText("You have already rolled the dice! Make your move.");
+		m_uiInfoLabel->setText("You have already rolled the dice! Make your move.");
 		return;
 	}
 
 	m_animationSteps = 0;
 	m_uiDiceAnimationTimer->start(100);
-	m_uiActivePlayerLabel->setText("Rolling the dice...");
+	m_uiInfoLabel->setText("Rolling the dice...");
 }
 
 void GameWidget::HandleMakeMove()
 {
 	if (!m_diceRolled)
 	{
-		m_uiActivePlayerLabel->setText("Roll the dice first!");
+		m_uiInfoLabel->setText("Roll the dice first!");
 		return;
 	}
 
 	if (m_activePlayerColumn == -1)
 	{
-		m_uiActivePlayerLabel->setText("Select a column first!");
+		m_uiInfoLabel->setText("Select a column first!");
 		return;
 	}
 
 	const Board& activeBoard = std::as_const(m_game).GetActiveBoard();
 	if (activeBoard.IsColumnFull(m_activePlayerColumn))
 	{
-		m_uiActivePlayerLabel->setText("Column is full! Choose another column.");
+		m_uiInfoLabel->setText("Column is full! Choose another column.");
 		return;
 	}
 
@@ -243,17 +249,17 @@ void GameWidget::DisplayGameOverMessage()
 
 void GameWidget::RefreshUI()
 {
-	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
-	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
-	m_uiActivePlayerLabel->setText(QString("Active Player: %1")
+	m_uiLabel1->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
+	m_uiLabel2->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
+	m_uiInfoLabel->setText(QString("Active Player: %1")
 		.arg(std::as_const(m_game).GetActivePlayer().GetName().data()));
 
 	const bool isPlayer1Turn = IsPlayer1Turn();
-	for (auto button : m_uiPlayer1ColumnButtons)
+	for (auto button : m_uiColumnButtons1)
 	{
 		button->setEnabled(isPlayer1Turn);
 	}
-	for (auto button : m_uiPlayer2ColumnButtons)
+	for (auto button : m_uiColumnButtons2)
 	{
 		button->setEnabled(!isPlayer1Turn);
 	}
@@ -268,8 +274,8 @@ void GameWidget::RefreshUI()
 			}
 		}
 	};
-	refreshCellNumbers(m_game.GetBoard1(), m_uiPlayer1Board);
-	refreshCellNumbers(m_game.GetBoard2(), m_uiPlayer2Board);
+	refreshCellNumbers(m_game.GetBoard1(), m_uiBoard1);
+	refreshCellNumbers(m_game.GetBoard2(), m_uiBoard2);
 
 
 	const auto refreshBoardCellStyles = [this](QGridLayout* board, bool isActive) {
@@ -293,8 +299,8 @@ void GameWidget::RefreshUI()
 			}
 		}
 		};
-	refreshBoardCellStyles(m_uiPlayer1Board, IsPlayer1Turn());
-	refreshBoardCellStyles(m_uiPlayer2Board, !IsPlayer1Turn());
+	refreshBoardCellStyles(m_uiBoard1, IsPlayer1Turn());
+	refreshBoardCellStyles(m_uiBoard2, !IsPlayer1Turn());
 }
 
 void GameWidget::StartDiceAnimation()
@@ -306,7 +312,7 @@ void GameWidget::StartDiceAnimation()
 		m_uiDiceAnimationTimer->stop();
 		m_diceValue = rand() % 6 + 1;
 		m_uiDiceNumberLabel->setText(QString::number(m_diceValue));
-		m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
+		m_uiInfoLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
 			.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
 			.arg(m_diceValue));
 		m_diceRolled = true;
