@@ -23,6 +23,11 @@ QPushButton:disabled {
 	color: #BBBBBB;
 }
 
+QPushButton[selected="true"] {
+	background-color: #FFA500;
+	color: white;
+}
+
 QLabel {
 	color: #FFFF00;
 	font-size: 16px;
