@@ -12,13 +12,13 @@ protected:
 
 TEST_F(GameTest, ActivePlayerRotation)
 {
-	EXPECT_EQ(game.GetActivePlayer().GetName(), "Alice");
+	EXPECT_EQ(std::as_const(game).GetActivePlayer().GetName(), "Alice");
 
 	game.MakeMove(0, 1);
-	EXPECT_EQ(game.GetActivePlayer().GetName(), "Bob");
+	EXPECT_EQ(std::as_const(game).GetActivePlayer().GetName(), "Bob");
 
 	game.MakeMove(0, 1);
-	EXPECT_EQ(game.GetActivePlayer().GetName(), "Alice");
+	EXPECT_EQ(std::as_const(game).GetActivePlayer().GetName(), "Alice");
 }
 
 TEST_F(GameTest, CheckGameOver)

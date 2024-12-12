@@ -143,24 +143,17 @@ void GameWidget::SelectColumn(int col)
 {
 	m_activePlayerColumn = col;
 
-	if (m_game.GetActiveBoard().IsColumnFull(m_activePlayerColumn))
+	if (std::as_const(m_game).GetActiveBoard().IsColumnFull(m_activePlayerColumn))
 	{
 		m_uiActivePlayerLabel->setText("Selected column is full! Choose another column.");
 		return;
 	}
 
 	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiPlayer1Board : m_uiPlayer2Board;
-	for (int row = 0; row < 3; ++row)
-	{
-		for (int j = 0; j < 3; ++j)
-		{
-			QLabel* cell = qobject_cast<QLabel*>(activeBoardLayout->itemAtPosition(row, j)->widget());
-			cell->setStyleSheet(j == col ? m_uiHighlightedCellStyle : m_uiDefaultCellStyle);
-		}
-	}
+	SetBoardStyles(activeBoardLayout, IsPlayer1Turn());
 
 	m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Column %2 Selected")
-		.arg(m_game.GetActivePlayer().GetName().data())
+		.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
 		.arg(col + 1));
 }
 
@@ -197,7 +190,7 @@ void GameWidget::HandleMakeMove()
 		return;
 	}
 
-	Board& activeBoard = m_game.GetActiveBoard();
+	const Board& activeBoard = std::as_const(m_game).GetActiveBoard();
 	if (activeBoard.IsColumnFull(m_activePlayerColumn))
 	{
 		m_uiActivePlayerLabel->setText("Column is full! Choose another column.");
@@ -206,7 +199,6 @@ void GameWidget::HandleMakeMove()
 
 	m_game.MakeMove(m_activePlayerColumn, m_diceValue);
 
-	RefreshBoardUI();
 	UpdateUIState();
 
 	m_diceValue = 0;
@@ -241,6 +233,26 @@ void GameWidget::DisplayGameOverMessage()
 	QMessageBox::information(this, "Game Over", winnerMessage);
 }
 
+void GameWidget::UpdateUIState()
+{
+	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
+	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
+	m_uiActivePlayerLabel->setText(QString("Active Player: %1")
+		.arg(std::as_const(m_game).GetActivePlayer().GetName().data()));
+
+	const bool isPlayer1Turn = IsPlayer1Turn();
+	for (auto button : m_uiPlayer1ColumnButtons)
+	{
+		button->setEnabled(isPlayer1Turn);
+	}
+	for (auto button : m_uiPlayer2ColumnButtons)
+	{
+		button->setEnabled(!isPlayer1Turn);
+	}
+
+	RefreshBoardUI();
+}
+
 void GameWidget::RefreshBoardUI()
 {
 	m_activePlayerColumn = -1;
@@ -261,34 +273,9 @@ void GameWidget::RefreshBoardUI()
 			cell->setText(QString::number(m_game.GetBoard2()[row][col]));
 		}
 	}
-}
 
-void GameWidget::UpdateUIState()
-{
-	m_uiPlayer1Label->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
-	m_uiPlayer2Label->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
-	m_uiActivePlayerLabel->setText(QString("Active Player: %1")
-		.arg(m_game.GetActivePlayer().GetName().data()));
-
-	const bool isPlayer1Turn = IsPlayer1Turn();
-	for (auto button : m_uiPlayer1ColumnButtons)
-	{
-		button->setEnabled(isPlayer1Turn);
-	}
-	for (auto button : m_uiPlayer2ColumnButtons)
-	{
-		button->setEnabled(!isPlayer1Turn);
-	}
-
-	QGridLayout* opponentPlayerBoard = isPlayer1Turn ? m_uiPlayer2Board : m_uiPlayer1Board;
-	for (int row = 0; row < 3; ++row)
-	{
-		for (int col = 0; col < 3; ++col)
-		{
-			QLabel* cell = qobject_cast<QLabel*>(opponentPlayerBoard->itemAtPosition(row, col)->widget());
-			cell->setStyleSheet(m_uiDefaultCellStyle);
-		}
-	}
+	SetBoardStyles(m_uiPlayer1Board, IsPlayer1Turn());
+	SetBoardStyles(m_uiPlayer2Board, IsPlayer1Turn());
 }
 
 void GameWidget::StartDiceAnimation()
@@ -301,7 +288,7 @@ void GameWidget::StartDiceAnimation()
 		m_diceValue = rand() % 6 + 1;
 		m_uiDiceNumberLabel->setText(QString::number(m_diceValue));
 		m_uiActivePlayerLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-			.arg(m_game.GetActivePlayer().GetName().data())
+			.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
 			.arg(m_diceValue));
 		m_diceRolled = true;
 	}
@@ -310,4 +297,23 @@ void GameWidget::StartDiceAnimation()
 bool GameWidget::IsPlayer1Turn() const
 {
 	return (&m_game.GetActivePlayer() == &m_game.GetPlayer1());
+}
+
+void GameWidget::SetBoardStyles(QGridLayout* board, bool isActive)
+{
+	for (int row = 0; row < 3; ++row)
+	{
+		for (int col = 0; col < 3; ++col)
+		{
+			QLabel* cell = qobject_cast<QLabel*>(board->itemAtPosition(row, col)->widget());
+			if (isActive && m_activePlayerColumn == col)
+			{
+				cell->setStyleSheet(m_uiHighlightedCellStyle);
+			}
+			else
+			{
+				cell->setStyleSheet(m_uiDefaultCellStyle);
+			}
+		}
+	}
 }

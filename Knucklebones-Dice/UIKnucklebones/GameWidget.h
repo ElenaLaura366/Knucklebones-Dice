@@ -27,10 +27,12 @@ private:
 	void CreateColumnSelectButtons(QBoxLayout* playerLayout, int player);
 
 	void DisplayGameOverMessage();
-	void RefreshBoardUI();
 	void UpdateUIState();
+	void RefreshBoardUI();
 	void StartDiceAnimation();
 	bool IsPlayer1Turn() const;
+
+	void SetBoardStyles(QGridLayout* boardLayout, bool isActive);
 
 private:
 	QGridLayout* m_uiPlayer1Board;

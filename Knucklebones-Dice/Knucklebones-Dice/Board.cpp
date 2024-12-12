@@ -2,7 +2,7 @@
 
 
 Board::Board()
-	: m_board(3, std::vector<int>(3, 0))
+	: m_matrix(3, std::vector<int>(3, 0))
 {
 	// empty
 }
@@ -13,13 +13,45 @@ void Board::MakeMove(int col, int value)
 	{
 		for (int row = 0; row < 3; ++row)
 		{
-			if (m_board[row][col] == 0)
+			if (m_matrix[row][col] == 0)
 			{
-				m_board[row][col] = value;
+				m_matrix[row][col] = value;
 				break;
 			}
 		}
 	}
+}
+
+void Board::CancelValuesInColumn(int col, int value)
+{
+	for (int row = 0; row < 3; ++row)
+	{
+		if (m_matrix[row][col] == value)
+		{
+			m_matrix[row][col] = 0;
+		}
+	}
+}
+
+bool Board::IsFull() const
+{
+	return std::all_of(m_matrix.begin(), m_matrix.end(), [](const std::vector<int>& row) {
+		return std::all_of(row.begin(), row.end(), [](int value) {
+			return value != 0;
+			});
+		});
+}
+
+bool Board::IsColumnFull(int col) const
+{
+	for (int row = 0; row < 3; ++row)
+	{
+		if (m_matrix[row][col] == 0)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 int Board::CalculateTotalScore() const
@@ -32,76 +64,9 @@ int Board::CalculateTotalScore() const
 	return totalScore;
 }
 
-int Board::CalculateColumnScore(int col) const
-{
-	std::map<int, int> valueFrequency;
-	for (int row = 0; row < 3; ++row)
-	{
-		if (m_board[row][col] != 0)
-		{
-			valueFrequency[m_board[row][col]]++;
-		}
-	}
-
-	int score = 0;
-	for (const auto& [value, frequency] : valueFrequency)
-	{
-		score += value * frequency * frequency;
-	}
-
-	return score;
-}
-
-bool Board::IsColumnFull(int col) const
-{
-	for (int row = 0; row < 3; ++row)
-	{
-		if (m_board[row][col] == 0)
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-bool Board::IsFull() const
-{
-	return std::all_of(m_board.begin(), m_board.end(), [](const std::vector<int>& row) {
-		return std::all_of(row.begin(), row.end(), [](int value) {
-			return value != 0;
-			});
-		});
-}
-
-const std::vector<std::vector<int>>& Board::GetBoard() const
-{
-	return m_board;
-}
-
-void Board::NotifyMove()
-{
-	NotifyOnBoardUpdate();
-}
-
-void Board::CancelValuesInColumn(int col, int value)
-{
-	for (int row = 0; row < 3; ++row)
-	{
-		if (m_board[row][col] == value)
-		{
-			m_board[row][col] = 0;
-		}
-	}
-}
-
 const std::vector<int>& Board::operator[](int row) const
 {
-	return m_board[row];
-}
-
-std::vector<int>& Board::operator[](int row)
-{
-	return m_board[row];
+	return m_matrix[row];
 }
 
 void Board::AddListener(IGameListener* listener)
@@ -122,4 +87,24 @@ void Board::NotifyOnBoardUpdate()
 void Board::NotifyOnGameOver()
 {
 	m_observableComponent.NotifyOnGameOver();
+}
+
+int Board::CalculateColumnScore(int col) const
+{
+	std::map<int, int> valueFrequency;
+	for (int row = 0; row < 3; ++row)
+	{
+		if (m_matrix[row][col] != 0)
+		{
+			valueFrequency[m_matrix[row][col]]++;
+		}
+	}
+
+	int score = 0;
+	for (const auto& [value, frequency] : valueFrequency)
+	{
+		score += value * frequency * frequency;
+	}
+
+	return score;
 }

@@ -19,16 +19,12 @@ public:
 
 	void MakeMove(int col, int value);
 
-	Player& GetActivePlayer();
-	Player& GetOpponentPlayer();
 	const Player& GetActivePlayer() const;
 	const Player& GetOpponentPlayer() const;
 
 	const Player& GetPlayer1() const;
 	const Player& GetPlayer2() const;
 
-	Board& GetActiveBoard();
-	Board& GetOpponentBoard();
 	const Board& GetActiveBoard() const;
 	const Board& GetOpponentBoard() const;
 
@@ -43,6 +39,13 @@ public:
 	void RemoveListener(IGameListener* listener) override;
 	void NotifyOnBoardUpdate() override;
 	void NotifyOnGameOver() override;
+
+private:
+	Player& GetActivePlayer();
+	Player& GetOpponentPlayer();
+
+	Board& GetActiveBoard();
+	Board& GetOpponentBoard();
 
 private:
 	Player m_player1;
