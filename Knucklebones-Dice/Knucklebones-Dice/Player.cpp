@@ -7,16 +7,6 @@ Player::Player(std::string_view name)
 	// empty
 }
 
-void Player::OnBoardUpdate()
-{
-	// empty
-}
-
-void Player::OnGameOver()
-{
-	// empty
-}
-
 std::string_view Player::GetName() const
 {
 	return m_name;

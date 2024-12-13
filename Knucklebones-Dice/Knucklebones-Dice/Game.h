@@ -33,8 +33,6 @@ public:
 
 	int CalculateScore(int board) const;
 
-	bool IsGameOver();
-
 	void AddListener(IGameListener* listener) override;
 	void RemoveListener(IGameListener* listener) override;
 	void NotifyOnBoardUpdate() override;
@@ -46,6 +44,8 @@ private:
 
 	Board& GetActiveBoard();
 	Board& GetOpponentBoard();
+
+	bool IsGameOver();
 
 private:
 	Player m_player1;

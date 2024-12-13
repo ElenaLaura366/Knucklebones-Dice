@@ -1,12 +1,10 @@
 #pragma once
 
-#include "IGameListener.h"
-
 #include <string>
 #include <iostream>
 
 
-class Player : public IGameListener
+class Player
 {
 public:
 	Player(std::string_view name);
@@ -15,9 +13,6 @@ public:
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
 	Player& operator=(Player&&) = delete;
-
-	void OnBoardUpdate() override;
-	void OnGameOver() override;
 
 	std::string_view GetName() const;
 

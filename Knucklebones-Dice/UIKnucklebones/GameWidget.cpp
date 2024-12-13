@@ -18,24 +18,6 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 {
 	GetParentWindow()->setWindowTitle("Knucklebones Dice");
 
-	/*m_uiDefaultCellStyle = R"(
-		border: 1px solid black;
-		background-color: rgba(255, 255, 255, 200);
-		color: black;
-	)";
-
-	m_uiHighlightCellStyle = R"(
-		border: 1px solid black;
-		background-color: rgba(0, 0, 255, 200);
-		color: white;
-	)";
-
-	m_uiLowHighlightCellStyle = R"(
-		border: 1px solid black;
-		background-color: rgba(0, 150, 200, 200);
-		color: white;
-	)";*/
-
 	QBoxLayout* mainLayout = new QHBoxLayout(this);
 
 	CreatePlayerLayout(mainLayout, 1, m_uiLabel1, m_uiBoard1);
@@ -46,6 +28,12 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 	connect(m_uiDiceAnimationTimer, &QTimer::timeout, this, &GameWidget::StartDiceAnimation);
 
 	RefreshUI();
+	m_game.AddListener(this);
+}
+
+GameWidget::~GameWidget()
+{
+	m_game.RemoveListener(this);
 }
 
 void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
@@ -169,12 +157,6 @@ void GameWidget::SelectColumn(int col)
 
 void GameWidget::HandleRollDice()
 {
-	if (m_game.IsGameOver())
-	{
-		m_uiInfoLabel->setText("Game is over!");
-		return;
-	}
-
 	if (m_diceRolled)
 	{
 		m_uiInfoLabel->setText("You have already rolled the dice! Make your move.");
@@ -208,18 +190,6 @@ void GameWidget::HandleMakeMove()
 	}
 
 	m_game.MakeMove(m_activeColumn, m_diceValue);
-
-	m_activeColumn = -1;
-	RefreshUI();
-
-	m_diceValue = 0;
-	m_diceRolled = false;
-
-	if (m_game.IsGameOver())
-	{
-		DisplayGameOverMessage();
-		QApplication::quit();
-	}
 }
 
 void GameWidget::DisplayGameOverMessage()
@@ -319,4 +289,19 @@ void GameWidget::StartDiceAnimation()
 bool GameWidget::IsPlayer1Turn() const
 {
 	return (&m_game.GetActivePlayer() == &m_game.GetPlayer1());
+}
+
+void GameWidget::OnGameOver()
+{
+	DisplayGameOverMessage();
+	QApplication::quit();
+}
+
+void GameWidget::OnBoardUpdate()
+{
+	m_diceValue = 0;
+	m_diceRolled = false;
+	m_activeColumn = -1;
+
+	RefreshUI();
 }

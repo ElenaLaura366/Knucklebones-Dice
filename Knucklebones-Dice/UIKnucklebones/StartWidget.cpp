@@ -22,11 +22,11 @@ StartWidget::StartWidget(MainWindow* parent)
 	m_startButton = new QPushButton("Play", this);
 
 	QSize buttonSize(150, 50);
-	m_selectMultiplayer->setFixedSize(buttonSize);
-	m_selectPC->setFixedSize(buttonSize);
-	m_selectEasy->setFixedSize(buttonSize);
-	m_selectHard->setFixedSize(buttonSize);
-	m_startButton->setFixedSize(buttonSize);
+	m_selectMultiplayer->setMinimumSize(buttonSize);
+	m_selectPC->setMinimumSize(buttonSize);
+	m_selectEasy->setMinimumSize(buttonSize);
+	m_selectHard->setMinimumSize(buttonSize);
+	m_startButton->setMinimumSize(buttonSize);
 
 	m_selectEasy->setEnabled(false);
 	m_selectHard->setEnabled(false);

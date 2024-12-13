@@ -8,12 +8,13 @@
 #include <QLabel>
 
 
-class GameWidget : public BaseMainWidget
+class GameWidget : public BaseMainWidget, public IGameListener
 {
 	Q_OBJECT
 
 public:
 	GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent);
+	~GameWidget();
 
 private slots:
 	void SelectColumn(int col);
@@ -30,6 +31,10 @@ private:
 	void RefreshUI();
 	void StartDiceAnimation();
 	bool IsPlayer1Turn() const;
+
+private:
+	void OnGameOver() override;
+	void OnBoardUpdate() override;
 
 private:
 	QGridLayout* m_uiBoard1;

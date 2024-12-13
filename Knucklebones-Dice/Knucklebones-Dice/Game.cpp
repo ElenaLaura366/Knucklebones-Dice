@@ -106,13 +106,19 @@ void Game::MakeMove(int col, int value)
 
 		m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
 	}
+
+	if (IsGameOver())
+	{
+		NotifyOnGameOver();
+	}
+
+	NotifyOnBoardUpdate();
 }
 
 bool Game::IsGameOver()
 {
 	if (m_board1.IsFull() || m_board2.IsFull())
 	{
-		NotifyOnGameOver();
 		return true;
 	}
 	return false;
