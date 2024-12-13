@@ -4,10 +4,28 @@
 #include <gtest/gtest.h>
 
 
-class GameTest : public ::testing::Test
+class GameTest : public ::testing::Test, public IGameListener
 {
+public:
+	GameTest()
+		: game("Alice", "Bob", nullptr)
+	{
+		game.AddListener(this);
+	}
+
+	void OnGameOver() override
+	{
+		++gameOverCallCount;
+	}
+
+	void OnBoardUpdate() override
+	{
+		// empty
+	}
+
 protected:
-	Game game{ "Alice", "Bob", nullptr };
+	Game game;
+	int gameOverCallCount = 0;
 };
 
 TEST_F(GameTest, ActivePlayerRotation)
@@ -23,15 +41,15 @@ TEST_F(GameTest, ActivePlayerRotation)
 
 TEST_F(GameTest, CheckGameOver)
 {
-	for (int col = 0; col < 3; ++col)
+	for (int col = 0; col < std::as_const(game).GetActiveBoard().GetCols(); ++col)
 	{
-		for (int row = 0; row < 3; ++row)
+		for (int row = 0; row < std::as_const(game).GetActiveBoard().GetRows(); ++row)
 		{
 			game.MakeMove(col, 1);
 			game.MakeMove(col, 2);
 		}
 	}
-	EXPECT_TRUE(game.IsGameOver());
+	EXPECT_EQ(gameOverCallCount, 2);
 }
 
 TEST_F(GameTest, CheckScores)

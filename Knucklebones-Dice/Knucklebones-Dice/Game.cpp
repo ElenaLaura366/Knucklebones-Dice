@@ -1,11 +1,12 @@
 ﻿#include "Game.h"
 
 
-Game::Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty)
+Game::Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty, int boardRows, int boardCols, int maxValue)
 	: m_player1(namePlayer1)
 	, m_player2(namePlayer2)
-	, m_board1()
-	, m_board2()
+	, m_board1(boardRows, boardCols)
+	, m_board2(boardRows, boardCols)
+	, m_maxValue(maxValue)
 	, m_activePlayerIndex(0)
 	, m_opponentDifficulty(std::move(opponentDifficulty))
 {
@@ -72,6 +73,11 @@ const Board& Game::GetBoard2() const
 	return m_board2;
 }
 
+int Game::GetRandomValue() const
+{
+	return std::rand() % m_maxValue;
+}
+
 int Game::CalculateScore(int board) const
 {
 	if (board == 1)
@@ -83,7 +89,7 @@ int Game::CalculateScore(int board) const
 		return m_board2.CalculateTotalScore();
 	}
 
-	throw std::runtime_error(std::string("Board ( ") + std::to_string(board) + " ) does not exist");
+	throw std::runtime_error("Board doesn't exist");
 }
 
 void Game::MakeMove(int col, int value)
@@ -97,7 +103,7 @@ void Game::MakeMove(int col, int value)
 
 	if (m_opponentDifficulty && !IsGameOver())
 	{
-		int value = std::rand() % 6 + 1;
+		int value = GetRandomValue();
 		int col = m_opponentDifficulty->NextMove(GetActiveBoard(), GetOpponentBoard(), value);
 		GetActiveBoard().MakeMove(col, value);
 

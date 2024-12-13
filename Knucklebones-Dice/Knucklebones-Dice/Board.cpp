@@ -1,21 +1,24 @@
 ﻿#include "Board.h"
 
+#include <unordered_map>
 
-Board::Board()
-	: m_matrix(3, std::vector<int>(3, 0))
+
+Board::Board(int rows, int cols)
+	: m_matrix(rows, std::vector<int>(cols, 0))
 {
 	// empty
 }
 
 void Board::MakeMove(int col, int value)
 {
+	CheckColumn(col);
 	if (!IsColumnFull(col))
 	{
-		for (int row = 0; row < 3; ++row)
+		for (auto& row : m_matrix)
 		{
-			if (m_matrix[row][col] == 0)
+			if (row[col] == 0)
 			{
-				m_matrix[row][col] = value;
+				row[col] = value;
 				break;
 			}
 		}
@@ -24,11 +27,12 @@ void Board::MakeMove(int col, int value)
 
 void Board::CancelValuesInColumn(int col, int value)
 {
-	for (int row = 0; row < 3; ++row)
+	CheckColumn(col);
+	for (auto& row : m_matrix)
 	{
-		if (m_matrix[row][col] == value)
+		if (row[col] == value)
 		{
-			m_matrix[row][col] = 0;
+			row[col] = 0;
 		}
 	}
 }
@@ -44,9 +48,10 @@ bool Board::IsFull() const
 
 bool Board::IsColumnFull(int col) const
 {
-	for (int row = 0; row < 3; ++row)
+	CheckColumn(col);
+	for (const auto& row : m_matrix)
 	{
-		if (m_matrix[row][col] == 0)
+		if (row[col] == 0)
 		{
 			return false;
 		}
@@ -57,11 +62,21 @@ bool Board::IsColumnFull(int col) const
 int Board::CalculateTotalScore() const
 {
 	int totalScore = 0;
-	for (int col = 0; col < 3; ++col)
+	for (int col = 0; col < GetCols(); ++col)
 	{
 		totalScore += CalculateColumnScore(col);
 	}
 	return totalScore;
+}
+
+int Board::GetRows() const
+{
+	return (int)m_matrix.size();
+}
+
+int Board::GetCols() const
+{
+	return (int)m_matrix[0].size();
 }
 
 const std::vector<int>& Board::operator[](int row) const
@@ -91,20 +106,29 @@ void Board::NotifyOnGameOver()
 
 int Board::CalculateColumnScore(int col) const
 {
-	std::map<int, int> valueFrequency;
-	for (int row = 0; row < 3; ++row)
+	CheckColumn(col);
+	std::unordered_map<int, int> valueFrequency;
+	for (const auto& row : m_matrix)
 	{
-		if (m_matrix[row][col] != 0)
+		if (row[col] != 0)
 		{
-			valueFrequency[m_matrix[row][col]]++;
+			++valueFrequency[row[col]];
 		}
 	}
 
 	int score = 0;
-	for (const auto& [value, frequency] : valueFrequency)
+	for (const auto [value, frequency] : valueFrequency)
 	{
 		score += value * frequency * frequency;
 	}
 
 	return score;
+}
+
+void Board::CheckColumn(int col) const
+{
+	if (col < 0 || col >= GetCols())
+	{
+		throw std::runtime_error("Invalid column index");
+	}
 }

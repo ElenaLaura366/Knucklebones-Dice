@@ -92,9 +92,9 @@ QGridLayout* GameWidget::CreateBoardLayout()
 {
 	QGridLayout* boardLayout = new QGridLayout(this);
 
-	for (int row = 0; row < 3; ++row)
+	for (int row = 0; row < GetBoardRows(); ++row)
 	{
-		for (int col = 0; col < 3; ++col)
+		for (int col = 0; col < GetBoardCols(); ++col)
 		{
 			QLabel* cell = new QLabel("0", this);
 			cell->setAlignment(Qt::AlignCenter);
@@ -112,11 +112,11 @@ void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 	QBoxLayout* buttonLayout = new QHBoxLayout(this);
 	playerLayout->addLayout(buttonLayout);
 
-	for (int col = 0; col < 3; ++col)
+	for (int col = 0; col < GetBoardCols(); ++col)
 	{
 		QPushButton* colButton = new QPushButton(columnButtonName.arg(col + 1), this);
 
-		connect(colButton, &QPushButton::clicked, this, [=]() { SelectColumn(col); });
+		connect(colButton, &QPushButton::clicked, this, [this, col]() { SelectColumn(col); });
 
 		buttonLayout->addWidget(colButton);
 
@@ -231,10 +231,10 @@ void GameWidget::RefreshUI()
 		button->setEnabled(!isPlayer1Turn);
 	}
 
-	const auto refreshCellNumbers = [](const Board& board, QGridLayout* boardLayout) {
-		for (int row = 0; row < 3; ++row)
+	const auto refreshCellNumbers = [this](const Board& board, QGridLayout* boardLayout) {
+		for (int row = 0; row < GetBoardRows(); ++row)
 		{
-			for (int col = 0; col < 3; ++col)
+			for (int col = 0; col < GetBoardCols(); ++col)
 			{
 				QLabel* cell = qobject_cast<QLabel*>(boardLayout->itemAtPosition(row, col)->widget());
 				cell->setText(QString::number(board[row][col]));
@@ -246,9 +246,9 @@ void GameWidget::RefreshUI()
 
 
 	const auto refreshBoardCellStyles = [this](QGridLayout* board, bool isActive) {
-		for (int row = 0; row < 3; ++row)
+		for (int row = 0; row < GetBoardRows(); ++row)
 		{
-			for (int col = 0; col < 3; ++col)
+			for (int col = 0; col < GetBoardCols(); ++col)
 			{
 				QLabel* cell = qobject_cast<QLabel*>(board->itemAtPosition(row, col)->widget());
 				if (isActive && m_activeColumn == col)
@@ -272,12 +272,12 @@ void GameWidget::RefreshUI()
 
 void GameWidget::StartDiceAnimation()
 {
-	int randomValue = std::rand() % 6 + 1;
+	int randomValue = m_game.GetRandomValue();
 	m_uiDiceNumberLabel->setText(QString::number(randomValue));
 
 	if (++m_animationSteps >= m_diceAnimationSteps) {
 		m_uiDiceAnimationTimer->stop();
-		m_diceValue = rand() % 6 + 1;
+		m_diceValue = m_game.GetRandomValue();
 		m_uiDiceNumberLabel->setText(QString::number(m_diceValue));
 		m_uiInfoLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
 			.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
@@ -289,6 +289,16 @@ void GameWidget::StartDiceAnimation()
 bool GameWidget::IsPlayer1Turn() const
 {
 	return (&m_game.GetActivePlayer() == &m_game.GetPlayer1());
+}
+
+int GameWidget::GetBoardRows() const
+{
+	return std::as_const(m_game).GetActiveBoard().GetRows();
+}
+
+int GameWidget::GetBoardCols() const
+{
+	return std::as_const(m_game).GetActiveBoard().GetCols();
 }
 
 void GameWidget::OnGameOver()

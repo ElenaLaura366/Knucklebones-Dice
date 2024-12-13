@@ -5,13 +5,12 @@
 
 #include <vector>
 #include <iostream>
-#include <map>
 
 
 class Board : public IObservable
 {
 public:
-	Board();
+	Board(int rows = Board::DefaultRows, int cols = Board::DefaultCols);
 	Board(Board&&) = default;
 
 	Board(const Board&) = delete;
@@ -20,12 +19,13 @@ public:
 
 	void MakeMove(int col, int value);
 	void CancelValuesInColumn(int col, int value);
+	int CalculateTotalScore() const;
 
 	bool IsFull() const;
 	bool IsColumnFull(int col) const;
 
-	int CalculateTotalScore() const;
-
+	int GetRows() const;
+	int GetCols() const;
 	const std::vector<int>& operator[](int row) const;
 
 	void AddListener(IGameListener* listener) override;
@@ -35,6 +35,11 @@ public:
 
 private:
 	int CalculateColumnScore(int col) const;
+	void CheckColumn(int col) const;
+
+public:
+	static constexpr int DefaultRows = 3;
+	static constexpr int DefaultCols = 3;
 
 private:
 	std::vector<std::vector<int>> m_matrix;

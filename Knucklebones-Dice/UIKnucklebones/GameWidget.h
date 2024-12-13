@@ -31,6 +31,8 @@ private:
 	void RefreshUI();
 	void StartDiceAnimation();
 	bool IsPlayer1Turn() const;
+	int GetBoardRows() const;
+	int GetBoardCols() const;
 
 private:
 	void OnGameOver() override;

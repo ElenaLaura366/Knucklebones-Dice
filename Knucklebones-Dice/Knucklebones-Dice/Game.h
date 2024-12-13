@@ -10,7 +10,9 @@
 class Game : public IObservable
 {
 public:
-	Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty);
+	Game(std::string_view namePlayer1, std::string_view namePlayer2,
+		std::unique_ptr<IOpponentDifficulty> opponentDifficulty,
+		int boardRows = Board::DefaultRows, int boardCols = Board::DefaultCols, int maxValue = Game::DefaultMaxValue);
 	Game(Game&&) = default;
 
 	Game(const Game&) = delete;
@@ -31,6 +33,8 @@ public:
 	const Board& GetBoard1() const;
 	const Board& GetBoard2() const;
 
+	int GetRandomValue() const;
+
 	int CalculateScore(int board) const;
 
 	void AddListener(IGameListener* listener) override;
@@ -47,6 +51,9 @@ private:
 
 	bool IsGameOver();
 
+public:
+	static constexpr int DefaultMaxValue = 6;
+
 private:
 	Player m_player1;
 	Player m_player2;
@@ -54,6 +61,7 @@ private:
 	Board m_board2;
 
 	uint8_t m_activePlayerIndex;
+	int m_maxValue;
 
 	BasicObservable m_observableComponent;
 	std::unique_ptr<IOpponentDifficulty> m_opponentDifficulty;
