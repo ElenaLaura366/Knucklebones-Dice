@@ -29,7 +29,7 @@ private:
 
 	void DisplayGameOverMessage();
 	void RefreshUI();
-	void StartDiceAnimation();
+	void DiceAnimationStep();
 	bool IsPlayer1Turn() const;
 	int GetBoardRows() const;
 	int GetBoardCols() const;

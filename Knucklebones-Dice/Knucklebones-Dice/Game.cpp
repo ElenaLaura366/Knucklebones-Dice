@@ -75,7 +75,7 @@ const Board& Game::GetBoard2() const
 
 int Game::GetRandomValue() const
 {
-	return std::rand() % m_maxValue;
+	return std::rand() % m_maxValue + 1;
 }
 
 int Game::CalculateScore(int board) const

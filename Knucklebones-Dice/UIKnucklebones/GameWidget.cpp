@@ -1,6 +1,7 @@
 ﻿#include "GameWidget.h"
 
 #include "MainWindow.h"
+#include "StartWidget.h"
 
 #include <cstdlib>
 #include <QMessageBox>
@@ -25,7 +26,7 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 	CreatePlayerLayout(mainLayout, 2, m_uiLabel2, m_uiBoard2);
 
 	m_uiDiceAnimationTimer = new QTimer(this);
-	connect(m_uiDiceAnimationTimer, &QTimer::timeout, this, &GameWidget::StartDiceAnimation);
+	connect(m_uiDiceAnimationTimer, &QTimer::timeout, this, &GameWidget::DiceAnimationStep);
 
 	RefreshUI();
 	m_game.AddListener(this);
@@ -58,7 +59,7 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 	hLayout->setAlignment(Qt::AlignCenter);
 	boardLayout->addLayout(hLayout);
 
-	m_uiInfoLabel = new QLabel("Active Player: Player 1", this);
+	m_uiInfoLabel = new QLabel("", this);
 	hLayout->addWidget(m_uiInfoLabel);
 
 	QHBoxLayout* diceLayout = new QHBoxLayout(this);
@@ -80,6 +81,7 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 	connect(m_uiRollDiceButton, &QPushButton::clicked, this, &GameWidget::HandleRollDice);
 
 	m_uiMakeMoveButton = new QPushButton("Make Move", this);
+	m_uiMakeMoveButton->setEnabled(false);
 	connect(m_uiMakeMoveButton, &QPushButton::clicked, this, &GameWidget::HandleMakeMove);
 
 	boardLayout->addWidget(m_uiRollDiceButton);
@@ -133,6 +135,11 @@ void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 
 void GameWidget::SelectColumn(int col)
 {
+	if (!m_diceRolled)
+	{
+		return;
+	}
+
 	if (m_activeColumn == col)
 	{
 		HandleMakeMove();
@@ -146,23 +153,14 @@ void GameWidget::SelectColumn(int col)
 	}
 
 	m_activeColumn = col;
+	m_uiMakeMoveButton->setEnabled(true);
 
 	QGridLayout* activeBoardLayout = IsPlayer1Turn() ? m_uiBoard1 : m_uiBoard2;
 	RefreshUI();
-
-	m_uiInfoLabel->setText(QString("Active Player: %1 - Column %2 Selected")
-		.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
-		.arg(col + 1));
 }
 
 void GameWidget::HandleRollDice()
 {
-	if (m_diceRolled)
-	{
-		m_uiInfoLabel->setText("You have already rolled the dice! Make your move.");
-		return;
-	}
-
 	m_animationSteps = 0;
 	m_uiDiceAnimationTimer->start(100);
 	m_uiInfoLabel->setText("Rolling the dice...");
@@ -170,18 +168,6 @@ void GameWidget::HandleRollDice()
 
 void GameWidget::HandleMakeMove()
 {
-	if (!m_diceRolled)
-	{
-		m_uiInfoLabel->setText("Roll the dice first!");
-		return;
-	}
-
-	if (m_activeColumn == -1)
-	{
-		m_uiInfoLabel->setText("Select a column first!");
-		return;
-	}
-
 	const Board& activeBoard = std::as_const(m_game).GetActiveBoard();
 	if (activeBoard.IsColumnFull(m_activeColumn))
 	{
@@ -190,6 +176,9 @@ void GameWidget::HandleMakeMove()
 	}
 
 	m_game.MakeMove(m_activeColumn, m_diceValue);
+
+	m_uiMakeMoveButton->setEnabled(false);
+	m_uiRollDiceButton->setEnabled(true);
 }
 
 void GameWidget::DisplayGameOverMessage()
@@ -218,8 +207,6 @@ void GameWidget::RefreshUI()
 {
 	m_uiLabel1->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
 	m_uiLabel2->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
-	m_uiInfoLabel->setText(QString("Active Player: %1")
-		.arg(std::as_const(m_game).GetActivePlayer().GetName().data()));
 
 	const bool isPlayer1Turn = IsPlayer1Turn();
 	for (auto button : m_uiColumnButtons1)
@@ -270,19 +257,19 @@ void GameWidget::RefreshUI()
 	refreshBoardCellStyles(m_uiBoard2, !IsPlayer1Turn());
 }
 
-void GameWidget::StartDiceAnimation()
+void GameWidget::DiceAnimationStep()
 {
 	int randomValue = m_game.GetRandomValue();
 	m_uiDiceNumberLabel->setText(QString::number(randomValue));
 
-	if (++m_animationSteps >= m_diceAnimationSteps) {
+	if (++m_animationSteps >= m_diceAnimationSteps)
+	{
 		m_uiDiceAnimationTimer->stop();
 		m_diceValue = m_game.GetRandomValue();
 		m_uiDiceNumberLabel->setText(QString::number(m_diceValue));
-		m_uiInfoLabel->setText(QString("Active Player: %1 - Rolled Dice: %2")
-			.arg(std::as_const(m_game).GetActivePlayer().GetName().data())
-			.arg(m_diceValue));
 		m_diceRolled = true;
+
+		m_uiRollDiceButton->setEnabled(false);
 	}
 }
 
@@ -304,7 +291,10 @@ int GameWidget::GetBoardCols() const
 void GameWidget::OnGameOver()
 {
 	DisplayGameOverMessage();
-	QApplication::quit();
+
+	StartWidget* startWidget = new StartWidget(GetParentWindow());
+	GetParentWindow()->setCentralWidget(startWidget);
+	deleteLater();
 }
 
 void GameWidget::OnBoardUpdate()
