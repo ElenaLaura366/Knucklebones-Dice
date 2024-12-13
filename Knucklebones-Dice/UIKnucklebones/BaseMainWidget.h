@@ -18,7 +18,9 @@ public:
 protected:
 	MainWindow* GetParentWindow() const;
 	void SetProperty(QWidget* target, Property property, QVariant value);
+	void SetProperty(QWidget* target, Property property, PropertyValue value);
 	void SetProperty(const QVector<QWidget*>& targets, Property property, QVariant value);
+	void SetProperty(const QVector<QWidget*>& targets, Property property, PropertyValue value);
 
 private:
 	MainWindow* m_uiParentWindow = nullptr;

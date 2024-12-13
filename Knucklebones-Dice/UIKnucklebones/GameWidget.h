@@ -44,10 +44,6 @@ private:
 	std::vector<QPushButton*> m_uiColumnButtons1;
 	std::vector<QPushButton*> m_uiColumnButtons2;
 
-	QString m_uiDefaultCellStyle;
-	QString m_uiHighlightCellStyle;
-	QString m_uiLowHighlightCellStyle;
-
 private:
 	Game m_game;
 

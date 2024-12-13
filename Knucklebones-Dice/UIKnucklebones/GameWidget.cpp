@@ -18,26 +18,23 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 {
 	GetParentWindow()->setWindowTitle("Knucklebones Dice");
 
-	m_uiDefaultCellStyle = QString(R"(
+	/*m_uiDefaultCellStyle = R"(
 		border: 1px solid black;
 		background-color: rgba(255, 255, 255, 200);
 		color: black;
-		font-size: %1px;
-	)").arg(3 * GetParentWindow()->font().pointSize());
+	)";
 
-	m_uiHighlightCellStyle = QString(R"(
+	m_uiHighlightCellStyle = R"(
 		border: 1px solid black;
 		background-color: rgba(0, 0, 255, 200);
 		color: white;
-		font-size: %1px;
-	)").arg(3 * GetParentWindow()->font().pointSize());
+	)";
 
-	m_uiLowHighlightCellStyle = QString(R"(
+	m_uiLowHighlightCellStyle = R"(
 		border: 1px solid black;
 		background-color: rgba(0, 150, 200, 200);
 		color: white;
-		font-size: %1px;
-	)").arg(3 * GetParentWindow()->font().pointSize());
+	)";*/
 
 	QBoxLayout* mainLayout = new QHBoxLayout(this);
 
@@ -113,7 +110,7 @@ QGridLayout* GameWidget::CreateBoardLayout()
 		{
 			QLabel* cell = new QLabel("0", this);
 			cell->setAlignment(Qt::AlignCenter);
-			cell->setStyleSheet(m_uiDefaultCellStyle);
+			SetProperty(cell, Property::QLabel_highlight, PropertyValue::QLabel_highlight_none);
 			boardLayout->addWidget(cell, row, col);
 		}
 	}
@@ -286,15 +283,15 @@ void GameWidget::RefreshUI()
 				QLabel* cell = qobject_cast<QLabel*>(board->itemAtPosition(row, col)->widget());
 				if (isActive && m_activeColumn == col)
 				{
-					cell->setStyleSheet(m_uiHighlightCellStyle);
+					SetProperty(cell, Property::QLabel_highlight, PropertyValue::QLabel_highlight_full);
 				}
 				else if (!isActive && m_activeColumn == col)
 				{
-					cell->setStyleSheet(m_uiLowHighlightCellStyle);
+					SetProperty(cell, Property::QLabel_highlight, PropertyValue::QLabel_highlight_low);
 				}
 				else
 				{
-					cell->setStyleSheet(m_uiDefaultCellStyle);
+					SetProperty(cell, Property::QLabel_highlight, PropertyValue::QLabel_highlight_none);
 				}
 			}
 		}

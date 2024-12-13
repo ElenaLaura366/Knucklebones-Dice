@@ -58,8 +58,8 @@ StartWidget::StartWidget(MainWindow* parent)
 		m_difficultyLabel->setVisible(false);
 		m_startButton->setEnabled(true);
 
-		SetProperty(m_selectMultiplayer, Property::BUTTON_SELECTED, true);
-		SetProperty({ m_selectPC, m_selectEasy, m_selectHard }, Property::BUTTON_SELECTED, false);
+		SetProperty(m_selectMultiplayer, Property::QButton_selected, true);
+		SetProperty({ m_selectPC, m_selectEasy, m_selectHard }, Property::QButton_selected, false);
 		});
 
 	connect(m_selectPC, &QPushButton::clicked, this, [this]() {
@@ -69,24 +69,24 @@ StartWidget::StartWidget(MainWindow* parent)
 		m_difficultyLabel->setVisible(true);
 		m_startButton->setEnabled(false);
 
-		SetProperty(m_selectPC, Property::BUTTON_SELECTED, true);
-		SetProperty({ m_selectMultiplayer, m_selectEasy, m_selectHard }, Property::BUTTON_SELECTED, false);
+		SetProperty(m_selectPC, Property::QButton_selected, true);
+		SetProperty({ m_selectMultiplayer, m_selectEasy, m_selectHard }, Property::QButton_selected, false);
 		});
 
 	connect(m_selectEasy, &QPushButton::clicked, this, [this]() {
 		m_gameMode = GameMode::PC_Easy;
 		m_startButton->setEnabled(true);
 
-		SetProperty(m_selectEasy, Property::BUTTON_SELECTED, true);
-		SetProperty(m_selectHard, Property::BUTTON_SELECTED, false);
+		SetProperty(m_selectEasy, Property::QButton_selected, true);
+		SetProperty(m_selectHard, Property::QButton_selected, false);
 		});
 
 	connect(m_selectHard, &QPushButton::clicked, this, [this]() {
 		m_gameMode = GameMode::PC_Hard;
 		m_startButton->setEnabled(true);
 
-		SetProperty(m_selectEasy, Property::BUTTON_SELECTED, false);
-		SetProperty(m_selectHard, Property::BUTTON_SELECTED, true);
+		SetProperty(m_selectEasy, Property::QButton_selected, false);
+		SetProperty(m_selectHard, Property::QButton_selected, true);
 		});
 
 	connect(m_startButton, &QPushButton::clicked, this, &StartWidget::StartGame);
