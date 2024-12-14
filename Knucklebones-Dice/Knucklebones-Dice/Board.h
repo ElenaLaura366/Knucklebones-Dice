@@ -92,7 +92,9 @@ namespace game
 		void CheckColumn(int col) const;
 
 	public:
+		//! Default number of rows
 		static constexpr int DefaultRows = 3;
+		//! Default number of columns
 		static constexpr int DefaultCols = 3;
 
 	private:
