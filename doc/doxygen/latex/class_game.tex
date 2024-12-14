@@ -13,9 +13,8 @@ Inheritance diagram for Game\+:\begin{figure}[H]
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6}\label{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6} 
-{\bfseries Game} (std\+::string\+\_\+view name\+Player1, std\+::string\+\_\+view name\+Player2, std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_i_opponent_difficulty}{IOpponent\+Difficulty}} $>$ opponent\+Difficulty, int board\+Rows=Board\+::\+Default\+Rows, int board\+Cols=Board\+::\+Default\+Cols, int max\+Value=Game\+::\+Default\+Max\+Value)
-\item 
+\mbox{\hyperlink{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6}{Game}} (std\+::string\+\_\+view name\+Player1, std\+::string\+\_\+view name\+Player2, std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_i_opponent_difficulty}{IOpponent\+Difficulty}} $>$ opponent\+Difficulty, int board\+Rows=Board\+::\+Default\+Rows, int board\+Cols=Board\+::\+Default\+Cols, int max\+Value=Game\+::\+Default\+Max\+Value)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_game}{Game} class constructor. \end{DoxyCompactList}\item 
 \Hypertarget{class_game_a78c1c30d6e3724a150e20637e3a05253}\label{class_game_a78c1c30d6e3724a150e20637e3a05253} 
 {\bfseries Game} (\mbox{\hyperlink{class_game}{Game}} \&\&)=default
 \item 
@@ -28,9 +27,8 @@ Inheritance diagram for Game\+:\begin{figure}[H]
 \Hypertarget{class_game_ab7bc7e63f27d03e7ecf8dabfd2faecea}\label{class_game_ab7bc7e63f27d03e7ecf8dabfd2faecea} 
 \mbox{\hyperlink{class_game}{Game}} \& {\bfseries operator=} (\mbox{\hyperlink{class_game}{Game}} \&\&)=delete
 \item 
-\Hypertarget{class_game_a245defb72cddc7e8fe5b79d82a7f998b}\label{class_game_a245defb72cddc7e8fe5b79d82a7f998b} 
-void {\bfseries Make\+Move} (int col, int value)
-\item 
+void \mbox{\hyperlink{class_game_a245defb72cddc7e8fe5b79d82a7f998b}{Make\+Move}} (int col, int value)
+\begin{DoxyCompactList}\small\item\em Handles the move of a player/computer. \end{DoxyCompactList}\item 
 \Hypertarget{class_game_acaff3f5f1d4b0b8a4db5e774e10010f8}\label{class_game_acaff3f5f1d4b0b8a4db5e774e10010f8} 
 const \mbox{\hyperlink{class_player}{Player}} \& {\bfseries Get\+Active\+Player} () const
 \item 
@@ -79,7 +77,35 @@ static constexpr int {\bfseries Default\+Max\+Value} = 6
 
 
 \doxysubsection{Detailed Description}
-class that initiates the whole game logic 
+Class responsible of handling the game logic. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6}\index{Game@{Game}!Game@{Game}}
+\index{Game@{Game}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{Game()}{Game()}}
+{\footnotesize\ttfamily \label{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6} 
+Game\+::\+Game (\begin{DoxyParamCaption}\item[{std\+::string\+\_\+view}]{name\+Player1}{, }\item[{std\+::string\+\_\+view}]{name\+Player2}{, }\item[{std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_i_opponent_difficulty}{IOpponent\+Difficulty}} $>$}]{opponent\+Difficulty}{, }\item[{int}]{board\+Rows}{ = {\ttfamily Board\+:\+:DefaultRows}, }\item[{int}]{board\+Cols}{ = {\ttfamily Board\+:\+:DefaultCols}, }\item[{int}]{max\+Value}{ = {\ttfamily Game\+:\+:DefaultMaxValue}}\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_game}{Game} class constructor. 
+
+Takes the player names, the difficulty, board size and maximum number to roll. 
+\begin{DoxyParams}{Parameters}
+{\em name\+Player1} & sets the name of the first player. \\
+\hline
+{\em name\+Player2} & sets the name of the second player. \\
+\hline
+{\em opponent\+Difficulty} & sets the difficulty of the game played. If null the game will be set on multiplayer mode -\/ 2 players, otherwise the computer will take the role of the second player. \\
+\hline
+{\em board\+Rows} & sets the number of rows the board will have. If not specified, it will be set on 3. \\
+\hline
+{\em board\+Cols} & sets the number of columns the board will have. If not specified, it will be set on 3. \\
+\hline
+{\em max\+Value} & sets the maximum value a palyer can roll. If not specified, it will be set on 6. \\
+\hline
+\end{DoxyParams}
+
 
 \doxysubsection{Member Function Documentation}
 \Hypertarget{class_game_a951f710baae65679466225b98e013a0e}\index{Game@{Game}!AddListener@{AddListener}}
@@ -92,6 +118,38 @@ void Game\+::\+Add\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{cl
 
 Implements \mbox{\hyperlink{class_i_observable}{IObservable}}.
 
+\Hypertarget{class_game_a245defb72cddc7e8fe5b79d82a7f998b}\index{Game@{Game}!MakeMove@{MakeMove}}
+\index{MakeMove@{MakeMove}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{MakeMove()}{MakeMove()}}
+{\footnotesize\ttfamily \label{class_game_a245defb72cddc7e8fe5b79d82a7f998b} 
+void Game\+::\+Make\+Move (\begin{DoxyParamCaption}\item[{int}]{col}{, }\item[{int}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Handles the move of a player/computer. 
+
+Takes as input the place of the move and make it, if it is valid.
+
+It will also switch the active player.
+
+If the game mode is set on singleplayer, (player vs computer) the computer will follow with its move. 
+\begin{DoxyParams}{Parameters}
+{\em col} & is the index of the column. \\
+\hline
+{\em value} & is the value the player rolled. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Board\+::\+Make\+Move 
+
+Get\+Random\+Value 
+
+Easy\+Difficulty\+::\+Next\+Move 
+
+Hard\+Difficulty\+::\+Next\+Move 
+
+Notify\+On\+Game\+Over 
+\end{DoxySeeAlso}
 \Hypertarget{class_game_a4b8725b446586f7cd52a1c0493f80d8d}\index{Game@{Game}!NotifyOnBoardUpdate@{NotifyOnBoardUpdate}}
 \index{NotifyOnBoardUpdate@{NotifyOnBoardUpdate}!Game@{Game}}
 \doxysubsubsection{\texorpdfstring{NotifyOnBoardUpdate()}{NotifyOnBoardUpdate()}}

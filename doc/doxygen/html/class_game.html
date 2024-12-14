@@ -105,8 +105,8 @@ Inheritance diagram for Game:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab6ad0b553cd874b4cb83e127d8a9a5a6" id="r_ab6ad0b553cd874b4cb83e127d8a9a5a6"><td class="memItemLeft" align="right" valign="top"><a id="ab6ad0b553cd874b4cb83e127d8a9a5a6" name="ab6ad0b553cd874b4cb83e127d8a9a5a6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Game</b> (std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr&lt; <a class="el" href="class_i_opponent_difficulty.html">IOpponentDifficulty</a> &gt; opponentDifficulty, int boardRows=Board::DefaultRows, int boardCols=Board::DefaultCols, int maxValue=Game::DefaultMaxValue)</td></tr>
+<tr class="memitem:ab6ad0b553cd874b4cb83e127d8a9a5a6" id="r_ab6ad0b553cd874b4cb83e127d8a9a5a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6ad0b553cd874b4cb83e127d8a9a5a6">Game</a> (std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr&lt; <a class="el" href="class_i_opponent_difficulty.html">IOpponentDifficulty</a> &gt; opponentDifficulty, int boardRows=Board::DefaultRows, int boardCols=Board::DefaultCols, int maxValue=Game::DefaultMaxValue)</td></tr>
+<tr class="memdesc:ab6ad0b553cd874b4cb83e127d8a9a5a6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_game.html">Game</a> class constructor.  <br /></td></tr>
 <tr class="separator:ab6ad0b553cd874b4cb83e127d8a9a5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78c1c30d6e3724a150e20637e3a05253" id="r_a78c1c30d6e3724a150e20637e3a05253"><td class="memItemLeft" align="right" valign="top"><a id="a78c1c30d6e3724a150e20637e3a05253" name="a78c1c30d6e3724a150e20637e3a05253"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Game</b> (<a class="el" href="class_game.html">Game</a> &amp;&amp;)=default</td></tr>
@@ -120,8 +120,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7bc7e63f27d03e7ecf8dabfd2faecea" id="r_ab7bc7e63f27d03e7ecf8dabfd2faecea"><td class="memItemLeft" align="right" valign="top"><a id="ab7bc7e63f27d03e7ecf8dabfd2faecea" name="ab7bc7e63f27d03e7ecf8dabfd2faecea"></a>
 <a class="el" href="class_game.html">Game</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_game.html">Game</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:ab7bc7e63f27d03e7ecf8dabfd2faecea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a245defb72cddc7e8fe5b79d82a7f998b" id="r_a245defb72cddc7e8fe5b79d82a7f998b"><td class="memItemLeft" align="right" valign="top"><a id="a245defb72cddc7e8fe5b79d82a7f998b" name="a245defb72cddc7e8fe5b79d82a7f998b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>MakeMove</b> (int col, int value)</td></tr>
+<tr class="memitem:a245defb72cddc7e8fe5b79d82a7f998b" id="r_a245defb72cddc7e8fe5b79d82a7f998b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a245defb72cddc7e8fe5b79d82a7f998b">MakeMove</a> (int col, int value)</td></tr>
+<tr class="memdesc:a245defb72cddc7e8fe5b79d82a7f998b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the move of a player/computer.  <br /></td></tr>
 <tr class="separator:a245defb72cddc7e8fe5b79d82a7f998b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acaff3f5f1d4b0b8a4db5e774e10010f8" id="r_acaff3f5f1d4b0b8a4db5e774e10010f8"><td class="memItemLeft" align="right" valign="top"><a id="acaff3f5f1d4b0b8a4db5e774e10010f8" name="acaff3f5f1d4b0b8a4db5e774e10010f8"></a>
 const <a class="el" href="class_player.html">Player</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetActivePlayer</b> () const</td></tr>
@@ -170,8 +170,63 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>Defau
 <tr class="separator:af33957fff18a75d7e6bd577f5a4c93a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>class that initiates the whole game logic </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<div class="textblock"><p>Class responsible of handling the game logic. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab6ad0b553cd874b4cb83e127d8a9a5a6" name="ab6ad0b553cd874b4cb83e127d8a9a5a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6ad0b553cd874b4cb83e127d8a9a5a6">&#9670;&#160;</a></span>Game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Game::Game </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>namePlayer1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>namePlayer2</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="class_i_opponent_difficulty.html">IOpponentDifficulty</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>opponentDifficulty</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>boardRows</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Board::DefaultRows</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>boardCols</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Board::DefaultCols</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>maxValue</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Game::DefaultMaxValue</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_game.html">Game</a> class constructor. </p>
+<p>Takes the player names, the difficulty, board size and maximum number to roll. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">namePlayer1</td><td>sets the name of the first player. </td></tr>
+    <tr><td class="paramname">namePlayer2</td><td>sets the name of the second player. </td></tr>
+    <tr><td class="paramname">opponentDifficulty</td><td>sets the difficulty of the game played. If null the game will be set on multiplayer mode - 2 players, otherwise the computer will take the role of the second player. </td></tr>
+    <tr><td class="paramname">boardRows</td><td>sets the number of rows the board will have. If not specified, it will be set on 3. </td></tr>
+    <tr><td class="paramname">boardCols</td><td>sets the number of columns the board will have. If not specified, it will be set on 3. </td></tr>
+    <tr><td class="paramname">maxValue</td><td>sets the maximum value a palyer can roll. If not specified, it will be set on 6. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a951f710baae65679466225b98e013a0e" name="a951f710baae65679466225b98e013a0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a951f710baae65679466225b98e013a0e">&#9670;&#160;</a></span>AddListener()</h2>
 
@@ -196,6 +251,47 @@ static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>Defau
 </div><div class="memdoc">
 
 <p>Implements <a class="el" href="class_i_observable.html">IObservable</a>.</p>
+
+</div>
+</div>
+<a id="a245defb72cddc7e8fe5b79d82a7f998b" name="a245defb72cddc7e8fe5b79d82a7f998b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a245defb72cddc7e8fe5b79d82a7f998b">&#9670;&#160;</a></span>MakeMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game::MakeMove </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>col</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles the move of a player/computer. </p>
+<p>Takes as input the place of the move and make it, if it is valid.</p>
+<p>It will also switch the active player.</p>
+<p>If the game mode is set on singleplayer, (player vs computer) the computer will follow with its move. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>is the index of the column. </td></tr>
+    <tr><td class="paramname">value</td><td>is the value the player rolled. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>Board::MakeMove </dd>
+<dd>
+GetRandomValue </dd>
+<dd>
+EasyDifficulty::NextMove </dd>
+<dd>
+HardDifficulty::NextMove </dd>
+<dd>
+NotifyOnGameOver </dd></dl>
 
 </div>
 </div>
