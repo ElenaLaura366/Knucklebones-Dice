@@ -2,8 +2,18 @@
 * @mainpage Knucklebones Dice Documentation
 * 
 * @section intro_sec Introduction
-* This project does XYZ.
-* @section features_sec Features
-* - Feature 1
-* - Feature 2
+* This project is implemplementing the logic of the game Knucklebones Dice.
+* The game can either be set on multiplayer (for two players to take turns on making moves) or on singleplayer (to play with the computer).
+* There are two difficulties available for the singleplayer mode:
+* - Easy - that will make the move in the first available spot;
+* - Hard - that will try to make a moved based on the player's boasrd state.
+* 
+* The board can have any size. And also the maximum value a player can role can be any number greater than 0.
+* @section features_sec Rules
+* - Every time a player's turn begins they need to role a random value between 1 and the maximum nuber chosen.
+* - After the the value is roled, the player needs to make their move to place the value in one of the columns that still have empty spaces.
+* - If the player places the value on a column, and tha same value can be found in the opposing player's board and column, the value will be "stolen" by the active player. All the values that equals the rolled value will be taken, the others will remain in place.
+* - If there are equal values found in the same column, these values will be summed and then multiplied by the number of times they appear in the column and added to the score.
+* - The game ends when a player's board fills.
+* - The player with the highest score at the end of the game wins.
 */
