@@ -1,0 +1,130 @@
+\doxysection{Game Class Reference}
+\hypertarget{class_game}{}\label{class_game}\index{Game@{Game}}
+
+
+{\ttfamily \#include $<$Game.\+h$>$}
+
+Inheritance diagram for Game\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6}\label{class_game_ab6ad0b553cd874b4cb83e127d8a9a5a6} 
+{\bfseries Game} (std\+::string\+\_\+view name\+Player1, std\+::string\+\_\+view name\+Player2, std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_i_opponent_difficulty}{IOpponent\+Difficulty}} $>$ opponent\+Difficulty, int board\+Rows=Board\+::\+Default\+Rows, int board\+Cols=Board\+::\+Default\+Cols, int max\+Value=Game\+::\+Default\+Max\+Value)
+\item 
+\Hypertarget{class_game_a78c1c30d6e3724a150e20637e3a05253}\label{class_game_a78c1c30d6e3724a150e20637e3a05253} 
+{\bfseries Game} (\mbox{\hyperlink{class_game}{Game}} \&\&)=default
+\item 
+\Hypertarget{class_game_abb28875d74d25fa9e0dcdbe37c6ad89c}\label{class_game_abb28875d74d25fa9e0dcdbe37c6ad89c} 
+{\bfseries Game} (const \mbox{\hyperlink{class_game}{Game}} \&)=delete
+\item 
+\Hypertarget{class_game_aead5d069ae11b86a22857d9e7be2f184}\label{class_game_aead5d069ae11b86a22857d9e7be2f184} 
+\mbox{\hyperlink{class_game}{Game}} \& {\bfseries operator=} (const \mbox{\hyperlink{class_game}{Game}} \&)=delete
+\item 
+\Hypertarget{class_game_ab7bc7e63f27d03e7ecf8dabfd2faecea}\label{class_game_ab7bc7e63f27d03e7ecf8dabfd2faecea} 
+\mbox{\hyperlink{class_game}{Game}} \& {\bfseries operator=} (\mbox{\hyperlink{class_game}{Game}} \&\&)=delete
+\item 
+\Hypertarget{class_game_a245defb72cddc7e8fe5b79d82a7f998b}\label{class_game_a245defb72cddc7e8fe5b79d82a7f998b} 
+void {\bfseries Make\+Move} (int col, int value)
+\item 
+\Hypertarget{class_game_acaff3f5f1d4b0b8a4db5e774e10010f8}\label{class_game_acaff3f5f1d4b0b8a4db5e774e10010f8} 
+const \mbox{\hyperlink{class_player}{Player}} \& {\bfseries Get\+Active\+Player} () const
+\item 
+\Hypertarget{class_game_ab5028f8051c8467750f1e68b37b02ba3}\label{class_game_ab5028f8051c8467750f1e68b37b02ba3} 
+const \mbox{\hyperlink{class_player}{Player}} \& {\bfseries Get\+Opponent\+Player} () const
+\item 
+\Hypertarget{class_game_a0dddcd7c1acaaa14bf4d8cf2b8723996}\label{class_game_a0dddcd7c1acaaa14bf4d8cf2b8723996} 
+const \mbox{\hyperlink{class_player}{Player}} \& {\bfseries Get\+Player1} () const
+\item 
+\Hypertarget{class_game_ad86ae2e7613dc9da60ff6bb335cf3501}\label{class_game_ad86ae2e7613dc9da60ff6bb335cf3501} 
+const \mbox{\hyperlink{class_player}{Player}} \& {\bfseries Get\+Player2} () const
+\item 
+\Hypertarget{class_game_a85e3bb51da59f5c08b91da177253b240}\label{class_game_a85e3bb51da59f5c08b91da177253b240} 
+const \mbox{\hyperlink{class_board}{Board}} \& {\bfseries Get\+Active\+Board} () const
+\item 
+\Hypertarget{class_game_a6726d2c636c68ddd83d50c834f506b50}\label{class_game_a6726d2c636c68ddd83d50c834f506b50} 
+const \mbox{\hyperlink{class_board}{Board}} \& {\bfseries Get\+Opponent\+Board} () const
+\item 
+\Hypertarget{class_game_a3b93c7c571bd5e84d992da87d6f2f5da}\label{class_game_a3b93c7c571bd5e84d992da87d6f2f5da} 
+const \mbox{\hyperlink{class_board}{Board}} \& {\bfseries Get\+Board1} () const
+\item 
+\Hypertarget{class_game_a4312719dd73f8ebd15e1c6acf6c3e3e5}\label{class_game_a4312719dd73f8ebd15e1c6acf6c3e3e5} 
+const \mbox{\hyperlink{class_board}{Board}} \& {\bfseries Get\+Board2} () const
+\item 
+\Hypertarget{class_game_a81fa935bd292323290f9299134e6d325}\label{class_game_a81fa935bd292323290f9299134e6d325} 
+int {\bfseries Get\+Random\+Value} () const
+\item 
+\Hypertarget{class_game_a480f4ae4efc0079675cd54bfd738f07b}\label{class_game_a480f4ae4efc0079675cd54bfd738f07b} 
+int {\bfseries Calculate\+Score} (int board) const
+\item 
+void \mbox{\hyperlink{class_game_a951f710baae65679466225b98e013a0e}{Add\+Listener}} (\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}listener) override
+\item 
+void \mbox{\hyperlink{class_game_af10557a5c29a907c49e1e859dc6fdc2e}{Remove\+Listener}} (\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}listener) override
+\item 
+void \mbox{\hyperlink{class_game_a4b8725b446586f7cd52a1c0493f80d8d}{Notify\+On\+Board\+Update}} () override
+\item 
+void \mbox{\hyperlink{class_game_a302bfc825a08cde6bc59d9318f2bb259}{Notify\+On\+Game\+Over}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_i_observable}{IObservable}}}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_game_af33957fff18a75d7e6bd577f5a4c93a2}\label{class_game_af33957fff18a75d7e6bd577f5a4c93a2} 
+static constexpr int {\bfseries Default\+Max\+Value} = 6
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+class that initiates the whole game logic 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_game_a951f710baae65679466225b98e013a0e}\index{Game@{Game}!AddListener@{AddListener}}
+\index{AddListener@{AddListener}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{AddListener()}{AddListener()}}
+{\footnotesize\ttfamily \label{class_game_a951f710baae65679466225b98e013a0e} 
+void Game\+::\+Add\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}}]{listener}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_observable}{IObservable}}.
+
+\Hypertarget{class_game_a4b8725b446586f7cd52a1c0493f80d8d}\index{Game@{Game}!NotifyOnBoardUpdate@{NotifyOnBoardUpdate}}
+\index{NotifyOnBoardUpdate@{NotifyOnBoardUpdate}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{NotifyOnBoardUpdate()}{NotifyOnBoardUpdate()}}
+{\footnotesize\ttfamily \label{class_game_a4b8725b446586f7cd52a1c0493f80d8d} 
+void Game\+::\+Notify\+On\+Board\+Update (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_observable}{IObservable}}.
+
+\Hypertarget{class_game_a302bfc825a08cde6bc59d9318f2bb259}\index{Game@{Game}!NotifyOnGameOver@{NotifyOnGameOver}}
+\index{NotifyOnGameOver@{NotifyOnGameOver}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{NotifyOnGameOver()}{NotifyOnGameOver()}}
+{\footnotesize\ttfamily \label{class_game_a302bfc825a08cde6bc59d9318f2bb259} 
+void Game\+::\+Notify\+On\+Game\+Over (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_observable}{IObservable}}.
+
+\Hypertarget{class_game_af10557a5c29a907c49e1e859dc6fdc2e}\index{Game@{Game}!RemoveListener@{RemoveListener}}
+\index{RemoveListener@{RemoveListener}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{RemoveListener()}{RemoveListener()}}
+{\footnotesize\ttfamily \label{class_game_af10557a5c29a907c49e1e859dc6fdc2e} 
+void Game\+::\+Remove\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}}]{listener}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_observable}{IObservable}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+School/3rd year/1st sem/\+IS/\+Knucklebones-\/\+Dice/\+Knucklebones-\/\+Dice/\+Knucklebones-\/\+Dice/Game.\+h\item 
+D\+:/\+School/3rd year/1st sem/\+IS/\+Knucklebones-\/\+Dice/\+Knucklebones-\/\+Dice/\+Knucklebones-\/\+Dice/Game.\+cpp\end{DoxyCompactItemize}

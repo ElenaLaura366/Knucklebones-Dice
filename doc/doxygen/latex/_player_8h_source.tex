@@ -1,0 +1,27 @@
+\doxysection{Player.\+h}
+\hypertarget{_player_8h_source}{}\label{_player_8h_source}\index{D:/School/3rd year/1st sem/IS/Knucklebones-\/Dice/Knucklebones-\/Dice/Knucklebones-\/Dice/Player.h@{D:/School/3rd year/1st sem/IS/Knucklebones-\/Dice/Knucklebones-\/Dice/Knucklebones-\/Dice/Player.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_player}{Player}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}(std::string\_view\ name);}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}(\mbox{\hyperlink{class_player}{Player}}\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\&\ operator=(\mbox{\hyperlink{class_player}{Player}}\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ std::string\_view\ GetName()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ m\_name;}
+\DoxyCodeLine{00021\ \};}
+
+\end{DoxyCode}

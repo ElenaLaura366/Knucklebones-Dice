@@ -1,0 +1,74 @@
+\doxysection{Game.\+h}
+\hypertarget{_game_8h_source}{}\label{_game_8h_source}\index{D:/School/3rd year/1st sem/IS/Knucklebones-\/Dice/Knucklebones-\/Dice/Knucklebones-\/Dice/Game.h@{D:/School/3rd year/1st sem/IS/Knucklebones-\/Dice/Knucklebones-\/Dice/Knucklebones-\/Dice/Game.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}IGameListener.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}IOpponentDifficulty.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}BasicObservable.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Board.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}Player.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game}{Game}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_observable}{IObservable}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}(std::string\_view\ namePlayer1,\ std::string\_view\ namePlayer2,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::unique\_ptr<IOpponentDifficulty>\ opponentDifficulty,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ boardRows\ =\ Board::DefaultRows,\ \textcolor{keywordtype}{int}\ boardCols\ =\ Board::DefaultCols,\ \textcolor{keywordtype}{int}\ maxValue\ =\ Game::DefaultMaxValue);}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}(\mbox{\hyperlink{class_game}{Game}}\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_game}{Game}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_game}{Game}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}\&\ operator=(\mbox{\hyperlink{class_game}{Game}}\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ MakeMove(\textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ value);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ GetActivePlayer()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ GetOpponentPlayer()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ GetPlayer1()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_player}{Player}}\&\ GetPlayer2()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_board}{Board}}\&\ GetActiveBoard()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_board}{Board}}\&\ GetOpponentBoard()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_board}{Board}}\&\ GetBoard1()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_board}{Board}}\&\ GetBoard2()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ GetRandomValue()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ CalculateScore(\textcolor{keywordtype}{int}\ board)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ AddListener(\mbox{\hyperlink{class_i_game_listener}{IGameListener}}*\ listener)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ RemoveListener(\mbox{\hyperlink{class_i_game_listener}{IGameListener}}*\ listener)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyOnBoardUpdate()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyOnGameOver()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\&\ GetActivePlayer();}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\&\ GetOpponentPlayer();}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}\&\ GetActiveBoard();}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}\&\ GetOpponentBoard();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsGameOver();}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DefaultMaxValue\ =\ 6;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\ m\_player1;}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}}\ m\_player2;}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}\ m\_board1;}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}\ m\_board2;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ uint8\_t\ m\_activePlayerIndex;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_maxValue;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{class_basic_observable}{BasicObservable}}\ m\_observableComponent;}
+\DoxyCodeLine{00069\ \ \ \ \ std::unique\_ptr<IOpponentDifficulty>\ m\_opponentDifficulty;}
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+
+\end{DoxyCode}
