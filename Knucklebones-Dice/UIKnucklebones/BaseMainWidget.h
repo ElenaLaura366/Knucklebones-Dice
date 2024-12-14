@@ -5,23 +5,26 @@
 #include <QWidget>
 
 
-class MainWindow;
-
-
-class BaseMainWidget : public QWidget
+namespace ui
 {
-	Q_OBJECT
+	class MainWindow;
 
-public:
-	BaseMainWidget(MainWindow* parent);
 
-protected:
-	MainWindow* GetParentWindow() const;
-	void SetProperty(QWidget* target, Property property, QVariant value);
-	void SetProperty(QWidget* target, Property property, PropertyValue value);
-	void SetProperty(const QVector<QWidget*>& targets, Property property, QVariant value);
-	void SetProperty(const QVector<QWidget*>& targets, Property property, PropertyValue value);
+	class BaseMainWidget : public QWidget
+	{
+		Q_OBJECT
 
-private:
-	MainWindow* m_uiParentWindow = nullptr;
-};
+	public:
+		BaseMainWidget(MainWindow* parent);
+
+	protected:
+		MainWindow* GetParentWindow() const;
+		void SetProperty(QWidget* target, Property property, QVariant value);
+		void SetProperty(QWidget* target, Property property, PropertyValue value);
+		void SetProperty(const QVector<QWidget*>& targets, Property property, QVariant value);
+		void SetProperty(const QVector<QWidget*>& targets, Property property, PropertyValue value);
+
+	private:
+		MainWindow* m_uiParentWindow = nullptr;
+	};
+}

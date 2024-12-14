@@ -9,7 +9,7 @@
 #include <QStyle>
 
 
-StartWidget::StartWidget(MainWindow* parent)
+ui::StartWidget::StartWidget(MainWindow* parent)
 	: BaseMainWidget(parent)
 	, m_gameMode(GameMode::None)
 {
@@ -93,19 +93,19 @@ StartWidget::StartWidget(MainWindow* parent)
 }
 
 
-void StartWidget::StartGame()
+void ui::StartWidget::StartGame()
 {
-	std::unique_ptr<IOpponentDifficulty> difficulty = nullptr;
+	std::unique_ptr<game::IOpponentDifficulty> difficulty = nullptr;
 	if (m_gameMode == GameMode::PC_Easy)
 	{
-		difficulty = std::make_unique<EasyDifficulty>();
+		difficulty = std::make_unique<game::EasyDifficulty>();
 	}
 	else if (m_gameMode == GameMode::PC_Hard)
 	{
-		difficulty = std::make_unique<HardDifficulty>();
+		difficulty = std::make_unique<game::HardDifficulty>();
 	}
 
-	Game game("Player 1", "Player 2", std::move(difficulty));
+	game::Game game("Player 1", "Player 2", std::move(difficulty));
 	GameWidget* gameWidget = new GameWidget(std::move(game), 3, GetParentWindow());
 	GetParentWindow()->setCentralWidget(gameWidget);
 	deleteLater();

@@ -1,7 +1,7 @@
 ﻿#include "Game.h"
 
 
-Game::Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty, int boardRows, int boardCols, int maxValue)
+game::Game::Game(std::string_view namePlayer1, std::string_view namePlayer2, std::unique_ptr<IOpponentDifficulty> opponentDifficulty, int boardRows, int boardCols, int maxValue)
 	: m_player1(namePlayer1)
 	, m_player2(namePlayer2)
 	, m_board1(boardRows, boardCols)
@@ -13,72 +13,72 @@ Game::Game(std::string_view namePlayer1, std::string_view namePlayer2, std::uniq
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
-Player& Game::GetActivePlayer()
+game::Player& game::Game::GetActivePlayer()
 {
 	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
 }
 
-Player& Game::GetOpponentPlayer()
+game::Player& game::Game::GetOpponentPlayer()
 {
 	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
-const Player& Game::GetActivePlayer() const
+const game::Player& game::Game::GetActivePlayer() const
 {
 	return (m_activePlayerIndex == 0) ? m_player1 : m_player2;
 }
 
-const Player& Game::GetOpponentPlayer() const
+const game::Player& game::Game::GetOpponentPlayer() const
 {
 	return (m_activePlayerIndex == 0) ? m_player2 : m_player1;
 }
 
-const Player& Game::GetPlayer1() const
+const game::Player& game::Game::GetPlayer1() const
 {
 	return m_player1;
 }
 
-const Player& Game::GetPlayer2() const
+const game::Player& game::Game::GetPlayer2() const
 {
 	return m_player2;
 }
 
-Board& Game::GetActiveBoard()
+game::Board& game::Game::GetActiveBoard()
 {
 	return (m_activePlayerIndex == 0) ? m_board1 : m_board2;
 }
 
-Board& Game::GetOpponentBoard()
+game::Board& game::Game::GetOpponentBoard()
 {
 	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
 }
 
-const Board& Game::GetActiveBoard() const
+const game::Board& game::Game::GetActiveBoard() const
 {
 	return (m_activePlayerIndex == 0) ? m_board1 : m_board2;
 }
 
-const Board& Game::GetOpponentBoard() const
+const game::Board& game::Game::GetOpponentBoard() const
 {
 	return (m_activePlayerIndex == 0) ? m_board2 : m_board1;
 }
 
-const Board& Game::GetBoard1() const
+const game::Board& game::Game::GetBoard1() const
 {
 	return m_board1;
 }
 
-const Board& Game::GetBoard2() const
+const game::Board& game::Game::GetBoard2() const
 {
 	return m_board2;
 }
 
-int Game::GetRandomValue() const
+int game::Game::GetRandomValue() const
 {
 	return std::rand() % m_maxValue + 1;
 }
 
-int Game::CalculateScore(int board) const
+int game::Game::CalculateScore(int board) const
 {
 	if (board == 1)
 	{
@@ -92,7 +92,7 @@ int Game::CalculateScore(int board) const
 	throw std::runtime_error("Board doesn't exist");
 }
 
-void Game::MakeMove(int col, int value)
+void game::Game::MakeMove(int col, int value)
 {
 	GetActiveBoard().MakeMove(col, value);
 
@@ -121,7 +121,7 @@ void Game::MakeMove(int col, int value)
 	NotifyOnBoardUpdate();
 }
 
-bool Game::IsGameOver()
+bool game::Game::IsGameOver()
 {
 	if (m_board1.IsFull() || m_board2.IsFull())
 	{
@@ -130,22 +130,22 @@ bool Game::IsGameOver()
 	return false;
 }
 
-void Game::AddListener(IGameListener* listener)
+void game::Game::AddListener(IGameListener* listener)
 {
 	m_observableComponent.AddListener(listener);
 }
 
-void Game::RemoveListener(IGameListener* listener)
+void game::Game::RemoveListener(IGameListener* listener)
 {
 	m_observableComponent.RemoveListener(listener);
 }
 
-void Game::NotifyOnBoardUpdate()
+void game::Game::NotifyOnBoardUpdate()
 {
 	m_observableComponent.NotifyOnBoardUpdate();
 }
 
-void Game::NotifyOnGameOver()
+void game::Game::NotifyOnGameOver()
 {
 	m_observableComponent.NotifyOnGameOver();
 }

@@ -1,7 +1,7 @@
 #include "EasyDifficulty.h"
 
 
-int EasyDifficulty::NextMove(const Board& board, const Board& opponentBoard, int value) const
+int game::EasyDifficulty::NextMove(const Board& board, const Board& opponentBoard, int value) const
 {
 	for (int row = 0; row < 3; ++row)
 	{

@@ -8,32 +8,35 @@
 #include <QMainWindow>
 
 
-class StartWidget : public BaseMainWidget
+namespace ui
 {
-	Q_OBJECT
-
-public:
-	StartWidget(MainWindow* parent);
-
-private slots:
-	void StartGame();
-
-private:
-	enum class GameMode
+	class StartWidget : public BaseMainWidget
 	{
-		None,
-		Multiplayer,
-		PC_Easy,
-		PC_Hard
+		Q_OBJECT
+
+	public:
+		StartWidget(MainWindow* parent);
+
+	private slots:
+		void StartGame();
+
+	private:
+		enum class GameMode
+		{
+			None,
+			Multiplayer,
+			PC_Easy,
+			PC_Hard
+		};
+
+	private:
+		QPushButton* m_selectMultiplayer;
+		QPushButton* m_selectPC;
+		QPushButton* m_selectEasy;
+		QPushButton* m_selectHard;
+		QPushButton* m_startButton;
+
+		QLabel* m_difficultyLabel;
+		GameMode m_gameMode;
 	};
-
-private:
-	QPushButton* m_selectMultiplayer;
-	QPushButton* m_selectPC;
-	QPushButton* m_selectEasy;
-	QPushButton* m_selectHard;
-	QPushButton* m_startButton;
-
-	QLabel* m_difficultyLabel; 
-	GameMode m_gameMode;
-};
+}

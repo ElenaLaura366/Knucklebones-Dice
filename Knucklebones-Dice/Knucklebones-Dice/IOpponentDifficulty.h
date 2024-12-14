@@ -3,9 +3,12 @@
 #include "Board.h"
 
 
-class IOpponentDifficulty
+namespace game
 {
-public:
-	virtual ~IOpponentDifficulty() = default;
-	virtual int NextMove(const Board& board, const Board& opponentBoard, int value) const = 0;
-};
+	class IOpponentDifficulty
+	{
+	public:
+		virtual ~IOpponentDifficulty() = default;
+		virtual int NextMove(const Board& board, const Board& opponentBoard, int value) const = 0;
+	};
+}

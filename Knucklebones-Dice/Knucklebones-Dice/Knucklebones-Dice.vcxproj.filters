@@ -27,9 +27,6 @@
     <ClCompile Include="BasicObservable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EasyDifficulty.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="EasyDifficulty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HardDifficulty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyDifficulty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

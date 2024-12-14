@@ -3,13 +3,13 @@
 #include <unordered_map>
 
 
-Board::Board(int rows, int cols)
+game::Board::Board(int rows, int cols)
 	: m_matrix(rows, std::vector<int>(cols, 0))
 {
 	// empty
 }
 
-void Board::MakeMove(int col, int value)
+void game::Board::MakeMove(int col, int value)
 {
 	CheckColumn(col);
 	if (!IsColumnFull(col))
@@ -25,7 +25,7 @@ void Board::MakeMove(int col, int value)
 	}
 }
 
-void Board::CancelValuesInColumn(int col, int value)
+void game::Board::CancelValuesInColumn(int col, int value)
 {
 	CheckColumn(col);
 	for (auto& row : m_matrix)
@@ -37,7 +37,7 @@ void Board::CancelValuesInColumn(int col, int value)
 	}
 }
 
-bool Board::IsFull() const
+bool game::Board::IsFull() const
 {
 	return std::all_of(m_matrix.begin(), m_matrix.end(), [](const std::vector<int>& row) {
 		return std::all_of(row.begin(), row.end(), [](int value) {
@@ -46,7 +46,7 @@ bool Board::IsFull() const
 		});
 }
 
-bool Board::IsColumnFull(int col) const
+bool game::Board::IsColumnFull(int col) const
 {
 	CheckColumn(col);
 	for (const auto& row : m_matrix)
@@ -59,7 +59,7 @@ bool Board::IsColumnFull(int col) const
 	return true;
 }
 
-int Board::CalculateTotalScore() const
+int game::Board::CalculateTotalScore() const
 {
 	int totalScore = 0;
 	for (int col = 0; col < GetCols(); ++col)
@@ -69,42 +69,42 @@ int Board::CalculateTotalScore() const
 	return totalScore;
 }
 
-int Board::GetRows() const
+int game::Board::GetRows() const
 {
 	return (int)m_matrix.size();
 }
 
-int Board::GetCols() const
+int game::Board::GetCols() const
 {
 	return (int)m_matrix[0].size();
 }
 
-const std::vector<int>& Board::operator[](int row) const
+const std::vector<int>& game::Board::operator[](int row) const
 {
 	return m_matrix[row];
 }
 
-void Board::AddListener(IGameListener* listener)
+void game::Board::AddListener(IGameListener* listener)
 {
 	m_observableComponent.AddListener(listener);
 }
 
-void Board::RemoveListener(IGameListener* listener)
+void game::Board::RemoveListener(IGameListener* listener)
 {
 	m_observableComponent.RemoveListener(listener);
 }
 
-void Board::NotifyOnBoardUpdate()
+void game::Board::NotifyOnBoardUpdate()
 {
 	m_observableComponent.NotifyOnBoardUpdate();
 }
 
-void Board::NotifyOnGameOver()
+void game::Board::NotifyOnGameOver()
 {
 	m_observableComponent.NotifyOnGameOver();
 }
 
-int Board::CalculateColumnScore(int col) const
+int game::Board::CalculateColumnScore(int col) const
 {
 	CheckColumn(col);
 	std::unordered_map<int, int> valueFrequency;
@@ -125,7 +125,7 @@ int Board::CalculateColumnScore(int col) const
 	return score;
 }
 
-void Board::CheckColumn(int col) const
+void game::Board::CheckColumn(int col) const
 {
 	if (col < 0 || col >= GetCols())
 	{

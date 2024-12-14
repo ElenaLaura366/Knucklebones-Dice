@@ -4,12 +4,15 @@
 #include "GameWidget.h"
 
 
-MainWindow::MainWindow(QWidget* parent)
-	: QMainWindow(parent)
+namespace ui
 {
-	StartWidget* startWidget = new StartWidget(this);
-	setCentralWidget(startWidget);
+	MainWindow::MainWindow(QWidget* parent)
+		: QMainWindow(parent)
+	{
+		StartWidget* startWidget = new StartWidget(this);
+		setCentralWidget(startWidget);
 
-	// make window fullscreen
-	showMaximized();
+		// make window fullscreen
+		showMaximized();
+	}
 }

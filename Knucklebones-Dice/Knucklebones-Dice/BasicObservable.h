@@ -7,14 +7,17 @@
 #include <algorithm>
 
 
-class BasicObservable : public IObservable
+namespace game
 {
-public:
-	void AddListener(IGameListener* listener) override;
-	void RemoveListener(IGameListener* listener) override;
-	void NotifyOnBoardUpdate() override;
-	void NotifyOnGameOver() override;
+	class BasicObservable : public IObservable
+	{
+	public:
+		void AddListener(IGameListener* listener) override;
+		void RemoveListener(IGameListener* listener) override;
+		void NotifyOnBoardUpdate() override;
+		void NotifyOnGameOver() override;
 
-private:
-	std::vector<IGameListener*> m_observers;
-};
+	private:
+		std::vector<IGameListener*> m_observers;
+	};
+}

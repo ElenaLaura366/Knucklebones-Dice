@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 	QAudioOutput audioOutput;
 	StartBackgroundMusic(player, audioOutput);
 
-	MainWindow mainWindow;
+	ui::MainWindow mainWindow;
 	mainWindow.show();
 
 	return app.exec();

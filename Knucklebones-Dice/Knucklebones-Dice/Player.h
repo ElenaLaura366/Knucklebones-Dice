@@ -4,18 +4,21 @@
 #include <iostream>
 
 
-class Player
+namespace game
 {
-public:
-	Player(std::string_view name);
-	Player(Player&&) = default;
+	class Player
+	{
+	public:
+		Player(std::string_view name);
+		Player(Player&&) = default;
 
-	Player(const Player&) = delete;
-	Player& operator=(const Player&) = delete;
-	Player& operator=(Player&&) = delete;
+		Player(const Player&) = delete;
+		Player& operator=(const Player&) = delete;
+		Player& operator=(Player&&) = delete;
 
-	std::string_view GetName() const;
+		std::string_view GetName() const;
 
-private:
-	std::string m_name;
-};
+	private:
+		std::string m_name;
+	};
+}

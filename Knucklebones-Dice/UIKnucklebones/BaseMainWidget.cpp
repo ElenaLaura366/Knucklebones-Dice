@@ -5,19 +5,19 @@
 #include <QStyle>
 
 
-BaseMainWidget::BaseMainWidget(MainWindow* parent)
+ui::BaseMainWidget::BaseMainWidget(MainWindow* parent)
 	: QWidget(parent)
 	, m_uiParentWindow(parent)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 
-MainWindow* BaseMainWidget::GetParentWindow() const
+ui::MainWindow* ui::BaseMainWidget::GetParentWindow() const
 {
 	return m_uiParentWindow;
 }
 
-void BaseMainWidget::SetProperty(QWidget* target, Property property, QVariant value)
+void ui::BaseMainWidget::SetProperty(QWidget* target, Property property, QVariant value)
 {
 	const char* propertyName = GetPropertyName(property);
 	target->setProperty(propertyName, value);
@@ -25,12 +25,12 @@ void BaseMainWidget::SetProperty(QWidget* target, Property property, QVariant va
 	target->style()->polish(target);
 }
 
-void BaseMainWidget::SetProperty(QWidget* target, Property property, PropertyValue value)
+void ui::BaseMainWidget::SetProperty(QWidget* target, Property property, PropertyValue value)
 {
 	SetProperty(target, property, GetPropertyVariant(value));
 }
 
-void BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property property, QVariant value)
+void ui::BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property property, QVariant value)
 {
 	for (QWidget* target : targets)
 	{
@@ -38,7 +38,7 @@ void BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property prop
 	}
 }
 
-void BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property property, PropertyValue value)
+void ui::BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property property, PropertyValue value)
 {
 	SetProperty(targets, property, GetPropertyVariant(value));
 }

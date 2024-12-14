@@ -3,14 +3,17 @@
 #include <gtest/gtest.h>
 
 
-class PlayerTest : public ::testing::Test
+namespace test
 {
-protected:
-	Player player{ "Alice" };
-};
+	class PlayerTest : public ::testing::Test
+	{
+	protected:
+		game::Player player{ "Alice" };
+	};
 
-TEST_F(PlayerTest, PlayerName)
-{
-	EXPECT_EQ(player.GetName(), "Alice");
+	TEST_F(PlayerTest, PlayerName)
+	{
+		EXPECT_EQ(player.GetName(), "Alice");
+	}
 }
 

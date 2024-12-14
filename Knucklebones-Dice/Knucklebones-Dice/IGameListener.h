@@ -3,10 +3,13 @@
 #include <memory>
 
 
-class IGameListener
+namespace game
 {
-public:
-	virtual ~IGameListener() = default;
-	virtual void OnBoardUpdate() = 0;
-	virtual void OnGameOver() = 0;
-};
+	class IGameListener
+	{
+	public:
+		virtual ~IGameListener() = default;
+		virtual void OnBoardUpdate() = 0;
+		virtual void OnGameOver() = 0;
+	};
+}

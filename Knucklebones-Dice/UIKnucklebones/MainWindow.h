@@ -6,10 +6,13 @@
 #include <QMainWindow>
 
 
-class MainWindow : public QMainWindow
+namespace ui
 {
-	Q_OBJECT
+	class MainWindow : public QMainWindow
+	{
+		Q_OBJECT
 
-public:
-	MainWindow(QWidget* parent = nullptr);
-};
+	public:
+		MainWindow(QWidget* parent = nullptr);
+	};
+}

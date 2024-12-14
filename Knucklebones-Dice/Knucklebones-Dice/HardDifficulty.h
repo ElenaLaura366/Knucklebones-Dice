@@ -3,9 +3,12 @@
 #include "IOpponentDifficulty.h"
 
 
-class HardDifficulty : public IOpponentDifficulty
+namespace game
 {
-public:
-	HardDifficulty() = default;
-	int NextMove(const Board& board, const Board& opponentBoard, int value) const override;
-};
+	class HardDifficulty : public IOpponentDifficulty
+	{
+	public:
+		HardDifficulty() = default;
+		int NextMove(const Board& board, const Board& opponentBoard, int value) const override;
+	};
+}

@@ -7,41 +7,44 @@
 #include <iostream>
 
 
-class Board : public IObservable
+namespace game
 {
-public:
-	Board(int rows = Board::DefaultRows, int cols = Board::DefaultCols);
-	Board(Board&&) = default;
+	class Board : public IObservable
+	{
+	public:
+		Board(int rows = Board::DefaultRows, int cols = Board::DefaultCols);
+		Board(Board&&) = default;
 
-	Board(const Board&) = delete;
-	Board& operator=(const Board&) = delete;
-	Board& operator=(Board&&) = delete;
+		Board(const Board&) = delete;
+		Board& operator=(const Board&) = delete;
+		Board& operator=(Board&&) = delete;
 
-	void MakeMove(int col, int value);
-	void CancelValuesInColumn(int col, int value);
-	int CalculateTotalScore() const;
+		void MakeMove(int col, int value);
+		void CancelValuesInColumn(int col, int value);
+		int CalculateTotalScore() const;
 
-	bool IsFull() const;
-	bool IsColumnFull(int col) const;
+		bool IsFull() const;
+		bool IsColumnFull(int col) const;
 
-	int GetRows() const;
-	int GetCols() const;
-	const std::vector<int>& operator[](int row) const;
+		int GetRows() const;
+		int GetCols() const;
+		const std::vector<int>& operator[](int row) const;
 
-	void AddListener(IGameListener* listener) override;
-	void RemoveListener(IGameListener* listener) override;
-	void NotifyOnBoardUpdate() override;
-	void NotifyOnGameOver() override;
+		void AddListener(IGameListener* listener) override;
+		void RemoveListener(IGameListener* listener) override;
+		void NotifyOnBoardUpdate() override;
+		void NotifyOnGameOver() override;
 
-private:
-	int CalculateColumnScore(int col) const;
-	void CheckColumn(int col) const;
+	private:
+		int CalculateColumnScore(int col) const;
+		void CheckColumn(int col) const;
 
-public:
-	static constexpr int DefaultRows = 3;
-	static constexpr int DefaultCols = 3;
+	public:
+		static constexpr int DefaultRows = 3;
+		static constexpr int DefaultCols = 3;
 
-private:
-	std::vector<std::vector<int>> m_matrix;
-	BasicObservable m_observableComponent;
-};
+	private:
+		std::vector<std::vector<int>> m_matrix;
+		BasicObservable m_observableComponent;
+	};
+}

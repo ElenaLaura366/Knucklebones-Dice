@@ -9,7 +9,7 @@
 #include <QApplication>
 
 
-GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
+ui::GameWidget::GameWidget(game::Game&& game, int diceAnimationSteps, MainWindow* parent)
 	: BaseMainWidget(parent)
 	, m_game(std::move(game))
 	, m_activeColumn(-1)
@@ -32,12 +32,12 @@ GameWidget::GameWidget(Game&& game, int diceAnimationSteps, MainWindow* parent)
 	m_game.AddListener(this);
 }
 
-GameWidget::~GameWidget()
+ui::GameWidget::~GameWidget()
 {
 	m_game.RemoveListener(this);
 }
 
-void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
+void ui::GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, QLabel*& outPlayerLabel, QGridLayout*& outBoardLayout)
 {
 	QVBoxLayout* playerLayout = new QVBoxLayout(this);
 	parentLayout->addLayout(playerLayout);
@@ -52,7 +52,7 @@ void GameWidget::CreatePlayerLayout(QBoxLayout* parentLayout, int playerNumber, 
 	CreateColumnSelectButtons(playerLayout, playerNumber);
 }
 
-void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
+void ui::GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 {
 	QVBoxLayout* boardLayout = new QVBoxLayout(this);
 	QHBoxLayout* hLayout = new QHBoxLayout(this);
@@ -90,7 +90,7 @@ void GameWidget::CreateMiddleLayout(QBoxLayout* parentLayout)
 	parentLayout->addLayout(boardLayout);
 }
 
-QGridLayout* GameWidget::CreateBoardLayout()
+QGridLayout* ui::GameWidget::CreateBoardLayout()
 {
 	QGridLayout* boardLayout = new QGridLayout(this);
 
@@ -107,7 +107,7 @@ QGridLayout* GameWidget::CreateBoardLayout()
 	return boardLayout;
 }
 
-void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
+void ui::GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 {
 	static const QString columnButtonName = "Column %1";
 
@@ -133,7 +133,7 @@ void GameWidget::CreateColumnSelectButtons(QBoxLayout* playerLayout, int player)
 	}
 }
 
-void GameWidget::SelectColumn(int col)
+void ui::GameWidget::SelectColumn(int col)
 {
 	if (!m_diceRolled)
 	{
@@ -159,16 +159,16 @@ void GameWidget::SelectColumn(int col)
 	RefreshUI();
 }
 
-void GameWidget::HandleRollDice()
+void ui::GameWidget::HandleRollDice()
 {
 	m_animationSteps = 0;
 	m_uiDiceAnimationTimer->start(100);
 	m_uiInfoLabel->setText("Rolling the dice...");
 }
 
-void GameWidget::HandleMakeMove()
+void ui::GameWidget::HandleMakeMove()
 {
-	const Board& activeBoard = std::as_const(m_game).GetActiveBoard();
+	const game::Board& activeBoard = std::as_const(m_game).GetActiveBoard();
 	if (activeBoard.IsColumnFull(m_activeColumn))
 	{
 		m_uiInfoLabel->setText("Column is full! Choose another column.");
@@ -181,7 +181,7 @@ void GameWidget::HandleMakeMove()
 	m_uiRollDiceButton->setEnabled(true);
 }
 
-void GameWidget::DisplayGameOverMessage()
+void ui::GameWidget::DisplayGameOverMessage()
 {
 	int player1Score = m_game.CalculateScore(1);
 	int player2Score = m_game.CalculateScore(2);
@@ -203,7 +203,7 @@ void GameWidget::DisplayGameOverMessage()
 	QMessageBox::information(this, "Game Over", winnerMessage);
 }
 
-void GameWidget::RefreshUI()
+void ui::GameWidget::RefreshUI()
 {
 	m_uiLabel1->setText(QString("Player 1: %1").arg(m_game.CalculateScore(1)));
 	m_uiLabel2->setText(QString("Player 2: %1").arg(m_game.CalculateScore(2)));
@@ -218,7 +218,7 @@ void GameWidget::RefreshUI()
 		button->setEnabled(!isPlayer1Turn);
 	}
 
-	const auto refreshCellNumbers = [this](const Board& board, QGridLayout* boardLayout) {
+	const auto refreshCellNumbers = [this](const game::Board& board, QGridLayout* boardLayout) {
 		for (int row = 0; row < GetBoardRows(); ++row)
 		{
 			for (int col = 0; col < GetBoardCols(); ++col)
@@ -257,7 +257,7 @@ void GameWidget::RefreshUI()
 	refreshBoardCellStyles(m_uiBoard2, !IsPlayer1Turn());
 }
 
-void GameWidget::DiceAnimationStep()
+void ui::GameWidget::DiceAnimationStep()
 {
 	int randomValue = m_game.GetRandomValue();
 	m_uiDiceNumberLabel->setText(QString::number(randomValue));
@@ -273,22 +273,22 @@ void GameWidget::DiceAnimationStep()
 	}
 }
 
-bool GameWidget::IsPlayer1Turn() const
+bool ui::GameWidget::IsPlayer1Turn() const
 {
 	return (&m_game.GetActivePlayer() == &m_game.GetPlayer1());
 }
 
-int GameWidget::GetBoardRows() const
+int ui::GameWidget::GetBoardRows() const
 {
 	return std::as_const(m_game).GetActiveBoard().GetRows();
 }
 
-int GameWidget::GetBoardCols() const
+int ui::GameWidget::GetBoardCols() const
 {
 	return std::as_const(m_game).GetActiveBoard().GetCols();
 }
 
-void GameWidget::OnGameOver()
+void ui::GameWidget::OnGameOver()
 {
 	DisplayGameOverMessage();
 
@@ -297,7 +297,7 @@ void GameWidget::OnGameOver()
 	deleteLater();
 }
 
-void GameWidget::OnBoardUpdate()
+void ui::GameWidget::OnBoardUpdate()
 {
 	m_diceValue = 0;
 	m_diceRolled = false;

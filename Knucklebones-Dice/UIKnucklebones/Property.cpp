@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 
-const char* GetPropertyName(Property property)
+const char* ui::GetPropertyName(Property property)
 {
 	switch (property)
 	{
@@ -16,7 +16,7 @@ const char* GetPropertyName(Property property)
 	}
 }
 
-QVariant GetPropertyVariant(PropertyValue value)
+QVariant ui::GetPropertyVariant(PropertyValue value)
 {
 	switch (value)
 	{
