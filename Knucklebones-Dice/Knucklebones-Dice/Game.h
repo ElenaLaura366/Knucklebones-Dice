@@ -46,11 +46,11 @@ namespace game
 		*	If the game mode is set on singleplayer, (player vs computer) the computer will follow with its move.
 		*	\param col is the index of the column.
 		*	\param value is the value the player rolled.
-		*	\sa Board::MakeMove
-		*	\sa Game::GetRandomValue
-		*	\sa EasyDifficulty::NextMove
-		*	\sa HardDifficulty::NextMove
-		*	\sa Game::NotifyOnGameOver
+		*	\sa game::Board::MakeMove
+		*	\sa game::Game::GetRandomValue
+		*	\sa game::EasyDifficulty::NextMove
+		*	\sa game::HardDifficulty::NextMove
+		*	\sa game::Game::NotifyOnGameOver
 		*/
 		void MakeMove(int col, int value);
 
@@ -80,7 +80,7 @@ namespace game
 
 		/*!
 		*	\return Returns a random value from 0 to the maximum value set when initializing the Game
-		*	\sa Game::Game
+		*	\sa game::Game::Game
 		*/
 		int GetRandomValue() const;
 
@@ -89,13 +89,31 @@ namespace game
 		*	If 1 it will be the first board's score, otherwise it will be the second one's score.
 		*	\param board takes the index of the board you want to get the score of
 		*	\return Return the score of the board provided in the parameters
-		*	\sa Board::CalculateTotalScore
+		*	\sa game::Board::CalculateTotalScore
 		*/
 		int CalculateScore(int board) const;
 
+		/*!
+		*	Adds a listener to the game's list of listeners.
+		*	\param listener is the listener to be added to the list.
+		*	\sa game::BasicObservable::AddListener
+		*/
 		void AddListener(IGameListener* listener) override;
+		/*!
+		*	Removes a listener from the game's list of listeners.
+		*	\param listener is the listener to be removed from the list.
+		*	\sa game::BasicObservable::RemoveListener
+		*/
 		void RemoveListener(IGameListener* listener) override;
+		/*!
+		*	Notifies all the listeners that the board has been updated.
+		*	\sa game::BasicObservable::NotifyOnBoardUpdate
+		*/
 		void NotifyOnBoardUpdate() override;
+		/*!
+		*	Notifies all the listeners that the game is over.
+		*	\sa game::BasicObservable::NotifyOnGameOver
+		*/
 		void NotifyOnGameOver() override;
 
 	private:
@@ -108,6 +126,7 @@ namespace game
 		bool IsGameOver();
 
 	public:
+		//! Default number for the maximum value a player can roll
 		static constexpr int DefaultMaxValue = 6;
 
 	private:
