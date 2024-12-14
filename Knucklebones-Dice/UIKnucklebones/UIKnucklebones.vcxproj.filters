@@ -26,9 +26,6 @@
     <QtRcc Include="UIKnucklebones.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtMoc Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="BaseMainWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
