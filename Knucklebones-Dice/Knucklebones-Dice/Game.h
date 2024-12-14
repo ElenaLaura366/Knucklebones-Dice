@@ -39,32 +39,55 @@ public:
 	//! Handles the move of a player/computer
 	/*! 
 	*	Takes as input the place of the move and make it, if it is valid.
-	*	\brief It will also switch the active player.
-	*	\brief If the game mode is set on singleplayer, (player vs computer) the computer will follow with its move.
+	*	It will also switch the active player.
+	*	If the game mode is set on singleplayer, (player vs computer) the computer will follow with its move.
 	*	\param col is the index of the column.
 	*	\param value is the value the player rolled.
 	*	\sa Board::MakeMove
-	*	\sa GetRandomValue
+	*	\sa Game::GetRandomValue
 	*	\sa EasyDifficulty::NextMove
 	*	\sa HardDifficulty::NextMove
-	*	\sa NotifyOnGameOver
+	*	\sa Game::NotifyOnGameOver
 	*/
 	void MakeMove(int col, int value);
 
+	/*!
+	*	\return Returns the active player
+	*/
 	const Player& GetActivePlayer() const;
+	/*!
+	*	\return Returns the awaiting player
+	*/
 	const Player& GetOpponentPlayer() const;
 
 	const Player& GetPlayer1() const;
 	const Player& GetPlayer2() const;
 
+	/*!
+	*	\return Returns the board of active player
+	*/
 	const Board& GetActiveBoard() const;
+	/*!
+	*	\return Returns the board of the awaiting player
+	*/
 	const Board& GetOpponentBoard() const;
 
 	const Board& GetBoard1() const;
 	const Board& GetBoard2() const;
 
+	/*!
+	*	\return Returns a random value from 0 to the maximum value set when initializing the Game
+	*	\sa Game::Game
+	*/
 	int GetRandomValue() const;
 
+	/*!
+	*	Calculates the score of the board index provided.
+	*	If 1 it will be the first board's score, otherwise it will be the second one's score.
+	*	\param board takes the index of the board you want to get the score of
+	*	\return Return the score of the board provided in the parameters
+	*	\sa Board::CalculateTotalScore
+	*/
 	int CalculateScore(int board) const;
 
 	void AddListener(IGameListener* listener) override;

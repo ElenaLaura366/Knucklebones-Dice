@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['game_0',['Game',['../class_game.html#ab6ad0b553cd874b4cb83e127d8a9a5a6',1,'Game']]]
+  ['calculatescore_0',['CalculateScore',['../class_game.html#a480f4ae4efc0079675cd54bfd738f07b',1,'Game']]]
 ];

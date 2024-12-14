@@ -1,0 +1,68 @@
+\doxysection{Game\+Widget.\+h}
+\hypertarget{_game_widget_8h_source}{}\label{_game_widget_8h_source}\index{D:/School/3rd year/1st sem/IS/Knucklebones-\/Dice/Knucklebones-\/Dice/UIKnucklebones/GameWidget.h@{D:/School/3rd year/1st sem/IS/Knucklebones-\/Dice/Knucklebones-\/Dice/UIKnucklebones/GameWidget.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}BaseMainWidget.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Game.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <QGridLayout>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <QPushButton>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <QLabel>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_widget}{GameWidget}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_base_main_widget}{BaseMainWidget}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_game_listener}{IGameListener}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_game_widget}{GameWidget}}(\mbox{\hyperlink{class_game}{Game}}\&\&\ game,\ \textcolor{keywordtype}{int}\ diceAnimationSteps,\ \mbox{\hyperlink{class_main_window}{MainWindow}}*\ parent);}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_game_widget}{\string~GameWidget}}();}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ SelectColumn(\textcolor{keywordtype}{int}\ col);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ HandleRollDice();}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ HandleMakeMove();}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ CreatePlayerLayout(QBoxLayout*\ mainLayout,\ \textcolor{keywordtype}{int}\ player,\ QLabel*\&\ outPlayerLabel,\ QGridLayout*\&\ outBoardLayout);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateMiddleLayout(QBoxLayout*\ parentLayout);}
+\DoxyCodeLine{00027\ \ \ \ \ QGridLayout*\ CreateBoardLayout();}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateColumnSelectButtons(QBoxLayout*\ playerLayout,\ \textcolor{keywordtype}{int}\ player);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ DisplayGameOverMessage();}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ RefreshUI();}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{void}\ DiceAnimationStep();}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsPlayer1Turn()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ GetBoardRows()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ GetBoardCols()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ OnGameOver()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ OnBoardUpdate()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00042\ \ \ \ \ QGridLayout*\ m\_uiBoard1;}
+\DoxyCodeLine{00043\ \ \ \ \ QGridLayout*\ m\_uiBoard2;}
+\DoxyCodeLine{00044\ \ \ \ \ QLabel*\ m\_uiLabel1;}
+\DoxyCodeLine{00045\ \ \ \ \ QLabel*\ m\_uiLabel2;}
+\DoxyCodeLine{00046\ \ \ \ \ QLabel*\ m\_uiInfoLabel;}
+\DoxyCodeLine{00047\ \ \ \ \ QPushButton*\ m\_uiRollDiceButton;}
+\DoxyCodeLine{00048\ \ \ \ \ QPushButton*\ m\_uiMakeMoveButton;}
+\DoxyCodeLine{00049\ \ \ \ \ QLabel*\ m\_uiDiceNumberLabel;}
+\DoxyCodeLine{00050\ \ \ \ \ QTimer*\ m\_uiDiceAnimationTimer;}
+\DoxyCodeLine{00051\ \ \ \ \ std::vector<QPushButton*>\ m\_uiColumnButtons1;}
+\DoxyCodeLine{00052\ \ \ \ \ std::vector<QPushButton*>\ m\_uiColumnButtons2;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}\ m\_game;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_activeColumn;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_diceValue;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_animationSteps;}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_diceAnimationSteps;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_diceRolled;}
+\DoxyCodeLine{00062\ \};}
+
+\end{DoxyCode}

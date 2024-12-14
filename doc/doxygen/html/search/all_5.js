@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['makemove_0',['MakeMove',['../class_game.html#a245defb72cddc7e8fe5b79d82a7f998b',1,'Game']]]
+  ['igamelistener_0',['IGameListener',['../class_i_game_listener.html',1,'']]],
+  ['iobservable_1',['IObservable',['../class_i_observable.html',1,'']]],
+  ['iopponentdifficulty_2',['IOpponentDifficulty',['../class_i_opponent_difficulty.html',1,'']]]
 ];
