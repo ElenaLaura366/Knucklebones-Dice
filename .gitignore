@@ -400,3 +400,4 @@ FodyWeavers.xsd
 *.lck
 *vpp.bak*
 *.zip
+doc/doxygen/*
