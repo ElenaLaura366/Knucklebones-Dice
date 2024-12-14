@@ -11,23 +11,28 @@ namespace game
 	{
 	public:
 		virtual ~IObservable() = default;
+
 		/*!
-		*	Adds a listener to the game's list of listeners.
+		*	\brief Adds a listener to the game's list of listeners.
 		*	\param listener is the listener to be added to the list.
 		*/
-		virtual void AddListener(IGameListener* observer) = 0;
+
+		virtual void AddListener(IGameListener* listener) = 0;
 		/*!
-		*	Removes a listener from the game's list of listeners.
+		*	\brief Removes a listener from the game's list of listeners.
 		*	\param listener is the listener to be removed from the list.
 		*/
-		virtual void RemoveListener(IGameListener* observer) = 0;
+
+		virtual void RemoveListener(IGameListener* listener) = 0;
 		/*!
-		*	Notifies all the listeners that the board has been updated.
+		*	\brief Notifies all the listeners that the board has been updated.
 		*/
+
 		virtual void NotifyOnBoardUpdate() = 0;
 		/*!
-		*	Notifies all the listeners that the game is over.
+		*	\brief Notifies all the listeners that the game is over.
 		*/
+
 		virtual void NotifyOnGameOver() = 0;
 	};
 }
