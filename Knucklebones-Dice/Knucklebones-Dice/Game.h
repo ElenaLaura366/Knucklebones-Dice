@@ -9,9 +9,7 @@
 
 namespace game
 {
-	/*!
-		Class responsible of handling the game logic.
-	*/
+	//!Class responsible of handling the game logic.
 	class Game : public IObservable
 	{
 	public:

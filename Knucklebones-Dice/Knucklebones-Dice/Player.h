@@ -6,9 +6,14 @@
 
 namespace game
 {
+	//! Class representing a player.
 	class Player
 	{
 	public:
+		//! Player class constructor
+		/*!
+		*   \param name sets the name of the player.
+		*/
 		Player(std::string_view name);
 		Player(Player&&) = default;
 
@@ -16,6 +21,7 @@ namespace game
 		Player& operator=(const Player&) = delete;
 		Player& operator=(Player&&) = delete;
 
+		//! \return Returns the name of the player.
 		std::string_view GetName() const;
 
 	private:
