@@ -401,3 +401,4 @@ FodyWeavers.xsd
 *vpp.bak*
 *.zip
 doc/doxygen/*
+!doc/doxygen/nume_fisier
