@@ -94,22 +94,27 @@ int game::Game::CalculateScore(int board) const
 
 void game::Game::MakeMove(int col, int value)
 {
-	GetActiveBoard().MakeMove(col, value);
-
+	Board& activeBoard = GetActiveBoard();
 	Board& opponentBoard = GetOpponentBoard();
+
+	activeBoard.MakeMove(col, value);
 	opponentBoard.CancelValuesInColumn(col, value);
 
+	// Turn change
 	m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
 
 	if (m_opponentDifficulty && !IsGameOver())
 	{
-		int value = GetRandomValue();
-		int col = m_opponentDifficulty->NextMove(GetActiveBoard(), GetOpponentBoard(), value);
-		GetActiveBoard().MakeMove(col, value);
-
+		Board& activeBoard = GetActiveBoard();
 		Board& opponentBoard = GetOpponentBoard();
+
+		int value = GetRandomValue();
+		int col = m_opponentDifficulty->NextMove(activeBoard, opponentBoard, value);
+
+		activeBoard.MakeMove(col, value);
 		opponentBoard.CancelValuesInColumn(col, value);
 
+		// Turn change
 		m_activePlayerIndex = (m_activePlayerIndex + 1) % 2;
 	}
 

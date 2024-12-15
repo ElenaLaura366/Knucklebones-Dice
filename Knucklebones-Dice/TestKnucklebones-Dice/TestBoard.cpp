@@ -13,7 +13,7 @@ namespace test
 
 	TEST_F(BoardTest, InitialState)
 	{
-		for (int col = 0; col < 3; ++col)
+		for (int col = 0; col < board.GetCols(); ++col)
 		{
 			EXPECT_FALSE(board.IsColumnFull(col));
 		}

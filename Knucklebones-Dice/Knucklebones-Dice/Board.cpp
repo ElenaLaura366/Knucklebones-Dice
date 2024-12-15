@@ -23,6 +23,10 @@ void game::Board::MakeMove(int col, int value)
 			}
 		}
 	}
+	else
+	{
+		throw std::runtime_error("Column is full");
+	}
 }
 
 void game::Board::CancelValuesInColumn(int col, int value)
