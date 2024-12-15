@@ -59,6 +59,7 @@ namespace game
 		*   \return Returns true if the column is full, false otherwise.
 		*/
 		bool IsColumnFull(int col) const;
+		void ChangeCellOnBoard(int row, int col, int value);
 
 		int GetRows() const;
 		int GetCols() const;

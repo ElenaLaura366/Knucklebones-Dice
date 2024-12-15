@@ -59,6 +59,16 @@ bool game::Board::IsColumnFull(int col) const
 	return true;
 }
 
+void game::Board::ChangeCellOnBoard(int row, int col, int value)
+{
+	if (row < 0 || row >= GetRows() || col < 0 || col >= GetCols())
+	{
+		throw std::runtime_error("Invalid row or column index");
+	}
+
+	m_matrix[row][col] = value;
+}
+
 int game::Board::CalculateTotalScore() const
 {
 	int totalScore = 0;
