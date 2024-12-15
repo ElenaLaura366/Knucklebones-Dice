@@ -9,7 +9,6 @@ int game::HardDifficulty::NextMove(const Board& board, const Board& opponentBoar
 		{
 			if (opponentBoard[row][col] == value)
 			{
-				ClearCellOnOpponentBoard(const_cast<Board&>(opponentBoard), value);
 				return col;
 			}
 		}
@@ -22,21 +21,6 @@ int game::HardDifficulty::NextMove(const Board& board, const Board& opponentBoar
 			if (board[row][col] == 0)
 			{
 				return col;
-			}
-		}
-	}
-}
-
-void game::HardDifficulty::ClearCellOnOpponentBoard(Board& opponentBoard, int value) const
-{
-	for (int row = 0; row < 3; ++row)
-	{
-		for (int col = 0; col < 3; ++col)
-		{
-			if (opponentBoard[row][col] == value)
-			{
-				opponentBoard.ChangeCellOnBoard(row, col, 0);
-				return;
 			}
 		}
 	}
