@@ -23,7 +23,6 @@
     <ClCompile Include="TestBoard.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestPlayer.cpp" />
-    <ClCompile Include="TestStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

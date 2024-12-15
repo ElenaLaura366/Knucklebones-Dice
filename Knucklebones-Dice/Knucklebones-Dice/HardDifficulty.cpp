@@ -9,7 +9,13 @@ int game::HardDifficulty::NextMove(const Board& board, const Board& opponentBoar
 		{
 			if (opponentBoard[row][col] == value)
 			{
-				return col;
+				for (int myRow = 0; myRow < 3; ++myRow)
+				{
+					if (board[myRow][col] == 0)
+					{
+						return col;
+					}
+				}
 			}
 		}
 	}
