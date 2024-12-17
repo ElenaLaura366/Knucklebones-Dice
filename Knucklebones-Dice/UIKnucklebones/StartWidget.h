@@ -40,11 +40,11 @@ namespace ui
 		};
 
 	private:
+		QPushButton* m_startButton;
 		QPushButton* m_selectMultiplayer;
 		QPushButton* m_selectPC;
 		QPushButton* m_selectEasy;
 		QPushButton* m_selectHard;
-		QPushButton* m_startButton;
 
 		QLabel* m_difficultyLabel;
 		GameMode m_gameMode;

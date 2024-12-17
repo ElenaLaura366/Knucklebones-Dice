@@ -25,17 +25,17 @@ void ui::BaseMainWidget::SetProperty(QWidget* target, Property property, QVarian
 	target->style()->polish(target);
 }
 
-void ui::BaseMainWidget::SetProperty(QWidget* target, Property property, PropertyValue value)
-{
-	SetProperty(target, property, GetPropertyVariant(value));
-}
-
 void ui::BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property property, QVariant value)
 {
 	for (QWidget* target : targets)
 	{
 		SetProperty(target, property, value);
 	}
+}
+
+void ui::BaseMainWidget::SetProperty(QWidget* target, Property property, PropertyValue value)
+{
+	SetProperty(target, property, GetPropertyVariant(value));
 }
 
 void ui::BaseMainWidget::SetProperty(const QVector<QWidget*>& targets, Property property, PropertyValue value)

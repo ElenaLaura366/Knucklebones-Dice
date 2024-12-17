@@ -30,4 +30,6 @@ int game::HardDifficulty::NextMove(const Board& board, const Board& opponentBoar
 			}
 		}
 	}
+
+	throw std::runtime_error("No empty cell found.");
 }

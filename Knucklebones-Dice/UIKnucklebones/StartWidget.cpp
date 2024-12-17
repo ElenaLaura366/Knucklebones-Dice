@@ -106,7 +106,7 @@ void ui::StartWidget::StartGame()
 	}
 
 	game::Game game("Player 1", "Player 2", std::move(difficulty));
-	GameWidget* gameWidget = new GameWidget(std::move(game), 3, GetParentWindow());
+	GameWidget* gameWidget = new GameWidget(std::move(game), 10, GetParentWindow());
 	GetParentWindow()->setCentralWidget(gameWidget);
 	deleteLater();
 }
